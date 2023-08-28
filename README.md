@@ -1,0 +1,2 @@
+# frappe-erpnext
+An open-source Enterprise Resource Planning (ERP) software built on the Frappe framework. It provides an integrated business suite that helps you manage accounting, inventory, sales, purchase, customer relations, projects, HR & Payroll and more.
