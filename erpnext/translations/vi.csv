@@ -9837,3 +9837,6 @@ Enable European Access,Bật quyền truy cập Châu Âu,
 Creating Purchase Order ...,Tạo Đơn đặt hàng ...,
 "Select a Supplier from the Default Suppliers of the items below. On selection, a Purchase Order will be made against items belonging to the selected Supplier only.","Chọn Nhà cung cấp từ các Nhà cung cấp mặc định của các mục dưới đây. Khi lựa chọn, Đơn đặt hàng sẽ được thực hiện đối với các mặt hàng chỉ thuộc về Nhà cung cấp đã chọn.",
 Row #{}: You must select {} serial numbers for item {}.,Hàng # {}: Bạn phải chọn {} số sê-ri cho mặt hàng {}.,
+Setup your organization,Thiết lập tổ chức của bạn
+Financial Year Begins On,Bắt đầu năm tài chính
+Standard with Numbers,Tiêu chuẩn với số hiệu tài khoản
