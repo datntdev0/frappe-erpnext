@@ -39,7 +39,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "INR",
+   "default": "VND",
    "fieldname": "default_currency",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
