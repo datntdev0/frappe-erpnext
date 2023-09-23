@@ -25,9 +25,6 @@ erpnext.setup.slides_settings = [
 				reqd: 1,
 			},
 			{
-				fieldtype: "Column Break",
-			},
-			{
 				fieldname: "company_abbr",
 				label: "Company Abbreviation",
 				fieldtype: "Data",
@@ -178,6 +175,7 @@ erpnext.setup.slides_settings = [
 
 			let dialog = new frappe.ui.Dialog({
 				title: chart_template,
+				size: "large",
 				fields: [
 					{
 						'fieldname': 'expand_all', 'label': __('Expand All'), 'fieldtype': 'Button',

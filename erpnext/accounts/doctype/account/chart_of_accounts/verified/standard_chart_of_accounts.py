@@ -142,6 +142,7 @@ def get():
 			_("Prepaid expenses"): { "account_number": "242" },
 			_("Deffered tax assets"): { "account_number": "243" },
 			_("Mortgage, collaterals and deposits"): { "account_number": "244" },
+			"root_type": "Asset",
 		},
 		_("LIABILITIES"): {
 			_("Trade Payables"): { "account_number": "331" },
@@ -227,6 +228,7 @@ def get():
 				"account_number": "356",
 			},
 			_("Price stabilization fund"): { "account_number": "357" },
+			"root_type": "Liability",
 		},
 		_("OWNER'S EQUITY"): {
 			_("Owner’s equity"): {
@@ -262,6 +264,7 @@ def get():
 				"account_number": "461",
 			},
 			_("Non-business funds used for fixed asset acquisitions"): { "account_number": "466" },
+			"root_type": "Equity",
 		}, 
 		_("REVENUE"): {
 			_("Revenues"): { 
@@ -280,6 +283,7 @@ def get():
 				_("Sales returns"): { "account_number": "5213" },
 				"account_number": "521" 
 			},
+			"root_type": "Income",
 		},
 		_("COST OF PRODUCTION & BUSINESS"): {
 			_("Purchases"): { 
@@ -331,9 +335,11 @@ def get():
 				_("Other costs"): { "account_number": "6428" },
 				"account_number": "642" 
 			},
+			"root_type": "Expense",
 		},
 		_("OTHER INCOME"): {
 			_("Other income"): { "account_number": "711" },
+			"root_type": "Income",
 		},
 		_("OTHER EXPENSES"): {
 			_("Other expenses"): { "account_number": "811" },
@@ -342,8 +348,6 @@ def get():
 				_("Deferred tax expenses"): { "account_number": "8212" },
 				"account_number": "821" 
 			},
+			"root_type": "Expense",
 		},
-		_("INCOME SUMMARY"): {
-			_("Income Summary"): { "account_number": "911" },
-		}
 	}
