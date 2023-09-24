@@ -30,7 +30,7 @@ class TestPointOfSale(unittest.TestCase):
 		make_stock_entry(
 			item_code="Test Search Stock Item",
 			qty=10,
-			to_warehouse="_Test Warehouse - _TC",
+			to_warehouse="_Test Warehouse - __TC1",
 			rate=500,
 		)
 

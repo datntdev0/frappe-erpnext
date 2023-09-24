@@ -299,10 +299,10 @@ class TestPurchaseOrder(FrappeTestCase):
 				{
 					"doctype": "Item Tax Template",
 					"title": "Test Update Items Template",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"taxes": [
 						{
-							"tax_type": "_Test Account Service Tax - _TC",
+							"tax_type": "_Test Account Service Tax - __TC1",
 							"tax_rate": 10,
 						}
 					],
@@ -313,14 +313,14 @@ class TestPurchaseOrder(FrappeTestCase):
 
 		if not frappe.db.exists(
 			"Item Tax",
-			{"item_tax_template": "Test Update Items Template - _TC", "parent": "Test Item with Tax"},
+			{"item_tax_template": "Test Update Items Template - __TC1", "parent": "Test Item with Tax"},
 		):
 			new_item_with_tax.append(
-				"taxes", {"item_tax_template": "Test Update Items Template - _TC", "valid_from": nowdate()}
+				"taxes", {"item_tax_template": "Test Update Items Template - __TC1", "valid_from": nowdate()}
 			)
 			new_item_with_tax.save()
 
-		tax_template = "_Test Account Excise Duty @ 10 - _TC"
+		tax_template = "_Test Account Excise Duty @ 10 - __TC1"
 		item = "_Test Item Home Desktop 100"
 		if not frappe.db.exists("Item Tax", {"parent": item, "item_tax_template": tax_template}):
 			item_doc = frappe.get_doc("Item", item)
@@ -339,9 +339,9 @@ class TestPurchaseOrder(FrappeTestCase):
 		po.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Excise Duty - _TC",
+				"account_head": "_Test Account Excise Duty - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Excise Duty",
 				"doctype": "Purchase Taxes and Charges",
 				"rate": 10,
@@ -373,7 +373,7 @@ class TestPurchaseOrder(FrappeTestCase):
 		po.reload()
 		self.assertEqual(po.taxes[0].tax_amount, 70)
 		self.assertEqual(po.taxes[0].total, 770)
-		self.assertEqual(po.taxes[1].account_head, "_Test Account Service Tax - _TC")
+		self.assertEqual(po.taxes[1].account_head, "_Test Account Service Tax - __TC1")
 		self.assertEqual(po.taxes[1].tax_amount, 70)
 		self.assertEqual(po.taxes[1].total, 840)
 
@@ -386,7 +386,7 @@ class TestPurchaseOrder(FrappeTestCase):
 		po.cancel()
 		po.delete()
 		new_item_with_tax.delete()
-		frappe.get_doc("Item Tax Template", "Test Update Items Template - _TC").delete()
+		frappe.get_doc("Item Tax Template", "Test Update Items Template - __TC1").delete()
 
 	def test_update_qty(self):
 		po = create_purchase_order()
@@ -549,7 +549,7 @@ class TestPurchaseOrder(FrappeTestCase):
 	def test_warehouse_company_validation(self):
 		from erpnext.stock.utils import InvalidWarehouseCompany
 
-		po = create_purchase_order(company="_Test Company 1", do_not_save=True)
+		po = create_purchase_order(company="__Test Company 2", do_not_save=True)
 		self.assertRaises(InvalidWarehouseCompany, po.insert)
 
 	def test_uom_integer_validation(self):
@@ -561,7 +561,7 @@ class TestPurchaseOrder(FrappeTestCase):
 	def test_ordered_qty_for_closing_po(self):
 		bin = frappe.get_all(
 			"Bin",
-			filters={"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"},
+			filters={"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"},
 			fields=["ordered_qty"],
 		)
 
@@ -570,14 +570,14 @@ class TestPurchaseOrder(FrappeTestCase):
 		po = create_purchase_order(item_code="_Test Item", qty=1)
 
 		self.assertEqual(
-			get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"),
+			get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"),
 			existing_ordered_qty + 1,
 		)
 
 		po.update_status("Closed")
 
 		self.assertEqual(
-			get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"), existing_ordered_qty
+			get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"), existing_ordered_qty
 		)
 
 	def test_group_same_items(self):
@@ -585,11 +585,11 @@ class TestPurchaseOrder(FrappeTestCase):
 		frappe.get_doc(
 			{
 				"doctype": "Purchase Order",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"supplier": "_Test Supplier",
 				"is_subcontracted": 0,
 				"schedule_date": add_days(nowdate(), 1),
-				"currency": frappe.get_cached_value("Company", "_Test Company", "default_currency"),
+				"currency": frappe.get_cached_value("Company", "__Test Company 1", "default_currency"),
 				"conversion_factor": 1,
 				"items": get_same_items(),
 				"group_same_items": 1,
@@ -640,7 +640,7 @@ class TestPurchaseOrder(FrappeTestCase):
 			get_payment_entry,
 			dt="Purchase Order",
 			dn=po.name,
-			bank_account="_Test Bank - _TC",
+			bank_account="_Test Bank - __TC1",
 		)
 
 		supplier.on_hold = 0
@@ -660,7 +660,7 @@ class TestPurchaseOrder(FrappeTestCase):
 			get_payment_entry,
 			dt="Purchase Order",
 			dn=po.name,
-			bank_account="_Test Bank - _TC",
+			bank_account="_Test Bank - __TC1",
 		)
 
 		supplier.on_hold = 0
@@ -677,7 +677,7 @@ class TestPurchaseOrder(FrappeTestCase):
 				supplier.save()
 
 				po = create_purchase_order()
-				get_payment_entry("Purchase Order", po.name, bank_account="_Test Bank - _TC")
+				get_payment_entry("Purchase Order", po.name, bank_account="_Test Bank - __TC1")
 
 				supplier.on_hold = 0
 				supplier.save()
@@ -698,12 +698,12 @@ class TestPurchaseOrder(FrappeTestCase):
 		po.save()
 		po.submit()
 
-		frappe.db.set_value("Company", "_Test Company", "payment_terms", "_Test Payment Term Template 1")
+		frappe.db.set_value("Company", "__Test Company 1", "payment_terms", "_Test Payment Term Template 1")
 		pi = make_pi_from_po(po.name)
 		pi.save()
 
 		self.assertEqual(pi.get("payment_terms_template"), "_Test Payment Term Template 1")
-		frappe.db.set_value("Company", "_Test Company", "payment_terms", "")
+		frappe.db.set_value("Company", "__Test Company 1", "payment_terms", "")
 
 	def test_terms_copied(self):
 		po = create_purchase_order(do_not_save=1)
@@ -722,7 +722,7 @@ class TestPurchaseOrder(FrappeTestCase):
 
 		po_doc = create_purchase_order()
 
-		pe = get_payment_entry("Purchase Order", po_doc.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Purchase Order", po_doc.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = nowdate()
 		pe.paid_from_account_currency = po_doc.currency
@@ -749,7 +749,7 @@ class TestPurchaseOrder(FrappeTestCase):
 
 		pe = get_payment_entry("Purchase Order", po_doc.name)
 		pe.mode_of_payment = "Cash"
-		pe.paid_from = "Cash - _TC"
+		pe.paid_from = "Cash - __TC1"
 		pe.source_exchange_rate = 1
 		pe.target_exchange_rate = 80
 		pe.paid_amount = po_doc.base_grand_total
@@ -843,11 +843,11 @@ class TestPurchaseOrder(FrappeTestCase):
 		supplier = "_Test Internal Supplier 2"
 
 		mr = make_material_request(
-			qty=2, company="_Test Company with perpetual inventory", warehouse="Stores - TCP1"
+			qty=2, company="__Test Company 7", warehouse="Stores - TCP1"
 		)
 
 		po = create_purchase_order(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			supplier=supplier,
 			warehouse="Stores - TCP1",
 			from_warehouse="_Test Internal Warehouse New 1 - TCP1",
@@ -908,7 +908,7 @@ def prepare_data_for_internal_transfer():
 	from erpnext.stock.doctype.purchase_receipt.test_purchase_receipt import make_purchase_receipt
 	from erpnext.stock.doctype.warehouse.test_warehouse import create_warehouse
 
-	company = "_Test Company with perpetual inventory"
+	company = "__Test Company 7"
 
 	create_internal_customer(
 		"_Test Internal Customer 2",
@@ -957,14 +957,14 @@ def get_same_items():
 	return [
 		{
 			"item_code": "_Test FG Item",
-			"warehouse": "_Test Warehouse - _TC",
+			"warehouse": "_Test Warehouse - __TC1",
 			"qty": 1,
 			"rate": 500,
 			"schedule_date": add_days(nowdate(), 1),
 		},
 		{
 			"item_code": "_Test FG Item",
-			"warehouse": "_Test Warehouse - _TC",
+			"warehouse": "_Test Warehouse - __TC1",
 			"qty": 4,
 			"rate": 500,
 			"schedule_date": add_days(nowdate(), 1),
@@ -979,7 +979,7 @@ def create_purchase_order(**args):
 		po.transaction_date = args.transaction_date
 
 	po.schedule_date = add_days(nowdate(), 1)
-	po.company = args.company or "_Test Company"
+	po.company = args.company or "__Test Company 1"
 	po.supplier = args.supplier or "_Test Supplier"
 	po.is_subcontracted = args.is_subcontracted or 0
 	po.currency = args.currency or frappe.get_cached_value("Company", po.company, "default_currency")
@@ -994,7 +994,7 @@ def create_purchase_order(**args):
 			"items",
 			{
 				"item_code": args.item or args.item_code or "_Test Item",
-				"warehouse": args.warehouse or "_Test Warehouse - _TC",
+				"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 				"from_warehouse": args.from_warehouse,
 				"qty": args.qty or 10,
 				"rate": args.rate or 500,
@@ -1014,7 +1014,7 @@ def create_purchase_order(**args):
 				supp_items = po.get("supplied_items")
 				for d in supp_items:
 					if not d.reserve_warehouse:
-						d.reserve_warehouse = args.warehouse or "_Test Warehouse - _TC"
+						d.reserve_warehouse = args.warehouse or "_Test Warehouse - __TC1"
 			po.submit()
 
 	return po
@@ -1028,13 +1028,13 @@ def create_pr_against_po(po, received_qty=4):
 	return pr
 
 
-def get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"):
+def get_ordered_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"):
 	return flt(
 		frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": warehouse}, "ordered_qty")
 	)
 
 
-def get_requested_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"):
+def get_requested_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"):
 	return flt(
 		frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": warehouse}, "indented_qty")
 	)

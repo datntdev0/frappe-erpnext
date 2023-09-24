@@ -26,13 +26,13 @@ class TestPickList(FrappeTestCase):
 			frappe.get_doc(
 				{
 					"doctype": "Stock Reconciliation",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"purpose": "Opening Stock",
-					"expense_account": "Temporary Opening - _TC",
+					"expense_account": "Temporary Opening - __TC1",
 					"items": [
 						{
 							"item_code": item_code,
-							"warehouse": "_Test Warehouse - _TC",
+							"warehouse": "_Test Warehouse - __TC1",
 							"valuation_rate": 100,
 							"qty": 5,
 						}
@@ -45,7 +45,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
@@ -64,7 +64,7 @@ class TestPickList(FrappeTestCase):
 		pick_list.set_item_locations()
 
 		self.assertEqual(pick_list.locations[0].item_code, item_code)
-		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(pick_list.locations[0].qty, 5)
 
 	def test_pick_list_splits_row_according_to_warehouse_availability(self):
@@ -72,13 +72,13 @@ class TestPickList(FrappeTestCase):
 			frappe.get_doc(
 				{
 					"doctype": "Stock Reconciliation",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"purpose": "Opening Stock",
-					"expense_account": "Temporary Opening - _TC",
+					"expense_account": "Temporary Opening - __TC1",
 					"items": [
 						{
 							"item_code": "_Test Item Warehouse Group Wise Reorder",
-							"warehouse": "_Test Warehouse Group-C1 - _TC",
+							"warehouse": "_Test Warehouse Group-C1 - __TC1",
 							"valuation_rate": 100,
 							"qty": 5,
 						}
@@ -92,13 +92,13 @@ class TestPickList(FrappeTestCase):
 			frappe.get_doc(
 				{
 					"doctype": "Stock Reconciliation",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"purpose": "Opening Stock",
-					"expense_account": "Temporary Opening - _TC",
+					"expense_account": "Temporary Opening - __TC1",
 					"items": [
 						{
 							"item_code": "_Test Item Warehouse Group Wise Reorder",
-							"warehouse": "_Test Warehouse 2 - _TC",
+							"warehouse": "_Test Warehouse 2 - __TC1",
 							"valuation_rate": 400,
 							"qty": 10,
 						}
@@ -111,7 +111,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
@@ -131,11 +131,11 @@ class TestPickList(FrappeTestCase):
 		pick_list.set_item_locations()
 
 		self.assertEqual(pick_list.locations[0].item_code, "_Test Item Warehouse Group Wise Reorder")
-		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse Group-C1 - _TC")
+		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse Group-C1 - __TC1")
 		self.assertEqual(pick_list.locations[0].qty, 5)
 
 		self.assertEqual(pick_list.locations[1].item_code, "_Test Item Warehouse Group Wise Reorder")
-		self.assertEqual(pick_list.locations[1].warehouse, "_Test Warehouse 2 - _TC")
+		self.assertEqual(pick_list.locations[1].warehouse, "_Test Warehouse 2 - __TC1")
 		self.assertEqual(pick_list.locations[1].qty, 10)
 
 	def test_pick_list_shows_serial_no_for_serialized_item(self):
@@ -144,11 +144,11 @@ class TestPickList(FrappeTestCase):
 			{
 				"doctype": "Stock Reconciliation",
 				"purpose": "Stock Reconciliation",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items": [
 					{
 						"item_code": "_Test Serialized Item",
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 						"valuation_rate": 100,
 						"qty": 5,
 						"serial_no": "123450\n123451\n123452\n123453\n123454",
@@ -165,7 +165,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
@@ -184,7 +184,7 @@ class TestPickList(FrappeTestCase):
 
 		pick_list.set_item_locations()
 		self.assertEqual(pick_list.locations[0].item_code, "_Test Serialized Item")
-		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(pick_list.locations[0].qty, 5)
 		self.assertEqual(pick_list.locations[0].serial_no, "123450\n123451\n123452\n123453\n123454")
 
@@ -210,7 +210,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"purpose": "Material Transfer",
 				"locations": [
 					{
@@ -253,7 +253,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"purpose": "Material Transfer",
 				"locations": [
 					{
@@ -280,13 +280,13 @@ class TestPickList(FrappeTestCase):
 			frappe.get_doc(
 				{
 					"doctype": "Stock Reconciliation",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"purpose": "Opening Stock",
-					"expense_account": "Temporary Opening - _TC",
+					"expense_account": "Temporary Opening - __TC1",
 					"items": [
 						{
 							"item_code": item_code,
-							"warehouse": "_Test Warehouse - _TC",
+							"warehouse": "_Test Warehouse - __TC1",
 							"valuation_rate": 100,
 							"qty": 10,
 						}
@@ -300,13 +300,13 @@ class TestPickList(FrappeTestCase):
 			{
 				"doctype": "Sales Order",
 				"customer": "_Test Customer",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items": [
 					{
 						"item_code": item_code,
 						"qty": 10,
 						"delivery_date": frappe.utils.today(),
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 					}
 				],
 			}
@@ -316,7 +316,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
@@ -343,12 +343,12 @@ class TestPickList(FrappeTestCase):
 		pick_list.set_item_locations()
 
 		self.assertEqual(pick_list.locations[0].item_code, item_code)
-		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(pick_list.locations[0].warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(pick_list.locations[0].qty, 5)
 		self.assertEqual(pick_list.locations[0].sales_order_item, "_T-Sales Order-1_item")
 
 		self.assertEqual(pick_list.locations[1].item_code, item_code)
-		self.assertEqual(pick_list.locations[1].warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(pick_list.locations[1].warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(pick_list.locations[1].qty, 5)
 		self.assertEqual(pick_list.locations[1].sales_order_item, sales_order.items[0].name)
 
@@ -361,7 +361,7 @@ class TestPickList(FrappeTestCase):
 			{
 				"doctype": "Sales Order",
 				"customer": "_Test Customer",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items": [
 					{
 						"item_code": item_code,
@@ -369,14 +369,14 @@ class TestPickList(FrappeTestCase):
 						"conversion_factor": 5,
 						"stock_qty": 5,
 						"delivery_date": frappe.utils.today(),
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 					},
 					{
 						"item_code": item_code,
 						"qty": 1,
 						"conversion_factor": 1,
 						"delivery_date": frappe.utils.today(),
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 					},
 				],
 			}
@@ -386,7 +386,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
@@ -477,7 +477,7 @@ class TestPickList(FrappeTestCase):
 			{
 				"doctype": "Sales Order",
 				"customer": "_Test Customer",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items": [
 					{
 						"item_code": "_Test Item",
@@ -493,7 +493,7 @@ class TestPickList(FrappeTestCase):
 			{
 				"doctype": "Sales Order",
 				"customer": "_Test Customer 1",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items": [
 					{
 						"item_code": "_Test Item 2",
@@ -508,7 +508,7 @@ class TestPickList(FrappeTestCase):
 		pick_list = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"items_based_on": "Sales Order",
 				"purpose": "Delivery",
 				"picker": "P001",
@@ -557,7 +557,7 @@ class TestPickList(FrappeTestCase):
 		pick_list_1 = frappe.get_doc(
 			{
 				"doctype": "Pick List",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"purpose": "Delivery",
 				"picker": "P001",
 				"locations": [
@@ -589,7 +589,7 @@ class TestPickList(FrappeTestCase):
 					self.assertEqual(dn_item.qty, 2)
 
 	def test_picklist_with_multi_uom(self):
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		item = make_item(properties={"uoms": [dict(uom="Box", conversion_factor=24)]}).name
 		make_stock_entry(item=item, to_warehouse=warehouse, qty=1000)
 
@@ -605,7 +605,7 @@ class TestPickList(FrappeTestCase):
 		self.assertEqual(so.per_picked, 50)
 
 	def test_picklist_with_bundles(self):
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		quantities = [5, 2]
 		bundle, components = create_product_bundle(quantities, warehouse=warehouse)
@@ -633,7 +633,7 @@ class TestPickList(FrappeTestCase):
 
 	def test_picklist_with_partial_bundles(self):
 		# from test_records.json
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		quantities = [5, 2]
 		bundle, components = create_product_bundle(quantities, warehouse=warehouse)
@@ -666,7 +666,7 @@ class TestPickList(FrappeTestCase):
 		self.assertEqual(so.per_delivered, 100)
 
 	def test_pick_list_status(self):
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		item = make_item(properties={"maintain_stock": 1}).name
 		make_stock_entry(item=item, to_warehouse=warehouse, qty=10)
 
@@ -711,7 +711,7 @@ class TestPickList(FrappeTestCase):
 			return items
 
 		def create_stock_entries(items):
-			warehouses = ["Stores - _TC", "Finished Goods - _TC"]
+			warehouses = ["Stores - __TC1", "Finished Goods - __TC1"]
 
 			for item in items:
 				for warehouse in warehouses:
@@ -721,7 +721,7 @@ class TestPickList(FrappeTestCase):
 						qty=5,
 					)
 
-		def get_item_list(items, qty, warehouse="All Warehouses - _TC"):
+		def get_item_list(items, qty, warehouse="All Warehouses - __TC1"):
 			return [
 				{
 					"item_code": item.get("item_code"),

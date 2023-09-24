@@ -23,8 +23,8 @@ class TestAccountingDimensionFilter(unittest.TestCase):
 
 	def test_allowed_dimension_validation(self):
 		si = create_sales_invoice(do_not_save=1)
-		si.items[0].cost_center = "Main - _TC"
-		si.department = "Accounts - _TC"
+		si.items[0].cost_center = "Main - __TC1"
+		si.department = "Accounts - __TC1"
 		si.location = "Block 1"
 		si.save()
 
@@ -38,7 +38,7 @@ class TestAccountingDimensionFilter(unittest.TestCase):
 
 		# Test with no department for Sales Account
 		si.items[0].department = ""
-		si.items[0].cost_center = "_Test Cost Center 2 - _TC"
+		si.items[0].cost_center = "_Test Cost Center 2 - __TC1"
 		si.save()
 
 		self.assertRaises(MandatoryAccountDimensionError, si.submit)
@@ -63,14 +63,14 @@ def create_accounting_dimension_filter():
 				"doctype": "Accounting Dimension Filter",
 				"accounting_dimension": "Cost Center",
 				"allow_or_restrict": "Allow",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"accounts": [
 					{
-						"applicable_on_account": "Sales - _TC",
+						"applicable_on_account": "Sales - __TC1",
 					}
 				],
 				"dimensions": [
-					{"accounting_dimension": "Cost Center", "dimension_value": "_Test Cost Center 2 - _TC"}
+					{"accounting_dimension": "Cost Center", "dimension_value": "_Test Cost Center 2 - __TC1"}
 				],
 			}
 		).insert()
@@ -85,9 +85,9 @@ def create_accounting_dimension_filter():
 				"doctype": "Accounting Dimension Filter",
 				"accounting_dimension": "Department",
 				"allow_or_restrict": "Allow",
-				"company": "_Test Company",
-				"accounts": [{"applicable_on_account": "Sales - _TC", "is_mandatory": 1}],
-				"dimensions": [{"accounting_dimension": "Department", "dimension_value": "Accounts - _TC"}],
+				"company": "__Test Company 1",
+				"accounts": [{"applicable_on_account": "Sales - __TC1", "is_mandatory": 1}],
+				"dimensions": [{"accounting_dimension": "Department", "dimension_value": "Accounts - __TC1"}],
 			}
 		).insert()
 	else:

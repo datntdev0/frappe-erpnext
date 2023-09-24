@@ -30,7 +30,7 @@ class TestWebsiteItem(unittest.TestCase):
 	def setUpClass(cls):
 		setup_e_commerce_settings(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"enabled": 1,
 				"default_customer_group": "_Test Customer Group",
 				"price_list": "_Test Price List India",
@@ -306,7 +306,7 @@ class TestWebsiteItem(unittest.TestCase):
 
 		# set warehouse
 		frappe.db.set_value(
-			"Website Item", {"item_code": item_code}, "website_warehouse", "_Test Warehouse - _TC"
+			"Website Item", {"item_code": item_code}, "website_warehouse", "_Test Warehouse - __TC1"
 		)
 
 		# check if stock details are fetched and item not in stock with warehouse set
@@ -344,12 +344,12 @@ class TestWebsiteItem(unittest.TestCase):
 
 		# set warehouse
 		frappe.db.set_value(
-			"Website Item", {"item_code": item_code}, "website_warehouse", "_Test Warehouse - _TC"
+			"Website Item", {"item_code": item_code}, "website_warehouse", "_Test Warehouse - __TC1"
 		)
 
 		# stock up item
 		stock_entry = make_stock_entry(
-			item_code=item_code, target="_Test Warehouse - _TC", qty=2, rate=100
+			item_code=item_code, target="_Test Warehouse - __TC1", qty=2, rate=100
 		)
 
 		# check if stock details are fetched and item is in stock with warehouse set
@@ -525,7 +525,7 @@ def make_web_pricing_rule(**kwargs):
 				"buying": kwargs.get("buying") or 0,
 				"rate_or_discount": kwargs.get("rate_or_discount") or "Discount Percentage",
 				"discount_percentage": kwargs.get("discount_percentage") or 10,
-				"company": kwargs.get("company") or "_Test Company",
+				"company": kwargs.get("company") or "__Test Company 1",
 				"currency": kwargs.get("currency") or "INR",
 				"for_price_list": kwargs.get("price_list") or "_Test Price List India",
 				"applicable_for": kwargs.get("applicable_for") or "",

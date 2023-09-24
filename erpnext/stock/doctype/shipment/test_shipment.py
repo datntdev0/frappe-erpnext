@@ -41,9 +41,9 @@ def create_test_delivery_note():
 			"description": "Test delivery note for shipment",
 			"qty": 5,
 			"uom": "Nos",
-			"warehouse": "Stores - _TC",
+			"warehouse": "Stores - __TC1",
 			"rate": item.standard_rate,
-			"cost_center": "Main - _TC",
+			"cost_center": "Main - __TC1",
 		},
 	)
 	delivery_note.insert()
@@ -124,7 +124,7 @@ def get_shipment_company_address(company_name):
 
 
 def get_shipment_company():
-	return frappe.get_doc("Company", "_Test Company")
+	return frappe.get_doc("Company", "__Test Company 1")
 
 
 def get_shipment_item(company_name):
@@ -187,12 +187,12 @@ def create_material_receipt(item, company):
 	stock.append(
 		"items",
 		{
-			"t_warehouse": "Stores - _TC",
+			"t_warehouse": "Stores - __TC1",
 			"item_code": item.name,
 			"qty": 5,
 			"uom": "Nos",
 			"basic_rate": item.standard_rate,
-			"cost_center": "Main - _TC",
+			"cost_center": "Main - __TC1",
 		},
 	)
 	stock.insert()
@@ -206,6 +206,6 @@ def create_shipment_item(item_name, company_name):
 	item.item_group = "All Item Groups"
 	item.stock_uom = "Nos"
 	item.standard_rate = 50
-	item.append("item_defaults", {"company": company_name, "default_warehouse": "Stores - _TC"})
+	item.append("item_defaults", {"company": company_name, "default_warehouse": "Stores - __TC1"})
 	item.insert()
 	return item

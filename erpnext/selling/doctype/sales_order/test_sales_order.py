@@ -203,7 +203,7 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertEqual(so.get("items")[0].delivered_qty, 5)
 
 	def test_reserved_qty_for_partial_delivery(self):
-		make_stock_entry(target="_Test Warehouse - _TC", qty=10, rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=10, rate=100)
 		existing_reserved_qty = get_reserved_qty()
 
 		so = make_sales_order()
@@ -231,7 +231,7 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertEqual(get_reserved_qty(), existing_reserved_qty)
 
 	def test_reserved_qty_for_over_delivery(self):
-		make_stock_entry(target="_Test Warehouse - _TC", qty=10, rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=10, rate=100)
 		# set over-delivery allowance
 		frappe.db.set_value("Item", "_Test Item", "over_delivery_receipt_allowance", 50)
 
@@ -247,7 +247,7 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertEqual(get_reserved_qty(), existing_reserved_qty + 10)
 
 	def test_reserved_qty_for_over_delivery_via_sales_invoice(self):
-		make_stock_entry(target="_Test Warehouse - _TC", qty=10, rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=10, rate=100)
 
 		# set over-delivery allowance
 		frappe.db.set_value("Item", "_Test Item", "over_delivery_receipt_allowance", 50)
@@ -278,9 +278,9 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertEqual(so.per_delivered, 0)
 
 	def test_reserved_qty_for_partial_delivery_with_packing_list(self):
-		make_stock_entry(target="_Test Warehouse - _TC", qty=10, rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=10, rate=100)
 		make_stock_entry(
-			item="_Test Item Home Desktop 100", target="_Test Warehouse - _TC", qty=10, rate=100
+			item="_Test Item Home Desktop 100", target="_Test Warehouse - __TC1", qty=10, rate=100
 		)
 
 		existing_reserved_qty_item1 = get_reserved_qty("_Test Item")
@@ -335,9 +335,9 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertRaises(frappe.ValidationError, si.submit)
 
 	def test_reserved_qty_for_over_delivery_with_packing_list(self):
-		make_stock_entry(target="_Test Warehouse - _TC", qty=10, rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=10, rate=100)
 		make_stock_entry(
-			item="_Test Item Home Desktop 100", target="_Test Warehouse - _TC", qty=10, rate=100
+			item="_Test Item Home Desktop 100", target="_Test Warehouse - __TC1", qty=10, rate=100
 		)
 
 		# set over-delivery allowance
@@ -558,7 +558,7 @@ class TestSalesOrder(FrappeTestCase):
 		if not frappe.db.exists("Item", "_Test Product Bundle Item New 1"):
 			bundle_item = make_item("_Test Product Bundle Item New 1", {"is_stock_item": 0})
 			bundle_item.append(
-				"item_defaults", {"company": "_Test Company", "default_warehouse": "_Test Warehouse - _TC"}
+				"item_defaults", {"company": "__Test Company 1", "default_warehouse": "_Test Warehouse - __TC1"}
 			)
 			bundle_item.save(ignore_permissions=True)
 
@@ -577,7 +577,7 @@ class TestSalesOrder(FrappeTestCase):
 		if not frappe.db.exists("Item", "_Test Product Bundle Item New"):
 			bundle_item = make_item("_Test Product Bundle Item New", {"is_stock_item": 0})
 			bundle_item.append(
-				"item_defaults", {"company": "_Test Company", "default_warehouse": "_Test Warehouse - _TC"}
+				"item_defaults", {"company": "__Test Company 1", "default_warehouse": "_Test Warehouse - __TC1"}
 			)
 			bundle_item.save(ignore_permissions=True)
 
@@ -586,16 +586,16 @@ class TestSalesOrder(FrappeTestCase):
 
 		so = make_sales_order(
 			item_code="_Test Product Bundle Item New",
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			transaction_date=add_days(nowdate(), -1),
 			do_not_submit=1,
 		)
 
-		make_stock_entry(item="_Packed Item New 1", target="_Test Warehouse - _TC", qty=120, rate=100)
+		make_stock_entry(item="_Packed Item New 1", target="_Test Warehouse - __TC1", qty=120, rate=100)
 
 		bin_details = frappe.db.get_value(
 			"Bin",
-			{"item_code": "_Packed Item New 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "_Packed Item New 1", "warehouse": "_Test Warehouse - __TC1"},
 			["actual_qty", "projected_qty", "ordered_qty"],
 			as_dict=1,
 		)
@@ -613,7 +613,7 @@ class TestSalesOrder(FrappeTestCase):
 		if not frappe.db.exists("Item", "_Product Bundle Item"):
 			bundle_item = make_item("_Product Bundle Item", {"is_stock_item": 0})
 			bundle_item.append(
-				"item_defaults", {"company": "_Test Company", "default_warehouse": "_Test Warehouse - _TC"}
+				"item_defaults", {"company": "__Test Company 1", "default_warehouse": "_Test Warehouse - __TC1"}
 			)
 			bundle_item.save(ignore_permissions=True)
 
@@ -674,10 +674,10 @@ class TestSalesOrder(FrappeTestCase):
 				{
 					"doctype": "Item Tax Template",
 					"title": "Test Update Items Template",
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"taxes": [
 						{
-							"tax_type": "_Test Account Service Tax - _TC",
+							"tax_type": "_Test Account Service Tax - __TC1",
 							"tax_rate": 10,
 						}
 					],
@@ -687,11 +687,11 @@ class TestSalesOrder(FrappeTestCase):
 		new_item_with_tax = frappe.get_doc("Item", "Test Item with Tax")
 
 		new_item_with_tax.append(
-			"taxes", {"item_tax_template": "Test Update Items Template - _TC", "valid_from": nowdate()}
+			"taxes", {"item_tax_template": "Test Update Items Template - __TC1", "valid_from": nowdate()}
 		)
 		new_item_with_tax.save()
 
-		tax_template = "_Test Account Excise Duty @ 10 - _TC"
+		tax_template = "_Test Account Excise Duty @ 10 - __TC1"
 		item = "_Test Item Home Desktop 100"
 		if not frappe.db.exists("Item Tax", {"parent": item, "item_tax_template": tax_template}):
 			item_doc = frappe.get_doc("Item", item)
@@ -710,9 +710,9 @@ class TestSalesOrder(FrappeTestCase):
 		so.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Excise Duty - _TC",
+				"account_head": "_Test Account Excise Duty - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Excise Duty",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 10,
@@ -725,7 +725,7 @@ class TestSalesOrder(FrappeTestCase):
 		self.assertEqual(so.taxes[0].total, 110)
 
 		old_stock_settings_value = frappe.db.get_single_value("Stock Settings", "default_warehouse")
-		frappe.db.set_value("Stock Settings", None, "default_warehouse", "_Test Warehouse - _TC")
+		frappe.db.set_value("Stock Settings", None, "default_warehouse", "_Test Warehouse - __TC1")
 
 		items = json.dumps(
 			[
@@ -747,7 +747,7 @@ class TestSalesOrder(FrappeTestCase):
 		so.reload()
 		self.assertEqual(so.taxes[0].tax_amount, 40)
 		self.assertEqual(so.taxes[0].total, 440)
-		self.assertEqual(so.taxes[1].account_head, "_Test Account Service Tax - _TC")
+		self.assertEqual(so.taxes[1].account_head, "_Test Account Service Tax - __TC1")
 		self.assertEqual(so.taxes[1].tax_amount, 40)
 		self.assertEqual(so.taxes[1].total, 480)
 
@@ -760,7 +760,7 @@ class TestSalesOrder(FrappeTestCase):
 		so.cancel()
 		so.delete()
 		new_item_with_tax.delete()
-		frappe.get_doc("Item Tax Template", "Test Update Items Template - _TC").delete()
+		frappe.get_doc("Item Tax Template", "Test Update Items Template - __TC1").delete()
 		frappe.db.set_value("Stock Settings", None, "default_warehouse", old_stock_settings_value)
 
 	def test_warehouse_user(self):
@@ -770,14 +770,14 @@ class TestSalesOrder(FrappeTestCase):
 		test_user_2.add_roles("Sales User", "Stock User")
 		test_user_2.remove_roles("Sales Manager")
 
-		frappe.permissions.add_user_permission("Warehouse", "_Test Warehouse 1 - _TC", test_user.name)
+		frappe.permissions.add_user_permission("Warehouse", "_Test Warehouse 1 - __TC1", test_user.name)
 		frappe.permissions.add_user_permission("Warehouse", "_Test Warehouse 2 - _TC1", test_user_2.name)
-		frappe.permissions.add_user_permission("Company", "_Test Company 1", test_user_2.name)
+		frappe.permissions.add_user_permission("Company", "__Test Company 2", test_user_2.name)
 
 		frappe.set_user(test_user.name)
 
 		so = make_sales_order(
-			company="_Test Company 1",
+			company="__Test Company 2",
 			customer="_Test Customer 1",
 			warehouse="_Test Warehouse 2 - _TC1",
 			do_not_save=True,
@@ -790,11 +790,11 @@ class TestSalesOrder(FrappeTestCase):
 		so.insert()
 
 		frappe.set_user("Administrator")
-		frappe.permissions.remove_user_permission("Warehouse", "_Test Warehouse 1 - _TC", test_user.name)
+		frappe.permissions.remove_user_permission("Warehouse", "_Test Warehouse 1 - __TC1", test_user.name)
 		frappe.permissions.remove_user_permission(
 			"Warehouse", "_Test Warehouse 2 - _TC1", test_user_2.name
 		)
-		frappe.permissions.remove_user_permission("Company", "_Test Company 1", test_user_2.name)
+		frappe.permissions.remove_user_permission("Company", "__Test Company 2", test_user_2.name)
 
 	def test_block_delivery_note_against_cancelled_sales_order(self):
 		so = make_sales_order()
@@ -928,7 +928,7 @@ class TestSalesOrder(FrappeTestCase):
 			},
 			{
 				"item_code": dn_item.item_code,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 2,
 				"rate": 300,
 				"conversion_factor": 1.0,
@@ -936,7 +936,7 @@ class TestSalesOrder(FrappeTestCase):
 		]
 
 		if frappe.db.get_value("Item", "_Test Regular Item", "is_stock_item") == 1:
-			make_stock_entry(item="_Test Regular Item", target="_Test Warehouse - _TC", qty=2, rate=100)
+			make_stock_entry(item="_Test Regular Item", target="_Test Warehouse - __TC1", qty=2, rate=100)
 
 		# create so, po and dn
 		so = make_sales_order(item_list=so_items, do_not_submit=True)
@@ -957,7 +957,7 @@ class TestSalesOrder(FrappeTestCase):
 		# test ordered_qty and reserved_qty for drop ship item
 		bin_po_item = frappe.get_all(
 			"Bin",
-			filters={"item_code": po_item.item_code, "warehouse": "_Test Warehouse - _TC"},
+			filters={"item_code": po_item.item_code, "warehouse": "_Test Warehouse - __TC1"},
 			fields=["ordered_qty", "reserved_qty"],
 		)
 
@@ -980,7 +980,7 @@ class TestSalesOrder(FrappeTestCase):
 		# test ordered_qty and reserved_qty for drop ship item after closing so
 		bin_po_item = frappe.get_all(
 			"Bin",
-			filters={"item_code": po_item.item_code, "warehouse": "_Test Warehouse - _TC"},
+			filters={"item_code": po_item.item_code, "warehouse": "_Test Warehouse - __TC1"},
 			fields=["ordered_qty", "reserved_qty"],
 		)
 
@@ -1156,7 +1156,7 @@ class TestSalesOrder(FrappeTestCase):
 
 		purchase_order = make_purchase_order(so.name, selected_items=so_items)
 		purchase_order.supplier = "_Test Supplier"
-		purchase_order.set_warehouse = "_Test Warehouse - _TC"
+		purchase_order.set_warehouse = "_Test Warehouse - __TC1"
 		purchase_order.save()
 		purchase_order.submit()
 
@@ -1167,7 +1167,7 @@ class TestSalesOrder(FrappeTestCase):
 	def test_reserved_qty_for_closing_so(self):
 		bin = frappe.get_all(
 			"Bin",
-			filters={"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"},
+			filters={"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"},
 			fields=["reserved_qty"],
 		)
 
@@ -1176,14 +1176,14 @@ class TestSalesOrder(FrappeTestCase):
 		so = make_sales_order(item_code="_Test Item", qty=1)
 
 		self.assertEqual(
-			get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"),
+			get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"),
 			existing_reserved_qty + 1,
 		)
 
 		so.update_status("Closed")
 
 		self.assertEqual(
-			get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"),
+			get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"),
 			existing_reserved_qty,
 		)
 
@@ -1284,7 +1284,7 @@ class TestSalesOrder(FrappeTestCase):
 				"has_serial_no": 1,
 				"serial_no_series": "SI.####",
 				"valuation_rate": 500,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		frappe.db.sql("""delete from `tabSerial No` where item_code=%s""", (item.item_code))
@@ -1293,7 +1293,7 @@ class TestSalesOrder(FrappeTestCase):
 			{
 				"maintain_stock": 1,
 				"valuation_rate": 100,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		make_item(
@@ -1301,7 +1301,7 @@ class TestSalesOrder(FrappeTestCase):
 			{
 				"maintain_stock": 1,
 				"valuation_rate": 200,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		from erpnext.manufacturing.doctype.production_plan.test_production_plan import make_bom
@@ -1324,10 +1324,10 @@ class TestSalesOrder(FrappeTestCase):
 		from erpnext.manufacturing.doctype.work_order.test_work_order import make_wo_order_test_record
 
 		work_order = make_wo_order_test_record(item=item.item_code, qty=1, do_not_save=True)
-		work_order.fg_warehouse = "_Test Warehouse - _TC"
+		work_order.fg_warehouse = "_Test Warehouse - __TC1"
 		work_order.sales_order = so.name
 		work_order.submit()
-		make_stock_entry(item_code=item.item_code, target="_Test Warehouse - _TC", qty=1)
+		make_stock_entry(item_code=item.item_code, target="_Test Warehouse - __TC1", qty=1)
 		item_serial_no = frappe.get_doc("Serial No", {"item_code": item.item_code})
 		from erpnext.manufacturing.doctype.work_order.work_order import (
 			make_stock_entry as make_production_stock_entry,
@@ -1389,7 +1389,7 @@ class TestSalesOrder(FrappeTestCase):
 
 		so = make_sales_order()
 
-		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = nowdate()
 		pe.paid_from_account_currency = so.currency
@@ -1410,7 +1410,7 @@ class TestSalesOrder(FrappeTestCase):
 
 		so = make_sales_order()
 
-		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = nowdate()
 		pe.paid_from_account_currency = so.currency
@@ -1443,7 +1443,7 @@ class TestSalesOrder(FrappeTestCase):
 		)
 
 		# create a payment entry against sales order
-		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = nowdate()
 		pe.paid_from_account_currency = so.currency
@@ -1499,13 +1499,13 @@ class TestSalesOrder(FrappeTestCase):
 						"item_code": "Test-WO-Tshirt-R",
 						"qty": 1,
 						"rate": 1000,
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 					},
 					{
 						"item_code": "Test-WO-Tshirt-G",
 						"qty": 1,
 						"rate": 1000,
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 					},
 				]
 			}
@@ -1528,7 +1528,7 @@ class TestSalesOrder(FrappeTestCase):
 				"is_stock_item": 1,
 				"maintain_stock": 1,
 				"valuation_rate": 500,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		make_item(
@@ -1536,7 +1536,7 @@ class TestSalesOrder(FrappeTestCase):
 			{
 				"maintain_stock": 1,
 				"valuation_rate": 100,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		make_item(
@@ -1544,7 +1544,7 @@ class TestSalesOrder(FrappeTestCase):
 			{
 				"maintain_stock": 1,
 				"valuation_rate": 200,
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 			},
 		)
 		from erpnext.manufacturing.doctype.production_plan.test_production_plan import make_bom
@@ -1784,7 +1784,7 @@ class TestSalesOrder(FrappeTestCase):
 		# WO from MR
 		wo_name = raise_work_orders(mr.name)[0]
 		wo = frappe.get_doc("Work Order", wo_name)
-		wo.wip_warehouse = "Work In Progress - _TC"
+		wo.wip_warehouse = "Work In Progress - __TC1"
 		wo.skip_transfer = True
 
 		self.assertEqual(wo.sales_order, so.name)
@@ -1792,11 +1792,11 @@ class TestSalesOrder(FrappeTestCase):
 
 		wo.submit()
 		make_stock_entry(
-			item_code="_Test Item", target="Work In Progress - _TC", qty=4, basic_rate=100  # Stock RM
+			item_code="_Test Item", target="Work In Progress - __TC1", qty=4, basic_rate=100  # Stock RM
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",  # Stock RM
-			target="Work In Progress - _TC",
+			target="Work In Progress - __TC1",
 			qty=4,
 			basic_rate=100,
 		)
@@ -1856,7 +1856,7 @@ class TestSalesOrder(FrappeTestCase):
 		)
 
 		# Create a advance payment against that Sales Order
-		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = nowdate()
 		pe.paid_from_account_currency = so.currency
@@ -1872,8 +1872,8 @@ class TestSalesOrder(FrappeTestCase):
 			payment_type="Receive",
 			party_type="Customer",
 			party="QA Logistics",
-			paid_from="Debtors - _TC",
-			paid_to="_Test Bank - _TC",
+			paid_from="Debtors - __TC1",
+			paid_to="_Test Bank - __TC1",
 			save=1,
 			submit=1,
 		)
@@ -1907,12 +1907,12 @@ class TestSalesOrder(FrappeTestCase):
 
 		so = make_sales_order(
 			item_list=[
-				{"item_code": "_Test FG Item", "qty": 10, "rate": 100, "warehouse": "Work In Progress - _TC"}
+				{"item_code": "_Test FG Item", "qty": 10, "rate": 100, "warehouse": "Work In Progress - __TC1"}
 			]
 		)
 
 		make_stock_entry(
-			item_code="_Test FG Item", target="Work In Progress - _TC", qty=4, basic_rate=100
+			item_code="_Test FG Item", target="Work In Progress - __TC1", qty=4, basic_rate=100
 		)
 
 		dn = make_delivery_note(so.name)
@@ -1938,7 +1938,7 @@ class TestSalesOrder(FrappeTestCase):
 			if not frappe.db.exists("Item", product_bundle):
 				bundle_item = make_item(product_bundle, {"is_stock_item": 0})
 				bundle_item.append(
-					"item_defaults", {"company": "_Test Company", "default_warehouse": "_Test Warehouse - _TC"}
+					"item_defaults", {"company": "__Test Company 1", "default_warehouse": "_Test Warehouse - __TC1"}
 				)
 				bundle_item.save(ignore_permissions=True)
 
@@ -1946,7 +1946,7 @@ class TestSalesOrder(FrappeTestCase):
 			if not frappe.db.exists("Item", product_bundle):
 				make_item(product_bundle, {"is_stock_item": 1, "stock_uom": "Nos"})
 
-			make_stock_entry(item=product_bundle, target="_Test Warehouse - _TC", qty=2, rate=10)
+			make_stock_entry(item=product_bundle, target="_Test Warehouse - __TC1", qty=2, rate=10)
 
 		make_product_bundle("_Test Product Bundle Item Partial 1", ["_Packed Item Partial 1"], 1)
 
@@ -1954,7 +1954,7 @@ class TestSalesOrder(FrappeTestCase):
 
 		so = make_sales_order(
 			item_code="_Test Product Bundle Item Partial 1",
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			qty=1,
 			uom="Nos",
 			stock_uom="Nos",
@@ -1968,7 +1968,7 @@ class TestSalesOrder(FrappeTestCase):
 			"items",
 			{
 				"item_code": "_Test Product Bundle Item Partial 2",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 1,
 				"uom": "Nos",
 				"stock_uom": "Nos",
@@ -2020,7 +2020,7 @@ def make_sales_order(**args):
 		so.transaction_date = args.transaction_date
 
 	so.set_warehouse = ""  # no need to test set_warehouse permission since it only affects the client
-	so.company = args.company or "_Test Company"
+	so.company = args.company or "__Test Company 1"
 	so.customer = args.customer or "_Test Customer"
 	so.currency = args.currency or "INR"
 	so.po_no = args.po_no or ""
@@ -2028,7 +2028,7 @@ def make_sales_order(**args):
 		so.selling_price_list = args.selling_price_list
 
 	if "warehouse" not in args:
-		args.warehouse = "_Test Warehouse - _TC"
+		args.warehouse = "_Test Warehouse - __TC1"
 
 	if args.item_list:
 		for item in args.item_list:
@@ -2073,7 +2073,7 @@ def create_dn_against_so(so, delivered_qty=0):
 	return dn
 
 
-def get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - _TC"):
+def get_reserved_qty(item_code="_Test Item", warehouse="_Test Warehouse - __TC1"):
 	return flt(
 		frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": warehouse}, "reserved_qty")
 	)

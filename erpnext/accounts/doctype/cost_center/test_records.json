@@ -1,23 +1,23 @@
 [
  {
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "cost_center_name": "_Test Cost Center",
   "doctype": "Cost Center",
   "is_group": 0,
-  "parent_cost_center": "_Test Company - _TC"
+  "parent_cost_center": "_Test Company - __TC1"
  },
  {
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "cost_center_name": "_Test Cost Center 2",
   "doctype": "Cost Center",
   "is_group": 0,
-  "parent_cost_center": "_Test Company - _TC"
+  "parent_cost_center": "_Test Company - __TC1"
  },
  {
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "cost_center_name": "_Test Write Off Cost Center",
   "doctype": "Cost Center",
   "is_group": 0,
-  "parent_cost_center": "_Test Company - _TC"
+  "parent_cost_center": "_Test Company - __TC1"
  }
 ]

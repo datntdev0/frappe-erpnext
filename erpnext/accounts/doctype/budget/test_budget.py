@@ -21,10 +21,10 @@ class TestBudget(unittest.TestCase):
 		budget = make_budget(budget_against="Cost Center")
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			posting_date=nowdate(),
 			submit=True,
 		)
@@ -46,10 +46,10 @@ class TestBudget(unittest.TestCase):
 		)
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			posting_date=nowdate(),
 		)
 
@@ -68,10 +68,10 @@ class TestBudget(unittest.TestCase):
 		)
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			posting_date=nowdate(),
 		)
 
@@ -113,11 +113,11 @@ class TestBudget(unittest.TestCase):
 						"item_code": "_Test Item",
 						"qty": 1,
 						"uom": "_Test UOM",
-						"warehouse": "_Test Warehouse - _TC",
+						"warehouse": "_Test Warehouse - __TC1",
 						"schedule_date": nowdate(),
 						"rate": 100000,
-						"expense_account": "_Test Account Cost for Goods Sold - _TC",
-						"cost_center": "_Test Cost Center - _TC",
+						"expense_account": "_Test Account Cost for Goods Sold - __TC1",
+						"cost_center": "_Test Cost Center - __TC1",
 					}
 				],
 			}
@@ -165,10 +165,10 @@ class TestBudget(unittest.TestCase):
 		project = frappe.get_value("Project", {"project_name": "_Test Project"})
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			project=project,
 			posting_date=nowdate(),
 		)
@@ -184,10 +184,10 @@ class TestBudget(unittest.TestCase):
 		budget = make_budget(budget_against="Cost Center")
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			250000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			posting_date=nowdate(),
 		)
 
@@ -203,10 +203,10 @@ class TestBudget(unittest.TestCase):
 		project = frappe.get_value("Project", {"project_name": "_Test Project"})
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			250000,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			project=project,
 			posting_date=nowdate(),
 		)
@@ -225,10 +225,10 @@ class TestBudget(unittest.TestCase):
 
 		for i in range(month + 1):
 			jv = make_journal_entry(
-				"_Test Account Cost for Goods Sold - _TC",
-				"_Test Bank - _TC",
+				"_Test Account Cost for Goods Sold - __TC1",
+				"_Test Bank - __TC1",
 				20000,
-				"_Test Cost Center - _TC",
+				"_Test Cost Center - __TC1",
 				posting_date=nowdate(),
 				submit=True,
 			)
@@ -257,10 +257,10 @@ class TestBudget(unittest.TestCase):
 		project = frappe.get_value("Project", {"project_name": "_Test Project"})
 		for i in range(month + 1):
 			jv = make_journal_entry(
-				"_Test Account Cost for Goods Sold - _TC",
-				"_Test Bank - _TC",
+				"_Test Account Cost for Goods Sold - __TC1",
+				"_Test Bank - __TC1",
 				20000,
-				"_Test Cost Center - _TC",
+				"_Test Cost Center - __TC1",
 				posting_date=nowdate(),
 				submit=True,
 				project=project,
@@ -281,18 +281,18 @@ class TestBudget(unittest.TestCase):
 
 	def test_monthly_budget_against_group_cost_center(self):
 		set_total_expense_zero(nowdate(), "cost_center")
-		set_total_expense_zero(nowdate(), "cost_center", "_Test Cost Center 2 - _TC")
+		set_total_expense_zero(nowdate(), "cost_center", "_Test Cost Center 2 - __TC1")
 
-		budget = make_budget(budget_against="Cost Center", cost_center="_Test Company - _TC")
+		budget = make_budget(budget_against="Cost Center", cost_center="_Test Company - __TC1")
 		frappe.db.set_value(
 			"Budget", budget.name, "action_if_accumulated_monthly_budget_exceeded", "Stop"
 		)
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
-			"_Test Cost Center 2 - _TC",
+			"_Test Cost Center 2 - __TC1",
 			posting_date=nowdate(),
 		)
 
@@ -302,15 +302,15 @@ class TestBudget(unittest.TestCase):
 		budget.cancel()
 
 	def test_monthly_budget_against_parent_group_cost_center(self):
-		cost_center = "_Test Cost Center 3 - _TC"
+		cost_center = "_Test Cost Center 3 - __TC1"
 
 		if not frappe.db.exists("Cost Center", cost_center):
 			frappe.get_doc(
 				{
 					"doctype": "Cost Center",
 					"cost_center_name": "_Test Cost Center 3",
-					"parent_cost_center": "_Test Company - _TC",
-					"company": "_Test Company",
+					"parent_cost_center": "_Test Company - __TC1",
+					"company": "__Test Company 1",
 					"is_group": 0,
 				}
 			).insert(ignore_permissions=True)
@@ -321,8 +321,8 @@ class TestBudget(unittest.TestCase):
 		)
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			40000,
 			cost_center,
 			posting_date=nowdate(),
@@ -347,21 +347,21 @@ class TestBudget(unittest.TestCase):
 		]
 
 		for cc in cost_centers:
-			create_cost_center(cost_center_name=cc, company="_Test Company")
+			create_cost_center(cost_center_name=cc, company="__Test Company 1")
 
 		create_cost_center_allocation(
-			"_Test Company",
-			"Main Budget Cost Center 1 - _TC",
-			{"Sub Budget Cost Center 1 - _TC": 60, "Sub Budget Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Budget Cost Center 1 - __TC1",
+			{"Sub Budget Cost Center 1 - __TC1": 60, "Sub Budget Cost Center 2 - __TC1": 40},
 		)
 
-		make_budget(budget_against="Cost Center", cost_center="Main Budget Cost Center 1 - _TC")
+		make_budget(budget_against="Cost Center", cost_center="Main Budget Cost Center 1 - __TC1")
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			400000,
-			"Main Budget Cost Center 1 - _TC",
+			"Main Budget Cost Center 1 - __TC1",
 			posting_date=nowdate(),
 		)
 
@@ -372,16 +372,16 @@ def set_total_expense_zero(posting_date, budget_against_field=None, budget_again
 	if budget_against_field == "project":
 		budget_against = frappe.db.get_value("Project", {"project_name": "_Test Project"})
 	else:
-		budget_against = budget_against_CC or "_Test Cost Center - _TC"
+		budget_against = budget_against_CC or "_Test Cost Center - __TC1"
 
 	fiscal_year = get_fiscal_year(nowdate())[0]
 
 	args = frappe._dict(
 		{
-			"account": "_Test Account Cost for Goods Sold - _TC",
-			"cost_center": "_Test Cost Center - _TC",
+			"account": "_Test Account Cost for Goods Sold - __TC1",
+			"cost_center": "_Test Cost Center - __TC1",
 			"monthly_end_date": posting_date,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"fiscal_year": fiscal_year,
 			"budget_against_field": budget_against_field,
 		}
@@ -395,19 +395,19 @@ def set_total_expense_zero(posting_date, budget_against_field=None, budget_again
 	if existing_expense:
 		if budget_against_field == "cost_center":
 			make_journal_entry(
-				"_Test Account Cost for Goods Sold - _TC",
-				"_Test Bank - _TC",
+				"_Test Account Cost for Goods Sold - __TC1",
+				"_Test Bank - __TC1",
 				-existing_expense,
-				"_Test Cost Center - _TC",
+				"_Test Cost Center - __TC1",
 				posting_date=nowdate(),
 				submit=True,
 			)
 		elif budget_against_field == "project":
 			make_journal_entry(
-				"_Test Account Cost for Goods Sold - _TC",
-				"_Test Bank - _TC",
+				"_Test Account Cost for Goods Sold - __TC1",
+				"_Test Bank - __TC1",
 				-existing_expense,
-				"_Test Cost Center - _TC",
+				"_Test Cost Center - __TC1",
 				submit=True,
 				project=budget_against,
 				posting_date=nowdate(),
@@ -439,20 +439,20 @@ def make_budget(**args):
 	if budget_against == "Project":
 		budget.project = frappe.get_value("Project", {"project_name": "_Test Project"})
 	else:
-		budget.cost_center = cost_center or "_Test Cost Center - _TC"
+		budget.cost_center = cost_center or "_Test Cost Center - __TC1"
 
 	monthly_distribution = frappe.get_doc("Monthly Distribution", "_Test Distribution")
 	monthly_distribution.fiscal_year = fiscal_year
 
 	budget.fiscal_year = fiscal_year
 	budget.monthly_distribution = "_Test Distribution"
-	budget.company = "_Test Company"
+	budget.company = "__Test Company 1"
 	budget.applicable_on_booking_actual_expenses = 1
 	budget.action_if_annual_budget_exceeded = "Stop"
 	budget.action_if_accumulated_monthly_budget_exceeded = "Ignore"
 	budget.budget_against = budget_against
 	budget.append(
-		"accounts", {"account": "_Test Account Cost for Goods Sold - _TC", "budget_amount": 200000}
+		"accounts", {"account": "_Test Account Cost for Goods Sold - __TC1", "budget_amount": 200000}
 	)
 
 	if args.applicable_on_material_request:

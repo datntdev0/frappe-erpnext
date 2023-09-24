@@ -22,7 +22,7 @@ class TestStockBalance(FrappeTestCase):
 		self.item = make_item()
 		self.filters = _dict(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"item_code": self.item.name,
 				"from_date": "2020-01-01",
 				"to_date": str(today()),
@@ -40,7 +40,7 @@ class TestStockBalance(FrappeTestCase):
 
 		for movement in map(_dict, movements):
 			if "to_warehouse" not in movement:
-				movement.to_warehouse = "_Test Warehouse - _TC"
+				movement.to_warehouse = "_Test Warehouse - __TC1"
 			make_stock_entry(item_code=item_code, **movement)
 
 	def assertInvariants(self, rows):
@@ -145,13 +145,13 @@ class TestStockBalance(FrappeTestCase):
 
 	def test_child_warehouse_balances(self):
 		# This is default
-		self.generate_stock_ledger(self.item.name, [_dict(qty=5, rate=10, to_warehouse="Stores - _TC")])
+		self.generate_stock_ledger(self.item.name, [_dict(qty=5, rate=10, to_warehouse="Stores - __TC1")])
 
 		self.filters.pop("item_code", None)
-		rows = stock_balance(self.filters.update({"warehouse": "All Warehouses - _TC"}))
+		rows = stock_balance(self.filters.update({"warehouse": "All Warehouses - __TC1"}))
 
 		self.assertTrue(
-			any(r.item_code == self.item.name and r.warehouse == "Stores - _TC" for r in rows),
+			any(r.item_code == self.item.name and r.warehouse == "Stores - __TC1" for r in rows),
 			msg=f"Expected child warehouse balances \n{rows}",
 		)
 

@@ -17,7 +17,7 @@ from erpnext.stock.doctype.stock_entry.test_stock_entry import make_stock_entry
 
 class TestBomStockReport(FrappeTestCase):
 	def setUp(self):
-		self.warehouse = "_Test Warehouse - _TC"
+		self.warehouse = "_Test Warehouse - __TC1"
 		self.fg_item, self.rm_items = create_items()
 		make_stock_entry(target=self.warehouse, item_code=self.rm_items[0], qty=20, basic_rate=100)
 		make_stock_entry(target=self.warehouse, item_code=self.rm_items[1], qty=40, basic_rate=200)
@@ -28,7 +28,7 @@ class TestBomStockReport(FrappeTestCase):
 		filters = frappe._dict(
 			{
 				"bom": self.bom.name,
-				"warehouse": "Stores - _TC",
+				"warehouse": "Stores - __TC1",
 				"qty_to_produce": 0,
 			}
 		)
@@ -39,12 +39,12 @@ class TestBomStockReport(FrappeTestCase):
 			frappe._dict(
 				{
 					"bom": self.bom.name,
-					"warehouse": "Stores - _TC",
+					"warehouse": "Stores - __TC1",
 					"qty_to_produce": 1,
 				}
 			)
 		)
-		expected_data = get_expected_data(self.bom, "Stores - _TC", 1)
+		expected_data = get_expected_data(self.bom, "Stores - __TC1", 1)
 		self.assertSetEqual(set(tuple(x) for x in data), set(tuple(x) for x in expected_data))
 
 		# Test 3: When stock is available.

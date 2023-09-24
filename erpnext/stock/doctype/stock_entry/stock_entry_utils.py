@@ -112,7 +112,7 @@ def make_stock_entry(**args):
 	# set vales from test
 	if frappe.flags.in_test:
 		if not args.company:
-			args.company = "_Test Company"
+			args.company = "__Test Company 1"
 		if not args.item:
 			args.item = "_Test Item"
 

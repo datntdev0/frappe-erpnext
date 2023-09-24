@@ -47,7 +47,7 @@ class TestPackedItem(FrappeTestCase):
 	@classmethod
 	def setUpClass(cls) -> None:
 		super().setUpClass()
-		cls.warehouse = "_Test Warehouse - _TC"
+		cls.warehouse = "_Test Warehouse - __TC1"
 
 		cls.bundle, cls.bundle_items = create_product_bundle(warehouse=cls.warehouse)
 		cls.bundle2, cls.bundle2_items = create_product_bundle(warehouse=cls.warehouse)
@@ -84,7 +84,7 @@ class TestPackedItem(FrappeTestCase):
 		so_items = []
 		for qty in [2, 4, 6, 8]:
 			so_items.append(
-				{"item_code": self.bundle, "qty": qty, "rate": 400, "warehouse": "_Test Warehouse - _TC"}
+				{"item_code": self.bundle, "qty": qty, "rate": 400, "warehouse": "_Test Warehouse - __TC1"}
 			)
 
 		# create SO with recurring bundle item
@@ -134,7 +134,7 @@ class TestPackedItem(FrappeTestCase):
 		so_items = []
 		for qty in [2, 4]:
 			so_items.append(
-				{"item_code": self.bundle, "qty": qty, "rate": 400, "warehouse": "_Test Warehouse - _TC"}
+				{"item_code": self.bundle, "qty": qty, "rate": 400, "warehouse": "_Test Warehouse - __TC1"}
 			)
 
 		# create SO with recurring bundle item
@@ -150,7 +150,7 @@ class TestPackedItem(FrappeTestCase):
 
 	def test_reposting_packed_items(self):
 		warehouse = "Stores - TCP1"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		today = nowdate()
 		yesterday = add_to_date(today, days=-1, as_string=True)

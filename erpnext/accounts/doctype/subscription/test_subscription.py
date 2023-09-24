@@ -85,7 +85,7 @@ def create_parties():
 		customer.customer_name = "_Test Subscription Customer"
 		customer.billing_currency = "USD"
 		customer.append(
-			"accounts", {"company": "_Test Company", "account": "_Test Receivable USD - _TC"}
+			"accounts", {"company": "__Test Company 1", "account": "_Test Receivable USD - __TC1"}
 		)
 		customer.insert()
 
@@ -681,7 +681,7 @@ class TestSubscription(unittest.TestCase):
 		subscription.party_type = "Customer"
 		subscription.party = "_Test Subscription Customer"
 		subscription.generate_invoice_at_period_start = 1
-		subscription.company = "_Test Company"
+		subscription.company = "__Test Company 1"
 		# select subscription start date as '2018-01-15'
 		subscription.start_date = "2018-01-01"
 		subscription.append("plans", {"plan": "_Test Plan Multicurrency", "qty": 1})

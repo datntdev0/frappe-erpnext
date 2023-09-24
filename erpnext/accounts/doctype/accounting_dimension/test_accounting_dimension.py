@@ -23,13 +23,13 @@ class TestAccountingDimension(unittest.TestCase):
 			"items",
 			{
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 1,
 				"rate": 100,
-				"income_account": "Sales - _TC",
-				"expense_account": "Cost of Goods Sold - _TC",
-				"cost_center": "_Test Cost Center - _TC",
-				"department": "_Test Department - _TC",
+				"income_account": "Sales - __TC1",
+				"expense_account": "Cost of Goods Sold - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
+				"department": "_Test Department - __TC1",
 				"location": "Block 1",
 			},
 		)
@@ -37,14 +37,14 @@ class TestAccountingDimension(unittest.TestCase):
 		si.save()
 		si.submit()
 
-		gle = frappe.get_doc("GL Entry", {"voucher_no": si.name, "account": "Sales - _TC"})
+		gle = frappe.get_doc("GL Entry", {"voucher_no": si.name, "account": "Sales - __TC1"})
 
-		self.assertEqual(gle.get("department"), "_Test Department - _TC")
+		self.assertEqual(gle.get("department"), "_Test Department - __TC1")
 
 	def test_dimension_against_journal_entry(self):
-		je = make_journal_entry("Sales - _TC", "Sales Expenses - _TC", 500, save=False)
-		je.accounts[0].update({"department": "_Test Department - _TC"})
-		je.accounts[1].update({"department": "_Test Department - _TC"})
+		je = make_journal_entry("Sales - __TC1", "Sales Expenses - __TC1", 500, save=False)
+		je.accounts[0].update({"department": "_Test Department - __TC1"})
+		je.accounts[1].update({"department": "_Test Department - __TC1"})
 
 		je.accounts[0].update({"location": "Block 1"})
 		je.accounts[1].update({"location": "Block 1"})
@@ -52,10 +52,10 @@ class TestAccountingDimension(unittest.TestCase):
 		je.save()
 		je.submit()
 
-		gle = frappe.get_doc("GL Entry", {"voucher_no": je.name, "account": "Sales - _TC"})
-		gle1 = frappe.get_doc("GL Entry", {"voucher_no": je.name, "account": "Sales Expenses - _TC"})
-		self.assertEqual(gle.get("department"), "_Test Department - _TC")
-		self.assertEqual(gle1.get("department"), "_Test Department - _TC")
+		gle = frappe.get_doc("GL Entry", {"voucher_no": je.name, "account": "Sales - __TC1"})
+		gle1 = frappe.get_doc("GL Entry", {"voucher_no": je.name, "account": "Sales Expenses - __TC1"})
+		self.assertEqual(gle.get("department"), "_Test Department - __TC1")
+		self.assertEqual(gle1.get("department"), "_Test Department - __TC1")
 
 	def test_mandatory(self):
 		si = create_sales_invoice(do_not_save=1)
@@ -63,12 +63,12 @@ class TestAccountingDimension(unittest.TestCase):
 			"items",
 			{
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 1,
 				"rate": 100,
-				"income_account": "Sales - _TC",
-				"expense_account": "Cost of Goods Sold - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"income_account": "Sales - __TC1",
+				"expense_account": "Cost of Goods Sold - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"location": "",
 			},
 		)
@@ -106,7 +106,7 @@ def create_dimension():
 		dimension1.append(
 			"dimension_defaults",
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"reference_document": "Location",
 				"default_dimension": "Block 1",
 				"mandatory_for_bs": 1,

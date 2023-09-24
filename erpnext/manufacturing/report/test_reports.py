@@ -6,10 +6,10 @@ import frappe
 from erpnext.tests.utils import ReportFilters, ReportName, execute_script_report
 
 DEFAULT_FILTERS = {
-	"company": "_Test Company",
+	"company": "__Test Company 1",
 	"from_date": "2010-01-01",
 	"to_date": "2030-01-01",
-	"warehouse": "_Test Warehouse - _TC",
+	"warehouse": "_Test Warehouse - __TC1",
 }
 
 
@@ -45,7 +45,7 @@ if frappe.db.a_row_exists("Production Plan"):
 	)
 
 OPTIONAL_FILTERS = {
-	"warehouse": "_Test Warehouse - _TC",
+	"warehouse": "_Test Warehouse - __TC1",
 	"item": "_Test Item",
 	"item_group": "_Test Item Group",
 }

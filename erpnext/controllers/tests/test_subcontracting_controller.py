@@ -46,7 +46,7 @@ class TestSubcontractingController(FrappeTestCase):
 		sco.append(
 			"additional_costs",
 			{
-				"expense_account": "Cost of Goods Sold - _TC",
+				"expense_account": "Cost of Goods Sold - __TC1",
 				"description": "Test",
 				"amount": additional_amount,
 			},
@@ -83,7 +83,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("BOM")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 5,
 				"rate": 100,
@@ -91,7 +91,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"fg_item_qty": 5,
 			},
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 6,
 				"rate": 100,
@@ -138,7 +138,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 5,
 				"rate": 100,
@@ -146,7 +146,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"fg_item_qty": 5,
 			},
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 5",
 				"qty": 6,
 				"rate": 100,
@@ -209,7 +209,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 2",
 				"qty": 5,
 				"rate": 100,
@@ -217,7 +217,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"fg_item_qty": 5,
 			},
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 3",
 				"qty": 6,
 				"rate": 100,
@@ -286,7 +286,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 2",
 				"qty": 5,
 				"rate": 100,
@@ -325,8 +325,8 @@ class TestSubcontractingController(FrappeTestCase):
 		self.assertEqual(sco.supplied_items[0].consumed_qty, 5)
 		doc = get_materials_from_supplier(sco.name, [d.name for d in sco.supplied_items])
 		self.assertEqual(doc.items[0].qty, 1)
-		self.assertEqual(doc.items[0].s_warehouse, "_Test Warehouse 1 - _TC")
-		self.assertEqual(doc.items[0].t_warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(doc.items[0].s_warehouse, "_Test Warehouse 1 - __TC1")
+		self.assertEqual(doc.items[0].t_warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(
 			get_serial_nos(doc.items[0].serial_no),
 			itemwise_details.get(doc.items[0].item_code)["serial_no"][5:6],
@@ -345,7 +345,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("BOM")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 4",
 				"qty": 10,
 				"rate": 100,
@@ -361,7 +361,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 10.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -369,7 +369,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 10.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -377,7 +377,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -385,7 +385,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -393,7 +393,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -401,7 +401,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 1.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 		]
 		itemwise_details = make_stock_in_entry(rm_items=rm_items)
@@ -461,7 +461,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 4",
 				"qty": 10,
 				"rate": 100,
@@ -477,7 +477,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 10.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -485,7 +485,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 10.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -493,7 +493,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -501,7 +501,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -509,7 +509,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "Subcontracted Item SA4",
@@ -517,7 +517,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"qty": 3.0,
 				"rate": 100.0,
 				"stock_uom": "Nos",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 		]
 		itemwise_details = make_stock_in_entry(rm_items=rm_items)
@@ -577,7 +577,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 2",
 				"qty": 10,
 				"rate": 100,
@@ -654,7 +654,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 2",
 				"qty": 10,
 				"rate": 100,
@@ -694,7 +694,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 6",
 				"qty": 10,
 				"rate": 100,
@@ -763,7 +763,7 @@ class TestSubcontractingController(FrappeTestCase):
 		set_backflush_based_on("Material Transferred for Subcontract")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 5,
 				"rate": 100,
@@ -771,7 +771,7 @@ class TestSubcontractingController(FrappeTestCase):
 				"fg_item_qty": 5,
 			},
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 5",
 				"qty": 6,
 				"rate": 100,
@@ -852,7 +852,7 @@ def make_stock_in_entry(**args):
 		row = frappe._dict(row)
 
 		doc = make_stock_entry(
-			target=row.warehouse or "_Test Warehouse - _TC",
+			target=row.warehouse or "_Test Warehouse - __TC1",
 			item_code=row.item_code,
 			qty=row.qty or 1,
 			basic_rate=row.rate or 100,
@@ -898,7 +898,7 @@ def make_stock_transfer_entry(**args):
 			"item_name": row.item_code,
 			"rate": row.rate or 100,
 			"stock_uom": row.stock_uom or "Nos",
-			"warehouse": row.warehouse or "_Test Warehouse - _TC",
+			"warehouse": row.warehouse or "_Test Warehouse - __TC1",
 		}
 
 		item_details = args.itemwise_details.get(row.item_code)
@@ -1032,7 +1032,7 @@ def get_subcontracting_order(**args):
 	if not args.service_items:
 		service_items = [
 			{
-				"warehouse": args.warehouse or "_Test Warehouse - _TC",
+				"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 7",
 				"qty": 10,
 				"rate": 100,
@@ -1046,7 +1046,7 @@ def get_subcontracting_order(**args):
 	po = create_purchase_order(
 		rm_items=service_items,
 		is_subcontracted=1,
-		supplier_warehouse=args.supplier_warehouse or "_Test Warehouse 1 - _TC",
+		supplier_warehouse=args.supplier_warehouse or "_Test Warehouse 1 - __TC1",
 		company=args.company,
 	)
 

@@ -2,7 +2,7 @@
 	{
 		"doctype": "Tax Rule",
 		"tax_type" : "Sales",
-		"sales_tax_template": "_Test Tax 1 - _TC",
+		"sales_tax_template": "_Test Tax 1 - __TC1",
 		"use_for_shopping_cart": 1,
 		"billing_city": "_Test City",
 		"billing_state": "Test State",
@@ -10,12 +10,12 @@
 		"shipping_city": "_Test City",
 		"shipping_country": "India",
 		"priority": 1,
-		"company": "_Test Company"
+		"company": "__Test Company 1"
 	},	
 	{
 		"doctype": "Tax Rule",
 		"tax_type" : "Sales",
-		"sales_tax_template": "_Test Tax 2 - _TC",
+		"sales_tax_template": "_Test Tax 2 - __TC1",
 		"use_for_shopping_cart": 0,
 		"billing_city": "_Test City",
 		"billing_country": "India",
@@ -23,6 +23,6 @@
 		"shipping_state": "Test State",
 		"shipping_country": "India",
 		"priority": 2,
-		"company": "_Test Company"
+		"company": "__Test Company 1"
 	}
 ]

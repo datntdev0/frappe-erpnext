@@ -38,7 +38,7 @@ class TestUtils(unittest.TestCase):
 			rate=100,
 			qty=1,
 			warehouse="Stores - TCP1",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 
 		future_vouchers = get_future_stock_vouchers("2021-01-01", "00:00:00", for_items=["_Test Item"])
@@ -61,7 +61,7 @@ class TestUtils(unittest.TestCase):
 
 		item = make_item().name
 
-		stock_entry = {"item": item, "to_warehouse": "_Test Warehouse - _TC", "qty": 1, "rate": 10}
+		stock_entry = {"item": item, "to_warehouse": "_Test Warehouse - __TC1", "qty": 1, "rate": 10}
 
 		se1 = make_stock_entry(posting_date="2022-01-01", **stock_entry)
 		se3 = make_stock_entry(posting_date="2022-03-01", **stock_entry)
@@ -81,7 +81,7 @@ class TestUtils(unittest.TestCase):
 		purchase_invoice = make_purchase_invoice(
 			item=item, supplier="_Test Supplier USD", currency="USD", conversion_rate=82.32, do_not_submit=1
 		)
-		purchase_invoice.credit_to = "_Test Payable USD - _TC"
+		purchase_invoice.credit_to = "_Test Payable USD - __TC1"
 		purchase_invoice.submit()
 
 		payment_entry = get_payment_entry(purchase_invoice.doctype, purchase_invoice.name)
@@ -118,7 +118,7 @@ class TestUtils(unittest.TestCase):
 			# Reset invoice outstanding_amount because allocate_entries will zero this value out.
 			d.outstanding_amount = d.amount
 		for d in payment_reconciliation.allocation:
-			d.difference_account = "Exchange Gain/Loss - _TC"
+			d.difference_account = "Exchange Gain/Loss - __TC1"
 		payment_reconciliation.reconcile()
 
 		payment_entry.load_from_db()

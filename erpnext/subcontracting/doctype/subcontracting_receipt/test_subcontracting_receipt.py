@@ -44,17 +44,17 @@ class TestSubcontractingReceipt(FrappeTestCase):
 	def test_subcontracting(self):
 		set_backflush_based_on("BOM")
 		make_stock_entry(
-			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - _TC", basic_rate=100
+			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - __TC1", basic_rate=100
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
 			qty=100,
-			target="_Test Warehouse 1 - _TC",
+			target="_Test Warehouse 1 - __TC1",
 			basic_rate=100,
 		)
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 100,
@@ -78,17 +78,17 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 	def test_available_qty_for_consumption(self):
 		make_stock_entry(
-			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - _TC", basic_rate=100
+			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - __TC1", basic_rate=100
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
 			qty=100,
-			target="_Test Warehouse 1 - _TC",
+			target="_Test Warehouse 1 - __TC1",
 			basic_rate=100,
 		)
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 100,
@@ -104,7 +104,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"qty": 5.0,
 				"rate": 100.0,
 				"stock_uom": "_Test UOM",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			{
 				"main_item_code": "_Test FG Item",
@@ -112,7 +112,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"qty": 10.0,
 				"rate": 100.0,
 				"stock_uom": "_Test UOM",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 		]
 		itemwise_details = make_stock_in_entry(rm_items=rm_items)
@@ -134,18 +134,18 @@ class TestSubcontractingReceipt(FrappeTestCase):
 			target="Work In Progress - TCP1",
 			qty=100,
 			basic_rate=100,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
 			target="Work In Progress - TCP1",
 			qty=100,
 			basic_rate=100,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 0,
@@ -189,7 +189,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		make_subcontracted_item(item_code=item_code)
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 1,
 				"rate": 100,
@@ -204,13 +204,13 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 		# stock raw materials in a warehouse before transfer
 		make_stock_entry(
-			target="_Test Warehouse - _TC", item_code="Test Extra Item 1", qty=10, basic_rate=100
+			target="_Test Warehouse - __TC1", item_code="Test Extra Item 1", qty=10, basic_rate=100
 		)
 		make_stock_entry(
-			target="_Test Warehouse - _TC", item_code="_Test FG Item", qty=1, basic_rate=100
+			target="_Test Warehouse - __TC1", item_code="_Test FG Item", qty=1, basic_rate=100
 		)
 		make_stock_entry(
-			target="_Test Warehouse - _TC", item_code="Test Extra Item 2", qty=1, basic_rate=100
+			target="_Test Warehouse - __TC1", item_code="Test Extra Item 2", qty=1, basic_rate=100
 		)
 
 		rm_items = [
@@ -219,7 +219,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"rm_item_code": sco.supplied_items[0].rm_item_code,
 				"item_name": "_Test FG Item",
 				"qty": sco.supplied_items[0].required_qty,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"stock_uom": "Nos",
 			},
 			{
@@ -227,12 +227,12 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"rm_item_code": sco.supplied_items[1].rm_item_code,
 				"item_name": "Test Extra Item 1",
 				"qty": sco.supplied_items[1].required_qty,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"stock_uom": "Nos",
 			},
 		]
 		ste = frappe.get_doc(make_subcontract_transfer_entry(sco.name, rm_items))
-		ste.to_warehouse = "_Test Warehouse 1 - _TC"
+		ste.to_warehouse = "_Test Warehouse 1 - __TC1"
 		ste.save()
 		ste.submit()
 
@@ -263,7 +263,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		order_qty = 500
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 3",
 				"qty": order_qty,
 				"rate": 100,
@@ -274,13 +274,13 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		sco = get_subcontracting_order(service_items=service_items)
 
 		ste1 = make_stock_entry(
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			item_code="Sub Contracted Raw Material 3",
 			qty=300,
 			basic_rate=100,
 		)
 		ste2 = make_stock_entry(
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			item_code="Sub Contracted Raw Material 3",
 			qty=200,
 			basic_rate=100,
@@ -294,7 +294,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"rm_item_code": "Sub Contracted Raw Material 3",
 				"item_name": "_Test Item",
 				"qty": 300,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"stock_uom": "Nos",
 				"name": sco.supplied_items[0].name,
 			},
@@ -303,7 +303,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"rm_item_code": "Sub Contracted Raw Material 3",
 				"item_name": "_Test Item",
 				"qty": 200,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"stock_uom": "Nos",
 				"name": sco.supplied_items[0].name,
 			},
@@ -388,7 +388,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		scr.append(
 			"additional_costs",
 			{
-				"expense_account": "Expenses Included In Valuation - _TC",
+				"expense_account": "Expenses Included In Valuation - __TC1",
 				"description": "Test Additional Costs",
 				"amount": 100,
 			},
@@ -402,7 +402,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 				"voucher_type": "Subcontracting Receipt",
 				"voucher_no": scr.name,
 				"item_code": "Subcontracted Item SA7",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			"stock_value_difference",
 		)
@@ -413,7 +413,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 	def test_subcontracting_receipt_gl_entry(self):
 		sco = get_subcontracting_order(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 		)
@@ -477,18 +477,18 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 		# Create Material Receipt for RM's
 		make_stock_entry(
-			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - _TC", basic_rate=100
+			item_code="_Test Item", qty=100, target="_Test Warehouse 1 - __TC1", basic_rate=100
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
 			qty=100,
-			target="_Test Warehouse 1 - _TC",
+			target="_Test Warehouse 1 - __TC1",
 			basic_rate=100,
 		)
 
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 100,
@@ -512,7 +512,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 		# Create Subcontracting Receipt
 		scr = make_subcontracting_receipt(sco.name)
-		scr.rejected_warehouse = "_Test Warehouse 1 - _TC"
+		scr.rejected_warehouse = "_Test Warehouse 1 - __TC1"
 
 		scr.items[0].qty = 5  # Accepted Qty
 		scr.items[0].rejected_qty = 3
@@ -539,20 +539,20 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		make_stock_entry(
 			item_code="_Test Item",
 			qty=100,
-			target="_Test Warehouse 1 - _TC",
+			target="_Test Warehouse 1 - __TC1",
 			basic_rate=100,
 			posting_date=add_days(today(), -2),
 		)
 		make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
 			qty=100,
-			target="_Test Warehouse 1 - _TC",
+			target="_Test Warehouse 1 - __TC1",
 			basic_rate=100,
 		)
 
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 100,
@@ -582,7 +582,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		# Create Backdated Stock Reconciliation
 		sr = create_stock_reconciliation(
 			item_code=rm_items[0].get("item_code"),
-			warehouse="_Test Warehouse 1 - _TC",
+			warehouse="_Test Warehouse 1 - __TC1",
 			qty=100,
 			rate=50,
 			posting_date=add_days(today(), -1),
@@ -615,7 +615,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 		# Step - 4: Create PO and SCO
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 100,
 				"rate": 100,
@@ -660,7 +660,7 @@ def make_return_subcontracting_receipt(**args):
 	args = frappe._dict(args)
 	return_doc = make_return_doc("Subcontracting Receipt", args.scr_name)
 	return_doc.supplier_warehouse = (
-		args.supplier_warehouse or args.warehouse or "_Test Warehouse 1 - _TC"
+		args.supplier_warehouse or args.warehouse or "_Test Warehouse 1 - __TC1"
 	)
 
 	if args.qty:
@@ -691,8 +691,8 @@ def get_items(**args):
 			"received_qty": 5.0,
 			"rejected_qty": 0.0,
 			"stock_uom": "_Test UOM",
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
-			"cost_center": args.cost_center or "Main - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
+			"cost_center": args.cost_center or "Main - __TC1",
 		},
 		{
 			"conversion_factor": 1.0,
@@ -706,7 +706,7 @@ def get_items(**args):
 			"received_qty": 5.0,
 			"rejected_qty": 0.0,
 			"stock_uom": "_Test UOM",
-			"warehouse": args.warehouse or "_Test Warehouse 1 - _TC",
-			"cost_center": args.cost_center or "Main - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse 1 - __TC1",
+			"cost_center": args.cost_center or "Main - __TC1",
 		},
 	]

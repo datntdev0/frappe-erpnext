@@ -209,7 +209,7 @@ class TestPutawayRule(FrappeTestCase):
 			"items",
 			{
 				"item_code": "_Rice",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 200,
 				"uom": "Kg",
 				"stock_uom": "Kg",
@@ -269,7 +269,7 @@ class TestPutawayRule(FrappeTestCase):
 			item_code="_Rice",
 			source=self.warehouse_1,
 			qty=200,
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			purpose="Material Transfer",
 			apply_putaway_rule=1,
 			do_not_submit=1,
@@ -303,7 +303,7 @@ class TestPutawayRule(FrappeTestCase):
 			item_code="_Rice",
 			source=self.warehouse_2,
 			qty=200,
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			purpose="Material Transfer",
 			apply_putaway_rule=1,
 			do_not_submit=1,
@@ -316,7 +316,7 @@ class TestPutawayRule(FrappeTestCase):
 				{
 					"item_code": "_Rice",
 					"s_warehouse": self.warehouse_1,
-					"t_warehouse": "_Test Warehouse - _TC",
+					"t_warehouse": "_Test Warehouse - __TC1",
 					"qty": 100,
 					"basic_rate": 50,
 					"conversion_factor": 1.0,
@@ -325,7 +325,7 @@ class TestPutawayRule(FrappeTestCase):
 				{
 					"item_code": "_Rice",
 					"s_warehouse": self.warehouse_1,
-					"t_warehouse": "_Test Warehouse - _TC",
+					"t_warehouse": "_Test Warehouse - __TC1",
 					"qty": 200,
 					"basic_rate": 60,
 					"conversion_factor": 1.0,
@@ -393,9 +393,9 @@ class TestPutawayRule(FrappeTestCase):
 
 		stock_entry = make_stock_entry(
 			item_code="Water Bottle",
-			source="_Test Warehouse - _TC",
+			source="_Test Warehouse - __TC1",
 			qty=5,
-			target="Finished Goods - _TC",
+			target="Finished Goods - __TC1",
 			purpose="Material Transfer",
 			apply_putaway_rule=1,
 			do_not_save=1,
@@ -435,7 +435,7 @@ class TestPutawayRule(FrappeTestCase):
 		stock_entry = make_stock_entry(
 			item_code="_Rice",
 			qty=100,
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			purpose="Material Receipt",
 			apply_putaway_rule=1,
 			do_not_submit=1,
@@ -473,7 +473,7 @@ def create_putaway_rule(**args):
 	putaway = frappe.new_doc("Putaway Rule")
 
 	putaway.disable = args.disable or 0
-	putaway.company = args.company or "_Test Company"
+	putaway.company = args.company or "__Test Company 1"
 	putaway.item_code = args.item or args.item_code or "_Test Item"
 	putaway.warehouse = args.warehouse
 	putaway.priority = args.priority or 1

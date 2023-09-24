@@ -78,7 +78,7 @@ class TestInventoryDimension(FrappeTestCase):
 	def test_inventory_dimension(self):
 		frappe.local.document_wise_inventory_dimensions = {}
 
-		warehouse = "Shelf Warehouse - _TC"
+		warehouse = "Shelf Warehouse - __TC1"
 		item_code = "_Test Item"
 
 		inv_dim1 = create_inventory_dimension(
@@ -526,7 +526,7 @@ def prepare_data_for_internal_transfer():
 	from erpnext.stock.doctype.purchase_receipt.test_purchase_receipt import make_purchase_receipt
 	from erpnext.stock.doctype.warehouse.test_warehouse import create_warehouse
 
-	company = "_Test Company with perpetual inventory"
+	company = "__Test Company 7"
 
 	customer = create_internal_customer(
 		"_Test Internal Customer 2",

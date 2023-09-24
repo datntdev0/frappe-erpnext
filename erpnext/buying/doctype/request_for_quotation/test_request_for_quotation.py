@@ -120,7 +120,7 @@ class TestRequestforQuotation(FrappeTestCase):
 		rfq.message_for_supplier = "Please supply the specified items at the best possible rates."
 
 		for item in rfq.items:
-			item.warehouse = "_Test Warehouse - _TC"
+			item.warehouse = "_Test Warehouse - __TC1"
 
 		for data in supplier_data:
 			rfq.append("suppliers", data)
@@ -148,7 +148,7 @@ def make_request_for_quotation(**args) -> "RequestforQuotation":
 	rfq = frappe.new_doc("Request for Quotation")
 	rfq.transaction_date = nowdate()
 	rfq.status = "Draft"
-	rfq.company = "_Test Company"
+	rfq.company = "__Test Company 1"
 	rfq.message_for_supplier = "Please supply the specified items at the best possible rates."
 
 	for data in supplier_data:
@@ -163,7 +163,7 @@ def make_request_for_quotation(**args) -> "RequestforQuotation":
 			"stock_uom": args.stock_uom or "_Test UOM",
 			"qty": args.qty or 5,
 			"conversion_factor": args.conversion_factor or 1.0,
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"schedule_date": nowdate(),
 		},
 	)

@@ -26,20 +26,20 @@ class TestCostCenterAllocation(unittest.TestCase):
 			"Sub Cost Center 2",
 		]
 		for cc in cost_centers:
-			create_cost_center(cost_center_name=cc, company="_Test Company")
+			create_cost_center(cost_center_name=cc, company="__Test Company 1")
 
 	def test_gle_based_on_cost_center_allocation(self):
 		cca = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 60, "Sub Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 60, "Sub Cost Center 2 - __TC1": 40},
 		)
 
 		jv = make_journal_entry(
-			"_Test Cash - _TC", "Sales - _TC", 100, cost_center="Main Cost Center 1 - _TC", submit=True
+			"_Test Cash - __TC1", "Sales - __TC1", 100, cost_center="Main Cost Center 1 - __TC1", submit=True
 		)
 
-		expected_values = [["Sub Cost Center 1 - _TC", 0.0, 60], ["Sub Cost Center 2 - _TC", 0.0, 40]]
+		expected_values = [["Sub Cost Center 1 - __TC1", 0.0, 60], ["Sub Cost Center 2 - __TC1", 0.0, 40]]
 
 		gle = frappe.qb.DocType("GL Entry")
 		gl_entries = (
@@ -47,7 +47,7 @@ class TestCostCenterAllocation(unittest.TestCase):
 			.select(gle.cost_center, gle.debit, gle.credit)
 			.where(gle.voucher_type == "Journal Entry")
 			.where(gle.voucher_no == jv.name)
-			.where(gle.account == "Sales - _TC")
+			.where(gle.account == "Sales - __TC1")
 			.orderby(gle.cost_center)
 		).run(as_dict=1)
 
@@ -64,9 +64,9 @@ class TestCostCenterAllocation(unittest.TestCase):
 	def test_main_cost_center_cant_be_child(self):
 		# Main cost center itself cannot be entered in child table
 		cca = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 60, "Main Cost Center 1 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 60, "Main Cost Center 1 - __TC1": 40},
 			save=False,
 		)
 
@@ -76,13 +76,13 @@ class TestCostCenterAllocation(unittest.TestCase):
 		# If main cost center is used for allocation under any other cost center,
 		# allocation cannot be done against it
 		cca1 = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 60, "Sub Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 60, "Sub Cost Center 2 - __TC1": 40},
 		)
 
 		cca2 = create_cost_center_allocation(
-			"_Test Company", "Sub Cost Center 1 - _TC", {"Sub Cost Center 2 - _TC": 100}, save=False
+			"__Test Company 1", "Sub Cost Center 1 - __TC1", {"Sub Cost Center 2 - __TC1": 100}, save=False
 		)
 
 		self.assertRaises(InvalidMainCostCenter, cca2.save)
@@ -92,15 +92,15 @@ class TestCostCenterAllocation(unittest.TestCase):
 	def test_if_child_cost_center_has_any_allocation_record(self):
 		# Check if any child cost center is used as main cost center in any other existing allocation
 		cca1 = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 60, "Sub Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 60, "Sub Cost Center 2 - __TC1": 40},
 		)
 
 		cca2 = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 2 - _TC",
-			{"Main Cost Center 1 - _TC": 60, "Sub Cost Center 1 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 2 - __TC1",
+			{"Main Cost Center 1 - __TC1": 60, "Sub Cost Center 1 - __TC1": 40},
 			save=False,
 		)
 
@@ -110,9 +110,9 @@ class TestCostCenterAllocation(unittest.TestCase):
 
 	def test_total_percentage(self):
 		cca = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 40, "Sub Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 40, "Sub Cost Center 2 - __TC1": 40},
 			save=False,
 		)
 		self.assertRaises(WrongPercentageAllocation, cca.save)
@@ -120,19 +120,19 @@ class TestCostCenterAllocation(unittest.TestCase):
 	def test_valid_from_based_on_existing_gle(self):
 		# GLE posted against Sub Cost Center 1 on today
 		jv = make_journal_entry(
-			"_Test Cash - _TC",
-			"Sales - _TC",
+			"_Test Cash - __TC1",
+			"Sales - __TC1",
 			100,
-			cost_center="Main Cost Center 1 - _TC",
+			cost_center="Main Cost Center 1 - __TC1",
 			posting_date=today(),
 			submit=True,
 		)
 
 		# try to set valid from as yesterday
 		cca = create_cost_center_allocation(
-			"_Test Company",
-			"Main Cost Center 1 - _TC",
-			{"Sub Cost Center 1 - _TC": 60, "Sub Cost Center 2 - _TC": 40},
+			"__Test Company 1",
+			"Main Cost Center 1 - __TC1",
+			{"Sub Cost Center 1 - __TC1": 60, "Sub Cost Center 2 - __TC1": 40},
 			valid_from=add_days(today(), -1),
 			save=False,
 		)

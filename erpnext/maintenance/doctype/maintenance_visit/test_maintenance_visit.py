@@ -15,7 +15,7 @@ class TestMaintenanceVisit(unittest.TestCase):
 
 def make_maintenance_visit():
 	mv = frappe.new_doc("Maintenance Visit")
-	mv.company = "_Test Company"
+	mv.company = "__Test Company 1"
 	mv.customer = "_Test Customer"
 	mv.mntc_date = today()
 	mv.completion_status = "Partially Completed"

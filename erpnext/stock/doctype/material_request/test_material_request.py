@@ -80,7 +80,7 @@ class TestMaterialRequest(FrappeTestCase):
 	def _insert_stock_entry(self, qty1, qty2, warehouse=None):
 		se = frappe.get_doc(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"doctype": "Stock Entry",
 				"posting_date": "2013-03-01",
 				"posting_time": "00:00:00",
@@ -96,8 +96,8 @@ class TestMaterialRequest(FrappeTestCase):
 						"stock_uom": "_Test UOM 1",
 						"transfer_qty": qty1,
 						"uom": "_Test UOM 1",
-						"t_warehouse": warehouse or "_Test Warehouse 1 - _TC",
-						"cost_center": "_Test Cost Center - _TC",
+						"t_warehouse": warehouse or "_Test Warehouse 1 - __TC1",
+						"cost_center": "_Test Cost Center - __TC1",
 					},
 					{
 						"conversion_factor": 1.0,
@@ -109,8 +109,8 @@ class TestMaterialRequest(FrappeTestCase):
 						"stock_uom": "_Test UOM 1",
 						"transfer_qty": qty2,
 						"uom": "_Test UOM 1",
-						"t_warehouse": warehouse or "_Test Warehouse 1 - _TC",
-						"cost_center": "_Test Cost Center - _TC",
+						"t_warehouse": warehouse or "_Test Warehouse 1 - __TC1",
+						"cost_center": "_Test Cost Center - __TC1",
 					},
 				],
 			}
@@ -210,10 +210,10 @@ class TestMaterialRequest(FrappeTestCase):
 
 	def test_completed_qty_for_purchase(self):
 		existing_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		existing_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		# submit material request of type Purchase
@@ -254,10 +254,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 1.5)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 27.0)
@@ -271,10 +271,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 0)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 54.0)
@@ -282,10 +282,10 @@ class TestMaterialRequest(FrappeTestCase):
 
 	def test_completed_qty_for_transfer(self):
 		existing_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		existing_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		# submit material request of type Purchase
@@ -301,10 +301,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 0)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 54.0)
@@ -320,10 +320,10 @@ class TestMaterialRequest(FrappeTestCase):
 			}
 		)
 		se_doc.get("items")[0].update(
-			{"qty": 27.0, "transfer_qty": 27.0, "s_warehouse": "_Test Warehouse 1 - _TC", "basic_rate": 1.0}
+			{"qty": 27.0, "transfer_qty": 27.0, "s_warehouse": "_Test Warehouse 1 - __TC1", "basic_rate": 1.0}
 		)
 		se_doc.get("items")[1].update(
-			{"qty": 1.5, "transfer_qty": 1.5, "s_warehouse": "_Test Warehouse 1 - _TC", "basic_rate": 1.0}
+			{"qty": 1.5, "transfer_qty": 1.5, "s_warehouse": "_Test Warehouse 1 - __TC1", "basic_rate": 1.0}
 		)
 
 		# make available the qty in _Test Warehouse 1 before transfer
@@ -354,10 +354,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 1.5)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 27.0)
@@ -371,10 +371,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 0)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 54.0)
@@ -382,7 +382,7 @@ class TestMaterialRequest(FrappeTestCase):
 
 	def test_over_transfer_qty_allowance(self):
 		mr = frappe.new_doc("Material Request")
-		mr.company = "_Test Company"
+		mr.company = "__Test Company 1"
 		mr.scheduled_date = today()
 		mr.append(
 			"items",
@@ -392,7 +392,7 @@ class TestMaterialRequest(FrappeTestCase):
 				"qty": 10,
 				"schedule_date": today(),
 				"uom": "_Test UOM 1",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 		)
 
@@ -415,21 +415,21 @@ class TestMaterialRequest(FrappeTestCase):
 			{
 				"qty": 13,
 				"transfer_qty": 12.0,
-				"s_warehouse": "_Test Warehouse - _TC",
-				"t_warehouse": "_Test Warehouse 1 - _TC",
+				"s_warehouse": "_Test Warehouse - __TC1",
+				"t_warehouse": "_Test Warehouse 1 - __TC1",
 				"basic_rate": 1.0,
 			}
 		)
 
 		# make available the qty in _Test Warehouse 1 before transfer
 		sr = frappe.new_doc("Stock Reconciliation")
-		sr.company = "_Test Company"
+		sr.company = "__Test Company 1"
 		sr.purpose = "Opening Stock"
 		sr.append(
 			"items",
 			{
 				"item_code": "_Test FG Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 20,
 				"valuation_rate": 0.01,
 			},
@@ -444,10 +444,10 @@ class TestMaterialRequest(FrappeTestCase):
 
 	def test_completed_qty_for_over_transfer(self):
 		existing_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		existing_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		# submit material request of type Purchase
@@ -467,10 +467,10 @@ class TestMaterialRequest(FrappeTestCase):
 			}
 		)
 		se_doc.get("items")[0].update(
-			{"qty": 54.0, "transfer_qty": 54.0, "s_warehouse": "_Test Warehouse 1 - _TC", "basic_rate": 1.0}
+			{"qty": 54.0, "transfer_qty": 54.0, "s_warehouse": "_Test Warehouse 1 - __TC1", "basic_rate": 1.0}
 		)
 		se_doc.get("items")[1].update(
-			{"qty": 3.0, "transfer_qty": 3.0, "s_warehouse": "_Test Warehouse 1 - _TC", "basic_rate": 1.0}
+			{"qty": 3.0, "transfer_qty": 3.0, "s_warehouse": "_Test Warehouse 1 - __TC1", "basic_rate": 1.0}
 		)
 
 		# make available the qty in _Test Warehouse 1 before transfer
@@ -498,10 +498,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 3.0)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1)
@@ -515,10 +515,10 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(mr.get("items")[1].ordered_qty, 0)
 
 		current_requested_qty_item1 = self._get_requested_qty(
-			"_Test Item Home Desktop 100", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 100", "_Test Warehouse - __TC1"
 		)
 		current_requested_qty_item2 = self._get_requested_qty(
-			"_Test Item Home Desktop 200", "_Test Warehouse - _TC"
+			"_Test Item Home Desktop 200", "_Test Warehouse - __TC1"
 		)
 
 		self.assertEqual(current_requested_qty_item1, existing_requested_qty_item1 + 54.0)
@@ -543,8 +543,8 @@ class TestMaterialRequest(FrappeTestCase):
 			{
 				"qty": 60.0,
 				"transfer_qty": 60.0,
-				"s_warehouse": "_Test Warehouse - _TC",
-				"t_warehouse": "_Test Warehouse 1 - _TC",
+				"s_warehouse": "_Test Warehouse - __TC1",
+				"t_warehouse": "_Test Warehouse 1 - __TC1",
 				"basic_rate": 1.0,
 			}
 		)
@@ -553,7 +553,7 @@ class TestMaterialRequest(FrappeTestCase):
 				"item_code": "_Test Item Home Desktop 100",
 				"qty": 3.0,
 				"transfer_qty": 3.0,
-				"s_warehouse": "_Test Warehouse 1 - _TC",
+				"s_warehouse": "_Test Warehouse 1 - __TC1",
 				"basic_rate": 1.0,
 			}
 		)
@@ -569,13 +569,13 @@ class TestMaterialRequest(FrappeTestCase):
 		mr.submit()
 
 		se_doc = make_stock_entry(mr.name)
-		self.assertEqual(se_doc.get("items")[0].s_warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(se_doc.get("items")[0].s_warehouse, "_Test Warehouse - __TC1")
 
 	def test_warehouse_company_validation(self):
 		from erpnext.stock.utils import InvalidWarehouseCompany
 
 		mr = frappe.copy_doc(test_records[0])
-		mr.company = "_Test Company 1"
+		mr.company = "__Test Company 2"
 		self.assertRaises(InvalidWarehouseCompany, mr.insert)
 
 	def _get_requested_qty(self, item_code, warehouse):
@@ -601,7 +601,7 @@ class TestMaterialRequest(FrappeTestCase):
 			return flt(
 				frappe.db.get_value(
 					"Bin",
-					{"item_code": "_Test Item Home Desktop 100", "warehouse": "_Test Warehouse - _TC"},
+					{"item_code": "_Test Item Home Desktop 100", "warehouse": "_Test Warehouse - __TC1"},
 					"indented_qty",
 				)
 			)
@@ -617,7 +617,7 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(_get_requested_qty(), existing_requested_qty - 54.0)
 
 		# receive items to allow issue
-		self._insert_stock_entry(60, 6, "_Test Warehouse - _TC")
+		self._insert_stock_entry(60, 6, "_Test Warehouse - __TC1")
 
 		# make stock entry against MR
 
@@ -648,7 +648,7 @@ class TestMaterialRequest(FrappeTestCase):
 
 		prod_order = raise_work_orders(mr.name)
 		po = frappe.get_doc("Work Order", prod_order[0])
-		po.wip_warehouse = "_Test Warehouse 1 - _TC"
+		po.wip_warehouse = "_Test Warehouse 1 - __TC1"
 		po.submit()
 
 		mr = frappe.get_doc("Material Request", mr.name)
@@ -675,7 +675,7 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(requested_qty, new_requested_qty)
 
 	def test_requested_qty_multi_uom(self):
-		existing_requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - _TC")
+		existing_requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - __TC1")
 
 		mr = make_material_request(
 			item_code="_Test FG Item",
@@ -684,27 +684,27 @@ class TestMaterialRequest(FrappeTestCase):
 			conversion_factor=12,
 		)
 
-		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - _TC")
+		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - __TC1")
 
 		self.assertEqual(requested_qty, existing_requested_qty + 120)
 
 		work_order = raise_work_orders(mr.name)
 		wo = frappe.get_doc("Work Order", work_order[0])
 		wo.qty = 50
-		wo.wip_warehouse = "_Test Warehouse 1 - _TC"
+		wo.wip_warehouse = "_Test Warehouse 1 - __TC1"
 		wo.submit()
 
-		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - _TC")
+		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - __TC1")
 		self.assertEqual(requested_qty, existing_requested_qty + 70)
 
 		wo.cancel()
 
-		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - _TC")
+		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - __TC1")
 		self.assertEqual(requested_qty, existing_requested_qty + 120)
 
 		mr.reload()
 		mr.cancel()
-		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - _TC")
+		requested_qty = self._get_requested_qty("_Test FG Item", "_Test Warehouse - __TC1")
 		self.assertEqual(requested_qty, existing_requested_qty)
 
 	def test_multi_uom_for_purchase(self):
@@ -747,7 +747,7 @@ class TestMaterialRequest(FrappeTestCase):
 		create_item(
 			"CUST-0987", is_customer_provided_item=1, customer="_Test Customer", is_purchase_item=0
 		)
-		existing_requested_qty = self._get_requested_qty("_Test Customer", "_Test Warehouse - _TC")
+		existing_requested_qty = self._get_requested_qty("_Test Customer", "_Test Warehouse - __TC1")
 
 		mr = make_material_request(item_code="CUST-0987", material_request_type="Customer Provided")
 		se = make_stock_entry(mr.name)
@@ -757,7 +757,7 @@ class TestMaterialRequest(FrappeTestCase):
 		self.assertEqual(se.get("items")[0].material_request, mr.name)
 		mr = frappe.get_doc("Material Request", mr.name)
 		mr.submit()
-		current_requested_qty = self._get_requested_qty("_Test Customer", "_Test Warehouse - _TC")
+		current_requested_qty = self._get_requested_qty("_Test Customer", "_Test Warehouse - __TC1")
 
 		self.assertEqual(mr.per_ordered, 100)
 		self.assertEqual(existing_requested_qty, current_requested_qty)
@@ -797,7 +797,7 @@ def make_material_request(**args):
 	args = frappe._dict(args)
 	mr = frappe.new_doc("Material Request")
 	mr.material_request_type = args.material_request_type or "Purchase"
-	mr.company = args.company or "_Test Company"
+	mr.company = args.company or "__Test Company 1"
 	mr.customer = args.customer or "_Test Customer"
 	mr.append(
 		"items",
@@ -807,8 +807,8 @@ def make_material_request(**args):
 			"uom": args.uom or "_Test UOM",
 			"conversion_factor": args.conversion_factor or 1,
 			"schedule_date": args.schedule_date or today(),
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
-			"cost_center": args.cost_center or "_Test Cost Center - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
+			"cost_center": args.cost_center or "_Test Cost Center - __TC1",
 		},
 	)
 	mr.insert()

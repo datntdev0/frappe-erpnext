@@ -32,7 +32,7 @@ class TestBOM(FrappeTestCase):
 		from erpnext.manufacturing.doctype.bom.bom import get_bom_items_as_dict
 
 		items_dict = get_bom_items_as_dict(
-			bom=get_default_bom(), company="_Test Company", qty=1, fetch_exploded=0
+			bom=get_default_bom(), company="__Test Company 1", qty=1, fetch_exploded=0
 		)
 		self.assertTrue(test_records[2]["items"][0]["item_code"] in items_dict)
 		self.assertTrue(test_records[2]["items"][1]["item_code"] in items_dict)
@@ -43,7 +43,7 @@ class TestBOM(FrappeTestCase):
 		from erpnext.manufacturing.doctype.bom.bom import get_bom_items_as_dict
 
 		items_dict = get_bom_items_as_dict(
-			bom=get_default_bom(), company="_Test Company", qty=1, fetch_exploded=1
+			bom=get_default_bom(), company="__Test Company 1", qty=1, fetch_exploded=1
 		)
 		self.assertTrue(test_records[2]["items"][0]["item_code"] in items_dict)
 		self.assertFalse(test_records[2]["items"][1]["item_code"] in items_dict)
@@ -55,7 +55,7 @@ class TestBOM(FrappeTestCase):
 	def test_get_items_list(self):
 		from erpnext.manufacturing.doctype.bom.bom import get_bom_items
 
-		self.assertEqual(len(get_bom_items(bom=get_default_bom(), company="_Test Company")), 3)
+		self.assertEqual(len(get_bom_items(bom=get_default_bom(), company="__Test Company 1")), 3)
 
 	@timeout
 	def test_default_bom(self):
@@ -262,7 +262,7 @@ class TestBOM(FrappeTestCase):
 				"item": item_code,
 				"currency": "USD",
 				"quantity": 1,
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			}
 		)
 
@@ -305,7 +305,7 @@ class TestBOM(FrappeTestCase):
 		make_service_item("Subcontracted Service Item 1")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 1,
 				"rate": 100,
@@ -315,7 +315,7 @@ class TestBOM(FrappeTestCase):
 		]
 		# test in Subcontracting Order sourced_by_supplier is not added to Supplied Item
 		sco = get_subcontracting_order(
-			service_items=service_items, supplier_warehouse="_Test Warehouse 1 - _TC"
+			service_items=service_items, supplier_warehouse="_Test Warehouse 1 - __TC1"
 		)
 		bom_items = sorted([d.item_code for d in bom.items if d.sourced_by_supplier != 1])
 		supplied_items = sorted([d.rm_item_code for d in sco.supplied_items])
@@ -687,7 +687,7 @@ class TestBOM(FrappeTestCase):
 		bom = make_bom(item=fg_item, raw_materials=[rm_item])
 
 		create_stock_reconciliation(
-			item_code=rm_item, warehouse="_Test Warehouse - _TC", qty=100, rate=600
+			item_code=rm_item, warehouse="_Test Warehouse - __TC1", qty=100, rate=600
 		)
 
 		bom.load_from_db()
@@ -788,7 +788,7 @@ def create_nested_bom(tree, prefix="_Test bom "):
 			bom = frappe.get_doc(doctype="BOM", item=bom_item_code)
 			for child_item in child_items.keys():
 				bom.append("items", {"item_code": prefix + child_item})
-			bom.company = "_Test Company"
+			bom.company = "__Test Company 1"
 			bom.currency = "INR"
 			bom.insert()
 			bom.submit()
@@ -810,7 +810,7 @@ def reset_item_valuation_rate(item_code, warehouse_list=None, qty=None, rate=Non
 		)
 
 		if not warehouse_list:
-			warehouse_list.append("_Test Warehouse - _TC")
+			warehouse_list.append("_Test Warehouse - __TC1")
 
 	for warehouse in warehouse_list:
 		create_stock_reconciliation(item_code=item_code, warehouse=warehouse, qty=qty, rate=rate)

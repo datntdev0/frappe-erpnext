@@ -158,7 +158,7 @@ class TestShoppingCart(unittest.TestCase):
 	@change_settings(
 		"E Commerce Settings",
 		{
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"enabled": 1,
 			"default_customer_group": "_Test Customer Group",
 			"price_list": "_Test Price List India",
@@ -232,13 +232,13 @@ class TestShoppingCart(unittest.TestCase):
 			"contact_email": frappe.session.user,
 			"selling_price_list": "_Test Price List Rest of the World",
 			"currency": "USD",
-			"taxes_and_charges": "_Test Tax 1 - _TC",
+			"taxes_and_charges": "_Test Tax 1 - __TC1",
 			"conversion_rate": 1,
 			"transaction_date": nowdate(),
 			"valid_till": add_months(nowdate(), 1),
 			"items": [{"item_code": "_Test Item", "qty": 1}],
-			"taxes": frappe.get_doc("Sales Taxes and Charges Template", "_Test Tax 1 - _TC").taxes,
-			"company": "_Test Company",
+			"taxes": frappe.get_doc("Sales Taxes and Charges Template", "_Test Tax 1 - __TC1").taxes,
+			"company": "__Test Company 1",
 		}
 
 		quotation.update(values)
@@ -258,7 +258,7 @@ class TestShoppingCart(unittest.TestCase):
 		settings.update(
 			{
 				"enabled": 1,
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"default_customer_group": "_Test Customer Group",
 				"quotation_series": "_T-Quotation-",
 				"price_list": "_Test Price List India",

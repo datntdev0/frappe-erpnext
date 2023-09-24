@@ -23,7 +23,7 @@ class TestLead(unittest.TestCase):
 		self.assertEqual(customer.doctype, "Customer")
 		self.assertEqual(customer.lead_name, "_T-Lead-00001")
 
-		customer.company = "_Test Company"
+		customer.company = "__Test Company 1"
 		customer.customer_group = "_Test Customer Group"
 		customer.insert()
 
@@ -49,7 +49,7 @@ class TestLead(unittest.TestCase):
 		self.assertEqual(customer.doctype, "Customer")
 		self.assertEqual(customer.lead_name, "_T-Lead-00002")
 
-		customer.company = "_Test Company"
+		customer.company = "__Test Company 1"
 		customer.customer_group = "_Test Customer Group"
 		customer.insert()
 
@@ -195,7 +195,7 @@ def make_lead(**args):
 			"first_name": args.first_name or "_Test",
 			"last_name": args.last_name or "Lead",
 			"email_id": args.email_id or "new_lead_{}@example.com".format(random_string(5)),
-			"company_name": args.company_name or "_Test Company",
+			"company_name": args.company_name or "__Test Company 1",
 		}
 	).insert()
 

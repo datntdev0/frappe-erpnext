@@ -28,7 +28,7 @@ class TestPackingSlip(FrappeTestCase):
 			"items",
 			{
 				"item_code": items[1],
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 10,
 			},
 		)

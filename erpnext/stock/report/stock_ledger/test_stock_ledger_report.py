@@ -17,7 +17,7 @@ class TestStockLedgerReeport(FrappeTestCase):
 	def setUp(self) -> None:
 		make_serial_item_with_serial("_Test Stock Report Serial Item")
 		self.filters = frappe._dict(
-			company="_Test Company",
+			company="__Test Company 1",
 			from_date=today(),
 			to_date=add_days(today(), 30),
 			item_code="_Test Stock Report Serial Item",

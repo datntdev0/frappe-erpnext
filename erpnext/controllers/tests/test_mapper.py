@@ -58,7 +58,7 @@ class TestMapper(unittest.TestCase):
 				"parentfield": "items",
 				"qty": 10.0,
 				"rate": 100.0,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"stock_uom": "_Test UOM",
 				"conversion_factor": 1.0,
 				"uom": "_Test UOM",

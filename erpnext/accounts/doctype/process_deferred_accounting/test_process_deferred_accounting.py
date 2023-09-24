@@ -20,8 +20,8 @@ class TestProcessDeferredAccounting(unittest.TestCase):
 
 		deferred_account = create_account(
 			account_name="Deferred Revenue for Accounts Frozen",
-			parent_account="Current Liabilities - _TC",
-			company="_Test Company",
+			parent_account="Current Liabilities - __TC1",
+			company="__Test Company 1",
 		)
 
 		item = create_item("_Test Item for Deferred Accounting")
@@ -54,11 +54,11 @@ class TestProcessDeferredAccounting(unittest.TestCase):
 		process_deferred_accounting.submit()
 
 		expected_gle = [
-			["Debtors - _TC", 3000, 0.0, "2023-07-01"],
+			["Debtors - __TC1", 3000, 0.0, "2023-07-01"],
 			[deferred_account, 0.0, 3000, "2023-07-01"],
-			["Sales - _TC", 0.0, 1000, "2023-06-30"],
+			["Sales - __TC1", 0.0, 1000, "2023-06-30"],
 			[deferred_account, 1000, 0.0, "2023-06-30"],
-			["Sales - _TC", 0.0, 1000, "2023-06-30"],
+			["Sales - __TC1", 0.0, 1000, "2023-06-30"],
 			[deferred_account, 1000, 0.0, "2023-06-30"],
 		]
 

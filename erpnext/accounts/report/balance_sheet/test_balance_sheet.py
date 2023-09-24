@@ -22,7 +22,7 @@ class TestBalanceSheet(FrappeTestCase):
 		frappe.db.sql("delete from `tabGL Entry` where company='_Test Company 6'")
 
 		pi = make_purchase_invoice(
-			company="_Test Company 6",
+			company="__Test Company 8",
 			warehouse="Finished Goods - _TC6",
 			expense_account="Cost of Goods Sold - _TC6",
 			cost_center="Main - _TC6",
@@ -30,7 +30,7 @@ class TestBalanceSheet(FrappeTestCase):
 			rate=100,
 		)
 		si = create_sales_invoice(
-			company="_Test Company 6",
+			company="__Test Company 8",
 			debit_to="Debtors - _TC6",
 			income_account="Sales - _TC6",
 			cost_center="Main - _TC6",
@@ -38,7 +38,7 @@ class TestBalanceSheet(FrappeTestCase):
 			rate=110,
 		)
 		filters = frappe._dict(
-			company="_Test Company 6",
+			company="__Test Company 8",
 			period_start_date=today(),
 			period_end_date=today(),
 			periodicity="Yearly",

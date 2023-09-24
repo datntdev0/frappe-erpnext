@@ -232,7 +232,7 @@ class TestQuotation(FrappeTestCase):
 		qo_item2 = [
 			{
 				"item_code": second_item.item_code,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 2,
 				"rate": 300,
 				"conversion_factor": 1.0,
@@ -488,9 +488,9 @@ class TestQuotation(FrappeTestCase):
 		quotation.append(
 			"taxes",
 			{
-				"account_head": "_Test Account VAT - _TC",
+				"account_head": "_Test Account VAT - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "VAT",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 10,
@@ -537,9 +537,9 @@ class TestQuotation(FrappeTestCase):
 		quotation.append(
 			"taxes",
 			{
-				"account_head": "_Test Account VAT - _TC",
+				"account_head": "_Test Account VAT - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "VAT",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 10,
@@ -571,7 +571,7 @@ class TestQuotation(FrappeTestCase):
 					"qty": 1,
 					"rate": rate,
 					"is_alternative": bool("Alt" in item),
-					"warehouse": "_Test Warehouse - _TC",
+					"warehouse": "_Test Warehouse - __TC1",
 				}
 			)
 
@@ -619,14 +619,14 @@ def make_quotation(**args):
 	if args.transaction_date:
 		qo.transaction_date = args.transaction_date
 
-	qo.company = args.company or "_Test Company"
+	qo.company = args.company or "__Test Company 1"
 	qo.party_name = args.party_name or "_Test Customer"
 	qo.currency = args.currency or "INR"
 	if args.selling_price_list:
 		qo.selling_price_list = args.selling_price_list
 
 	if "warehouse" not in args:
-		args.warehouse = "_Test Warehouse - _TC"
+		args.warehouse = "_Test Warehouse - __TC1"
 
 	if args.item_list:
 		for item in args.item_list:

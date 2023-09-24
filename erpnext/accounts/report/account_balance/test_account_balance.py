@@ -13,7 +13,7 @@ class TestAccountBalance(unittest.TestCase):
 		frappe.db.sql("delete from `tabGL Entry` where company='_Test Company 2'")
 
 		filters = {
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"report_date": getdate(),
 			"root_type": "Income",
 		}
@@ -57,7 +57,7 @@ def make_sales_invoice():
 	frappe.set_user("Administrator")
 
 	create_sales_invoice(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		customer="_Test Customer 2",
 		currency="EUR",
 		warehouse="Finished Goods - _TC2",

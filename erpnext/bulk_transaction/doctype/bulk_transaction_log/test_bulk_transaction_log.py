@@ -29,11 +29,11 @@ class TestBulkTransactionLog(unittest.TestCase):
 
 
 def create_company():
-	if not frappe.db.exists("Company", "_Test Company"):
+	if not frappe.db.exists("Company", "__Test Company 1"):
 		frappe.get_doc(
 			{
 				"doctype": "Company",
-				"company_name": "_Test Company",
+				"company_name": "__Test Company 1",
 				"country": "India",
 				"default_currency": "INR",
 			}
@@ -61,10 +61,10 @@ def create_item():
 def create_so(intent=None):
 	so = frappe.new_doc("Sales Order")
 	so.customer = "Bulk Customer"
-	so.company = "_Test Company"
+	so.company = "__Test Company 1"
 	so.transaction_date = date.today()
 
-	so.set_warehouse = "Finished Goods - _TC"
+	so.set_warehouse = "Finished Goods - __TC1"
 	so.append(
 		"items",
 		{

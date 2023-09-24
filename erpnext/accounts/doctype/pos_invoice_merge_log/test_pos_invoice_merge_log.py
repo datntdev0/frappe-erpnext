@@ -24,18 +24,18 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			test_user, pos_profile = init_user_and_profile()
 
 			pos_inv = create_pos_invoice(rate=300, do_not_submit=1)
-			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 300})
+			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 300})
 			pos_inv.submit()
 
 			pos_inv2 = create_pos_invoice(rate=3200, do_not_submit=1)
 			pos_inv2.append(
-				"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3200}
+				"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3200}
 			)
 			pos_inv2.submit()
 
 			pos_inv3 = create_pos_invoice(customer="_Test Customer 2", rate=2300, do_not_submit=1)
 			pos_inv3.append(
-				"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 2300}
+				"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 2300}
 			)
 			pos_inv3.submit()
 
@@ -61,28 +61,28 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			test_user, pos_profile = init_user_and_profile()
 
 			pos_inv = create_pos_invoice(rate=300, do_not_submit=1)
-			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 300})
+			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 300})
 			pos_inv.submit()
 
 			pos_inv2 = create_pos_invoice(rate=3200, do_not_submit=1)
 			pos_inv2.append(
-				"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3200}
+				"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3200}
 			)
 			pos_inv2.submit()
 
 			pos_inv3 = create_pos_invoice(customer="_Test Customer 2", rate=2300, do_not_submit=1)
 			pos_inv3.append(
-				"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 2300}
+				"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 2300}
 			)
 			pos_inv3.submit()
 
 			pos_inv_cn = make_sales_return(pos_inv.name)
 			pos_inv_cn.set("payments", [])
 			pos_inv_cn.append(
-				"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": -100}
+				"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": -100}
 			)
 			pos_inv_cn.append(
-				"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": -200}
+				"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": -200}
 			)
 			pos_inv_cn.paid_amount = -300
 			pos_inv_cn.submit()
@@ -118,9 +118,9 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 9,
@@ -134,9 +134,9 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv2.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 5,
@@ -172,7 +172,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 
 		try:
 			make_stock_entry(
-				to_warehouse="_Test Warehouse - _TC",
+				to_warehouse="_Test Warehouse - __TC1",
 				item_code="_Test Item",
 				rate=8000,
 				qty=10,
@@ -184,16 +184,16 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 7.5,
 					"included_in_print_rate": 1,
 				},
 			)
-			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 30000})
+			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 30000})
 			inv.insert()
 			inv.submit()
 
@@ -201,16 +201,16 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv2.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 7.5,
 					"included_in_print_rate": 1,
 				},
 			)
-			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 30000})
+			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 30000})
 			inv2.insert()
 			inv2.submit()
 
@@ -234,7 +234,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 
 		try:
 			make_stock_entry(
-				to_warehouse="_Test Warehouse - _TC",
+				to_warehouse="_Test Warehouse - __TC1",
 				item_code="_Test Item",
 				rate=8000,
 				qty=10,
@@ -246,16 +246,16 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 7.5,
 					"included_in_print_rate": 1,
 				},
 			)
-			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 60000})
+			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 60000})
 			inv.insert()
 			inv.submit()
 
@@ -263,21 +263,21 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			inv2.append(
 				"taxes",
 				{
-					"account_head": "_Test Account VAT - _TC",
+					"account_head": "_Test Account VAT - __TC1",
 					"charge_type": "On Net Total",
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 					"description": "VAT",
 					"doctype": "Sales Taxes and Charges",
 					"rate": 7.5,
 					"included_in_print_rate": 1,
 				},
 			)
-			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 60000})
+			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 60000})
 			inv2.insert()
 			inv2.submit()
 
 			inv3 = create_pos_invoice(qty=3, rate=600, do_not_save=True)
-			inv3.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 1000})
+			inv3.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 1000})
 			inv3.insert()
 			inv3.submit()
 
@@ -301,7 +301,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 
 		try:
 			make_stock_entry(
-				to_warehouse="_Test Warehouse - _TC",
+				to_warehouse="_Test Warehouse - __TC1",
 				item_code="_Test Item",
 				rate=8000,
 				qty=10,
@@ -317,20 +317,20 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 						"items",
 						{
 							"item_code": "_Test Item",
-							"warehouse": "_Test Warehouse - _TC",
+							"warehouse": "_Test Warehouse - __TC1",
 							"qty": -1,
 							"rate": rate,
-							"income_account": "Sales - _TC",
-							"expense_account": "Cost of Goods Sold - _TC",
-							"cost_center": "_Test Cost Center - _TC",
+							"income_account": "Sales - __TC1",
+							"expense_account": "Cost of Goods Sold - __TC1",
+							"cost_center": "_Test Cost Center - __TC1",
 						},
 					)
 				inv.append(
 					"taxes",
 					{
-						"account_head": "_Test Account VAT - _TC",
+						"account_head": "_Test Account VAT - __TC1",
 						"charge_type": "On Net Total",
-						"cost_center": "_Test Cost Center - _TC",
+						"cost_center": "_Test Cost Center - __TC1",
 						"description": "VAT",
 						"doctype": "Sales Taxes and Charges",
 						"rate": 15,
@@ -338,7 +338,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 					},
 				)
 				inv.payments = []
-				inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": -157})
+				inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": -157})
 				inv.paid_amount = -157
 				inv.save()
 				inv.submit()
@@ -363,7 +363,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 
 		try:
 			make_stock_entry(
-				to_warehouse="_Test Warehouse - _TC",
+				to_warehouse="_Test Warehouse - __TC1",
 				item_code="_Test Item",
 				rate=8000,
 				qty=10,
@@ -372,12 +372,12 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 			init_user_and_profile()
 
 			inv = create_pos_invoice(qty=1, rate=69.5, do_not_save=True)
-			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 70})
+			inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 70})
 			inv.insert()
 			inv.submit()
 
 			inv2 = create_pos_invoice(qty=1, rate=59.5, do_not_save=True)
-			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 60})
+			inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 60})
 			inv2.insert()
 			inv2.submit()
 
@@ -421,7 +421,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 				rate=100,
 				do_not_submit=1,
 			)
-			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 100})
+			pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 100})
 			pos_inv.submit()
 
 			pos_inv_cn = make_sales_return(pos_inv.name)
@@ -435,7 +435,7 @@ class TestPOSInvoiceMergeLog(unittest.TestCase):
 				rate=100,
 				do_not_submit=1,
 			)
-			pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 100})
+			pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 100})
 			pos_inv2.submit()
 
 			consolidate_pos_invoices()

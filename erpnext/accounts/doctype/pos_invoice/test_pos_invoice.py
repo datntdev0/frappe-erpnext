@@ -17,7 +17,7 @@ from erpnext.stock.doctype.stock_entry.stock_entry_utils import make_stock_entry
 class TestPOSInvoice(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		make_stock_entry(target="_Test Warehouse - _TC", item_code="_Test Item", qty=800, basic_rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", item_code="_Test Item", qty=800, basic_rate=100)
 		frappe.db.sql("delete from `tabTax Rule`")
 
 	def tearDown(self):
@@ -56,8 +56,8 @@ class TestPOSInvoice(unittest.TestCase):
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 14,
 				"included_in_print_rate": 1,
@@ -101,9 +101,9 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.append(
 			"taxes",
 			{
-				"account_head": "_Test Account VAT - _TC",
+				"account_head": "_Test Account VAT - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "VAT",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 19,
@@ -123,10 +123,10 @@ class TestPOSInvoice(unittest.TestCase):
 		item_row = inv.get("items")[0]
 
 		add_items = [
-			(54, "_Test Account Excise Duty @ 12 - _TC"),
-			(288, "_Test Account Excise Duty @ 15 - _TC"),
-			(144, "_Test Account Excise Duty @ 20 - _TC"),
-			(430, "_Test Item Tax Template 1 - _TC"),
+			(54, "_Test Account Excise Duty @ 12 - __TC1"),
+			(288, "_Test Account Excise Duty @ 15 - __TC1"),
+			(144, "_Test Account Excise Duty @ 20 - __TC1"),
+			(430, "_Test Item Tax Template 1 - __TC1"),
 		]
 		for qty, item_tax_template in add_items:
 			item_row_copy = copy.deepcopy(item_row)
@@ -137,9 +137,9 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Excise Duty - _TC",
+				"account_head": "_Test Account Excise Duty - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Excise Duty",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 11,
@@ -148,9 +148,9 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Education Cess - _TC",
+				"account_head": "_Test Account Education Cess - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Education Cess",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 0,
@@ -159,9 +159,9 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.append(
 			"taxes",
 			{
-				"account_head": "_Test Account S&H Education Cess - _TC",
+				"account_head": "_Test Account S&H Education Cess - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "S&H Education Cess",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 3,
@@ -199,9 +199,9 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.append(
 			"taxes",
 			{
-				"account_head": "_Test Account VAT - _TC",
+				"account_head": "_Test Account VAT - __TC1",
 				"charge_type": "On Net Total",
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "VAT",
 				"doctype": "Sales Taxes and Charges",
 				"rate": 24,
@@ -222,10 +222,10 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos.set("payments", [])
 		pos.append(
-			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": 500}
+			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": 500}
 		)
 		pos.append(
-			"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 500, "default": 1}
+			"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 500, "default": 1}
 		)
 		pos.insert()
 		pos.submit()
@@ -243,22 +243,22 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			do_not_save=1,
@@ -266,7 +266,7 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos.get("items")[0].serial_no = serial_nos[0]
 		pos.append(
-			"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 1000, "default": 1}
+			"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 1000, "default": 1}
 		)
 
 		pos.insert()
@@ -283,22 +283,22 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			qty=2,
 			rate=1000,
@@ -307,7 +307,7 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos.get("items")[0].serial_no = serial_nos[0] + "\n" + serial_nos[1]
 		pos.append(
-			"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 1000, "default": 1}
+			"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 1000, "default": 1}
 		)
 
 		pos.insert()
@@ -328,21 +328,21 @@ class TestPOSInvoice(unittest.TestCase):
 
 	def test_pos_change_amount(self):
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 			rate=105,
-			cost_center="Main - _TC",
+			cost_center="Main - __TC1",
 			do_not_save=True,
 		)
 
 		pos.set("payments", [])
 		pos.append(
-			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": 50}
+			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": 50}
 		)
 		pos.append(
-			"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 60, "default": 1}
+			"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 60, "default": 1}
 		)
 
 		pos.insert()
@@ -362,22 +362,22 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			do_not_save=1,
@@ -385,20 +385,20 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos.get("items")[0].serial_no = serial_nos[0]
 		pos.append(
-			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": 1000}
+			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": 1000}
 		)
 
 		pos.insert()
 		pos.submit()
 
 		pos2 = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			do_not_save=1,
@@ -406,7 +406,7 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos2.get("items")[0].serial_no = serial_nos[0]
 		pos2.append(
-			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": 1000}
+			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": 1000}
 		)
 
 		pos2.insert()
@@ -417,22 +417,22 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		si = create_sales_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			do_not_save=1,
@@ -444,13 +444,13 @@ class TestPOSInvoice(unittest.TestCase):
 		si.submit()
 
 		pos2 = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			do_not_save=1,
@@ -458,7 +458,7 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos2.get("items")[0].serial_no = serial_nos[0]
 		pos2.append(
-			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - _TC", "amount": 1000}
+			"payments", {"mode_of_payment": "Bank Draft", "account": "_Test Bank - __TC1", "amount": 1000}
 		)
 
 		pos2.insert()
@@ -468,21 +468,21 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 		serial_nos = se.get("items")[0].serial_no + "wrong"
 
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			qty=2,
@@ -499,22 +499,22 @@ class TestPOSInvoice(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_serialized_item
 
 		se = make_serialized_item(
-			company="_Test Company",
-			target_warehouse="Stores - _TC",
-			cost_center="Main - _TC",
-			expense_account="Cost of Goods Sold - _TC",
+			company="__Test Company 1",
+			target_warehouse="Stores - __TC1",
+			cost_center="Main - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
 		)
 		serial_nos = se.get("items")[0].serial_no
 
 		# make a pos invoice
 		pos = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			qty=1,
@@ -524,7 +524,7 @@ class TestPOSInvoice(unittest.TestCase):
 		pos.get("items")[0].serial_no = serial_nos.split("\n")[0]
 		pos.set("payments", [])
 		pos.append(
-			"payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 1000, "default": 1}
+			"payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 1000, "default": 1}
 		)
 		pos = pos.save().submit()
 
@@ -538,13 +538,13 @@ class TestPOSInvoice(unittest.TestCase):
 		frappe.db.set_value("POS Invoice", pos.name, "docstatus", 2)
 
 		pos2 = create_pos_invoice(
-			company="_Test Company",
-			debit_to="Debtors - _TC",
-			account_for_change_amount="Cash - _TC",
-			warehouse="Stores - _TC",
-			income_account="Sales - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			debit_to="Debtors - __TC1",
+			account_for_change_amount="Cash - __TC1",
+			warehouse="Stores - __TC1",
+			income_account="Sales - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			item=se.get("items")[0].item_code,
 			rate=1000,
 			qty=1,
@@ -567,7 +567,7 @@ class TestPOSInvoice(unittest.TestCase):
 			"Customer", "Test Loyalty Customer", "loyalty_program", "Test Single Loyalty"
 		)
 		before_lp_details = get_loyalty_program_details_with_points(
-			"Test Loyalty Customer", company="_Test Company", loyalty_program="Test Single Loyalty"
+			"Test Loyalty Customer", company="__Test Company 1", loyalty_program="Test Single Loyalty"
 		)
 
 		inv = create_pos_invoice(customer="Test Loyalty Customer", rate=10000)
@@ -599,7 +599,7 @@ class TestPOSInvoice(unittest.TestCase):
 		create_pos_invoice(customer="Test Loyalty Customer", rate=10000)
 
 		before_lp_details = get_loyalty_program_details_with_points(
-			"Test Loyalty Customer", company="_Test Company", loyalty_program="Test Single Loyalty"
+			"Test Loyalty Customer", company="__Test Company 1", loyalty_program="Test Single Loyalty"
 		)
 
 		inv = create_pos_invoice(customer="Test Loyalty Customer", rate=10000, do_not_save=1)
@@ -608,7 +608,7 @@ class TestPOSInvoice(unittest.TestCase):
 		inv.loyalty_amount = inv.loyalty_points * before_lp_details.conversion_factor
 		inv.append(
 			"payments",
-			{"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 10000 - inv.loyalty_amount},
+			{"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 10000 - inv.loyalty_amount},
 		)
 		inv.paid_amount = 10000
 		inv.submit()
@@ -629,11 +629,11 @@ class TestPOSInvoice(unittest.TestCase):
 		frappe.db.sql("delete from `tabPOS Invoice`")
 		test_user, pos_profile = init_user_and_profile()
 		pos_inv = create_pos_invoice(rate=300, additional_discount_percentage=10, do_not_submit=1)
-		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 270})
+		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 270})
 		pos_inv.submit()
 
 		pos_inv2 = create_pos_invoice(rate=3200, do_not_submit=1)
-		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3200})
+		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3200})
 		pos_inv2.submit()
 
 		consolidate_pos_invoices()
@@ -655,13 +655,13 @@ class TestPOSInvoice(unittest.TestCase):
 		frappe.db.sql("delete from `tabPOS Invoice`")
 		test_user, pos_profile = init_user_and_profile()
 		pos_inv = create_pos_invoice(rate=300, do_not_submit=1)
-		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 300})
+		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 300})
 		pos_inv.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 14,
 				"included_in_print_rate": 1,
@@ -671,13 +671,13 @@ class TestPOSInvoice(unittest.TestCase):
 
 		pos_inv2 = create_pos_invoice(rate=300, qty=2, do_not_submit=1)
 		pos_inv2.additional_discount_percentage = 10
-		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 540})
+		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 540})
 		pos_inv2.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 14,
 				"included_in_print_rate": 1,
@@ -706,17 +706,17 @@ class TestPOSInvoice(unittest.TestCase):
 
 		item = "Test Selling Price Validation"
 		make_item(item, {"is_stock_item": 1})
-		make_purchase_receipt(item_code=item, warehouse="_Test Warehouse - _TC", qty=1, rate=300)
+		make_purchase_receipt(item_code=item, warehouse="_Test Warehouse - __TC1", qty=1, rate=300)
 		frappe.db.sql("delete from `tabPOS Invoice`")
 		test_user, pos_profile = init_user_and_profile()
 		pos_inv = create_pos_invoice(item=item, rate=300, do_not_submit=1)
-		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 300})
+		pos_inv.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 300})
 		pos_inv.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 14,
 				"included_in_print_rate": 1,
@@ -725,13 +725,13 @@ class TestPOSInvoice(unittest.TestCase):
 		self.assertRaises(frappe.ValidationError, pos_inv.submit)
 
 		pos_inv2 = create_pos_invoice(item=item, rate=400, do_not_submit=1)
-		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 400})
+		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 400})
 		pos_inv2.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 14,
 				"included_in_print_rate": 1,
@@ -760,7 +760,7 @@ class TestPOSInvoice(unittest.TestCase):
 		item.save()
 
 		se = make_stock_entry(
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			item_code="_BATCH ITEM",
 			qty=2,
 			basic_rate=100,
@@ -889,7 +889,7 @@ class TestPOSInvoice(unittest.TestCase):
 			pos_return.submit()
 
 			pos_reserved_serial_nos = get_pos_reserved_serial_nos(
-				{"item_code": "_Test Serialized Item With Series", "warehouse": "_Test Warehouse - _TC"}
+				{"item_code": "_Test Serialized Item With Series", "warehouse": "_Test Warehouse - __TC1"}
 			)
 			self.assertTrue(serial_no not in pos_reserved_serial_nos)
 
@@ -915,14 +915,14 @@ def create_pos_invoice(**args):
 		pos_inv.set_posting_time = 1
 	pos_inv.posting_date = args.posting_date or frappe.utils.nowdate()
 
-	pos_inv.company = args.company or "_Test Company"
+	pos_inv.company = args.company or "__Test Company 1"
 	pos_inv.customer = args.customer or "_Test Customer"
-	pos_inv.debit_to = args.debit_to or "Debtors - _TC"
+	pos_inv.debit_to = args.debit_to or "Debtors - __TC1"
 	pos_inv.is_return = args.is_return
 	pos_inv.return_against = args.return_against
 	pos_inv.currency = args.currency or "INR"
 	pos_inv.conversion_rate = args.conversion_rate or 1
-	pos_inv.account_for_change_amount = args.account_for_change_amount or "Cash - _TC"
+	pos_inv.account_for_change_amount = args.account_for_change_amount or "Cash - __TC1"
 
 	pos_inv.set_missing_values()
 
@@ -930,12 +930,12 @@ def create_pos_invoice(**args):
 		"items",
 		{
 			"item_code": args.item or args.item_code or "_Test Item",
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"qty": args.qty or 1,
 			"rate": args.rate if args.get("rate") is not None else 100,
-			"income_account": args.income_account or "Sales - _TC",
-			"expense_account": args.expense_account or "Cost of Goods Sold - _TC",
-			"cost_center": args.cost_center or "_Test Cost Center - _TC",
+			"income_account": args.income_account or "Sales - __TC1",
+			"expense_account": args.expense_account or "Cost of Goods Sold - __TC1",
+			"cost_center": args.cost_center or "_Test Cost Center - __TC1",
 			"serial_no": args.serial_no,
 			"batch_no": args.batch_no,
 		},

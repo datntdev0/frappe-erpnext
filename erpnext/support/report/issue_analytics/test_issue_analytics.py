@@ -39,7 +39,7 @@ class TestIssueAnalytics(unittest.TestCase):
 
 	def compare_result_for_customer(self):
 		filters = {
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"based_on": "Customer",
 			"from_date": add_months(getdate(), -1),
 			"to_date": getdate(),
@@ -59,7 +59,7 @@ class TestIssueAnalytics(unittest.TestCase):
 
 	def compare_result_for_issue_type(self):
 		filters = {
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"based_on": "Issue Type",
 			"from_date": add_months(getdate(), -1),
 			"to_date": getdate(),
@@ -79,7 +79,7 @@ class TestIssueAnalytics(unittest.TestCase):
 
 	def compare_result_for_issue_priority(self):
 		filters = {
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"based_on": "Issue Priority",
 			"from_date": add_months(getdate(), -1),
 			"to_date": getdate(),
@@ -99,7 +99,7 @@ class TestIssueAnalytics(unittest.TestCase):
 
 	def compare_result_for_assignment(self):
 		filters = {
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"based_on": "Assigned To",
 			"from_date": add_months(getdate(), -1),
 			"to_date": getdate(),

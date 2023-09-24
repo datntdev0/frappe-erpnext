@@ -51,11 +51,11 @@ class TestLoan(unittest.TestCase):
 			8.4,
 			is_term_loan=1,
 			mode_of_payment="Cash",
-			disbursement_account="Disbursement Account - _TC",
-			payment_account="Payment Account - _TC",
-			loan_account="Loan Account - _TC",
-			interest_income_account="Interest Income Account - _TC",
-			penalty_income_account="Penalty Income Account - _TC",
+			disbursement_account="Disbursement Account - __TC1",
+			payment_account="Payment Account - __TC1",
+			loan_account="Loan Account - __TC1",
+			interest_income_account="Interest Income Account - __TC1",
+			penalty_income_account="Penalty Income Account - __TC1",
 			repayment_schedule_type="Monthly as per repayment start date",
 		)
 
@@ -65,11 +65,11 @@ class TestLoan(unittest.TestCase):
 			7.5,
 			is_term_loan=1,
 			mode_of_payment="Cash",
-			disbursement_account="Disbursement Account - _TC",
-			payment_account="Payment Account - _TC",
-			loan_account="Loan Account - _TC",
-			interest_income_account="Interest Income Account - _TC",
-			penalty_income_account="Penalty Income Account - _TC",
+			disbursement_account="Disbursement Account - __TC1",
+			payment_account="Payment Account - __TC1",
+			loan_account="Loan Account - __TC1",
+			interest_income_account="Interest Income Account - __TC1",
+			penalty_income_account="Penalty Income Account - __TC1",
 			repayment_schedule_type="Monthly as per repayment start date",
 		)
 
@@ -79,11 +79,11 @@ class TestLoan(unittest.TestCase):
 			7.5,
 			is_term_loan=1,
 			mode_of_payment="Cash",
-			disbursement_account="Disbursement Account - _TC",
-			payment_account="Payment Account - _TC",
-			loan_account="Loan Account - _TC",
-			interest_income_account="Interest Income Account - _TC",
-			penalty_income_account="Penalty Income Account - _TC",
+			disbursement_account="Disbursement Account - __TC1",
+			payment_account="Payment Account - __TC1",
+			loan_account="Loan Account - __TC1",
+			interest_income_account="Interest Income Account - __TC1",
+			penalty_income_account="Penalty Income Account - __TC1",
 			repayment_schedule_type="Pro-rated calendar months",
 			repayment_date_on="Start of the next month",
 		)
@@ -94,11 +94,11 @@ class TestLoan(unittest.TestCase):
 			7.5,
 			is_term_loan=1,
 			mode_of_payment="Cash",
-			disbursement_account="Disbursement Account - _TC",
-			payment_account="Payment Account - _TC",
-			loan_account="Loan Account - _TC",
-			interest_income_account="Interest Income Account - _TC",
-			penalty_income_account="Penalty Income Account - _TC",
+			disbursement_account="Disbursement Account - __TC1",
+			payment_account="Payment Account - __TC1",
+			loan_account="Loan Account - __TC1",
+			interest_income_account="Interest Income Account - __TC1",
+			penalty_income_account="Penalty Income Account - __TC1",
 			repayment_schedule_type="Pro-rated calendar months",
 			repayment_date_on="End of the current month",
 		)
@@ -111,11 +111,11 @@ class TestLoan(unittest.TestCase):
 			1,
 			5,
 			"Cash",
-			"Disbursement Account - _TC",
-			"Payment Account - _TC",
-			"Loan Account - _TC",
-			"Interest Income Account - _TC",
-			"Penalty Income Account - _TC",
+			"Disbursement Account - __TC1",
+			"Payment Account - __TC1",
+			"Loan Account - __TC1",
+			"Interest Income Account - __TC1",
+			"Penalty Income Account - __TC1",
 			repayment_schedule_type="Monthly as per repayment start date",
 		)
 
@@ -127,11 +127,11 @@ class TestLoan(unittest.TestCase):
 			0,
 			5,
 			"Cash",
-			"Disbursement Account - _TC",
-			"Payment Account - _TC",
-			"Loan Account - _TC",
-			"Interest Income Account - _TC",
-			"Penalty Income Account - _TC",
+			"Disbursement Account - __TC1",
+			"Payment Account - __TC1",
+			"Loan Account - __TC1",
+			"Interest Income Account - __TC1",
+			"Penalty Income Account - __TC1",
 		)
 
 		create_loan_security_type()
@@ -193,7 +193,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledge, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledge, "Repay Over Number of Periods", 12
 		)
 		create_pledge(loan_application)
 
@@ -206,7 +206,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledge, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledge, "Repay Over Number of Periods", 12
 		)
 
 		create_pledge(loan_application)
@@ -250,7 +250,7 @@ class TestLoan(unittest.TestCase):
 			filters={
 				"applicant_type": "Customer",
 				"applicant": "_Test Loan Customer 1",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		):
 			frappe.get_doc(
@@ -259,7 +259,7 @@ class TestLoan(unittest.TestCase):
 					"applicant_type": "Customer",
 					"applicant": "_Test Loan Customer 1",
 					"sanctioned_amount_limit": 1500000,
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 				}
 			).insert(ignore_permissions=True)
 
@@ -267,7 +267,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant3, "Demand Loan", pledge
+			"__Test Company 1", self.applicant3, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 		loan = create_demand_loan(
@@ -277,7 +277,7 @@ class TestLoan(unittest.TestCase):
 
 		# Make second loan greater than the sanctioned amount
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant3, "Demand Loan", pledge, do_not_save=True
+			"__Test Company 1", self.applicant3, "Demand Loan", pledge, do_not_save=True
 		)
 		self.assertRaises(frappe.ValidationError, loan_application.save)
 
@@ -285,7 +285,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -345,7 +345,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -400,7 +400,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
 		)
 		create_pledge(loan_application)
 
@@ -473,7 +473,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
 		)
 
 		create_pledge(loan_application)
@@ -512,7 +512,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -572,7 +572,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -608,7 +608,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -636,7 +636,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
 		)
 
 		create_pledge(loan_application)
@@ -675,7 +675,7 @@ class TestLoan(unittest.TestCase):
 		]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
+			"__Test Company 1", self.applicant2, "Stock Loan", pledges, "Repay Over Number of Periods", 12
 		)
 
 		create_pledge(loan_application)
@@ -694,7 +694,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -744,7 +744,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -830,7 +830,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -882,7 +882,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -907,7 +907,7 @@ class TestLoan(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant2, "Demand Loan", pledge
+			"__Test Company 1", self.applicant2, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -1024,7 +1024,7 @@ class TestLoan(unittest.TestCase):
 def create_loan_scenario_for_penalty(doc):
 	pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
-	loan_application = create_loan_application("_Test Company", doc.applicant2, "Demand Loan", pledge)
+	loan_application = create_loan_application("__Test Company 1", doc.applicant2, "Demand Loan", pledge)
 	create_pledge(loan_application)
 	loan = create_demand_loan(
 		doc.applicant2, "Demand Loan", loan_application, posting_date="2019-10-01"
@@ -1050,87 +1050,87 @@ def create_loan_scenario_for_penalty(doc):
 
 
 def create_loan_accounts():
-	if not frappe.db.exists("Account", "Loans and Advances (Assets) - _TC"):
+	if not frappe.db.exists("Account", "Loans and Advances (Assets) - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
 				"account_name": "Loans and Advances (Assets)",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"root_type": "Asset",
 				"report_type": "Balance Sheet",
 				"currency": "INR",
-				"parent_account": "Current Assets - _TC",
+				"parent_account": "Current Assets - __TC1",
 				"account_type": "Bank",
 				"is_group": 1,
 			}
 		).insert(ignore_permissions=True)
 
-	if not frappe.db.exists("Account", "Loan Account - _TC"):
+	if not frappe.db.exists("Account", "Loan Account - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "Loan Account",
 				"root_type": "Asset",
 				"report_type": "Balance Sheet",
 				"currency": "INR",
-				"parent_account": "Loans and Advances (Assets) - _TC",
+				"parent_account": "Loans and Advances (Assets) - __TC1",
 				"account_type": "Bank",
 			}
 		).insert(ignore_permissions=True)
 
-	if not frappe.db.exists("Account", "Payment Account - _TC"):
+	if not frappe.db.exists("Account", "Payment Account - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "Payment Account",
 				"root_type": "Asset",
 				"report_type": "Balance Sheet",
 				"currency": "INR",
-				"parent_account": "Bank Accounts - _TC",
+				"parent_account": "Bank Accounts - __TC1",
 				"account_type": "Bank",
 			}
 		).insert(ignore_permissions=True)
 
-	if not frappe.db.exists("Account", "Disbursement Account - _TC"):
+	if not frappe.db.exists("Account", "Disbursement Account - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "Disbursement Account",
 				"root_type": "Asset",
 				"report_type": "Balance Sheet",
 				"currency": "INR",
-				"parent_account": "Bank Accounts - _TC",
+				"parent_account": "Bank Accounts - __TC1",
 				"account_type": "Bank",
 			}
 		).insert(ignore_permissions=True)
 
-	if not frappe.db.exists("Account", "Interest Income Account - _TC"):
+	if not frappe.db.exists("Account", "Interest Income Account - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"root_type": "Income",
 				"account_name": "Interest Income Account",
 				"report_type": "Profit and Loss",
 				"currency": "INR",
-				"parent_account": "Direct Income - _TC",
+				"parent_account": "Direct Income - __TC1",
 				"account_type": "Income Account",
 			}
 		).insert(ignore_permissions=True)
 
-	if not frappe.db.exists("Account", "Penalty Income Account - _TC"):
+	if not frappe.db.exists("Account", "Penalty Income Account - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "Penalty Income Account",
 				"root_type": "Income",
 				"report_type": "Profit and Loss",
 				"currency": "INR",
-				"parent_account": "Direct Income - _TC",
+				"parent_account": "Direct Income - __TC1",
 				"account_type": "Income Account",
 			}
 		).insert(ignore_permissions=True)
@@ -1159,7 +1159,7 @@ def create_loan_type(
 		loan_type = frappe.get_doc(
 			{
 				"doctype": "Loan Type",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"loan_name": loan_name,
 				"is_term_loan": is_term_loan,
 				"repayment_schedule_type": "Monthly as per repayment start date",
@@ -1232,7 +1232,7 @@ def create_loan_security_pledge(applicant, pledges, loan_application=None, loan=
 	lsp = frappe.new_doc("Loan Security Pledge")
 	lsp.applicant_type = "Customer"
 	lsp.applicant = applicant
-	lsp.company = "_Test Company"
+	lsp.company = "__Test Company 1"
 	lsp.loan_application = loan_application
 
 	if loan:
@@ -1254,9 +1254,9 @@ def make_loan_disbursement_entry(loan, amount, disbursement_date=None):
 			"doctype": "Loan Disbursement",
 			"against_loan": loan,
 			"disbursement_date": disbursement_date,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"disbursed_amount": amount,
-			"cost_center": "Main - _TC",
+			"cost_center": "Main - __TC1",
 		}
 	).insert(ignore_permissions=True)
 
@@ -1292,7 +1292,7 @@ def create_repayment_entry(loan, applicant, posting_date, paid_amount):
 		{
 			"doctype": "Loan Repayment",
 			"against_loan": loan,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"posting_date": posting_date or nowdate(),
 			"applicant": applicant,
 			"amount_paid": paid_amount,
@@ -1355,7 +1355,7 @@ def create_loan(
 		{
 			"doctype": "Loan",
 			"applicant_type": applicant_type or "Employee",
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"applicant": applicant,
 			"loan_type": loan_type,
 			"loan_amount": loan_amount,
@@ -1383,7 +1383,7 @@ def create_loan_with_security(
 	loan = frappe.get_doc(
 		{
 			"doctype": "Loan",
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"applicant_type": "Customer",
 			"posting_date": posting_date or nowdate(),
 			"loan_application": loan_application,
@@ -1395,10 +1395,10 @@ def create_loan_with_security(
 			"repayment_periods": repayment_periods,
 			"repayment_start_date": repayment_start_date or nowdate(),
 			"mode_of_payment": frappe.db.get_value("Mode of Payment", {"type": "Cash"}, "name"),
-			"payment_account": "Payment Account - _TC",
-			"loan_account": "Loan Account - _TC",
-			"interest_income_account": "Interest Income Account - _TC",
-			"penalty_income_account": "Penalty Income Account - _TC",
+			"payment_account": "Payment Account - __TC1",
+			"loan_account": "Loan Account - __TC1",
+			"interest_income_account": "Interest Income Account - __TC1",
+			"penalty_income_account": "Penalty Income Account - __TC1",
 		}
 	)
 
@@ -1412,7 +1412,7 @@ def create_demand_loan(applicant, loan_type, loan_application, posting_date=None
 	loan = frappe.get_doc(
 		{
 			"doctype": "Loan",
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"applicant_type": "Customer",
 			"posting_date": posting_date or nowdate(),
 			"loan_application": loan_application,
@@ -1421,10 +1421,10 @@ def create_demand_loan(applicant, loan_type, loan_application, posting_date=None
 			"is_term_loan": 0,
 			"is_secured_loan": 1,
 			"mode_of_payment": frappe.db.get_value("Mode of Payment", {"type": "Cash"}, "name"),
-			"payment_account": "Payment Account - _TC",
-			"loan_account": "Loan Account - _TC",
-			"interest_income_account": "Interest Income Account - _TC",
-			"penalty_income_account": "Penalty Income Account - _TC",
+			"payment_account": "Payment Account - __TC1",
+			"loan_account": "Loan Account - __TC1",
+			"interest_income_account": "Interest Income Account - __TC1",
+			"penalty_income_account": "Penalty Income Account - __TC1",
 		}
 	)
 

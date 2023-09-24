@@ -25,7 +25,7 @@ class TestCompany(unittest.TestCase):
 		company.abbr = "CFEC"
 		company.default_currency = "INR"
 		company.create_chart_of_accounts_based_on = "Existing Company"
-		company.existing_company = "_Test Company"
+		company.existing_company = "__Test Company 1"
 		company.save()
 
 		expected_results = {
@@ -134,7 +134,7 @@ class TestCompany(unittest.TestCase):
 			self.assertTrue(rgt <= max_rgt)
 
 	def test_primary_address(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		secondary = frappe.get_doc(
 			{
@@ -183,15 +183,15 @@ class TestCompany(unittest.TestCase):
 		return get_no_of_children([company], 0)
 
 	def test_change_parent_company(self):
-		child_company = frappe.get_doc("Company", "_Test Company 5")
+		child_company = frappe.get_doc("Company", "__Test Company 6")
 
 		# changing parent of company
-		child_company.parent_company = "_Test Company 3"
+		child_company.parent_company = "__Test Company 4"
 		child_company.save()
 		self.test_basic_tree()
 
 		# move it back
-		child_company.parent_company = "_Test Company 4"
+		child_company.parent_company = "__Test Company 5"
 		child_company.save()
 		self.test_basic_tree()
 

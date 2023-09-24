@@ -20,7 +20,7 @@ class TestGetItemDetail(FrappeTestCase):
 		args = frappe._dict(
 			{
 				"item_code": "_Test Item",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"customer": "_Test Customer",
 				"conversion_rate": 1.0,
 				"price_list_currency": "USD",

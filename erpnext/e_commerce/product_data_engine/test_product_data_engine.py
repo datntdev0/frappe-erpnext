@@ -43,7 +43,7 @@ class TestProductDataEngine(unittest.TestCase):
 				"filter_fields": [{"fieldname": "item_group"}],
 				"enable_attribute_filters": 1,
 				"filter_attributes": [{"attribute": "Test Size"}],
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"enabled": 1,
 				"default_customer_group": "_Test Customer Group",
 				"price_list": "_Test Price List India",

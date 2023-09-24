@@ -138,7 +138,7 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 		si.submit()
 
 		# assert tax collection on total invoice amount created until now
-		tcs_charged = sum([d.base_tax_amount for d in si.taxes if d.account_head == "TCS - _TC"])
+		tcs_charged = sum([d.base_tax_amount for d in si.taxes if d.account_head == "TCS - __TC1"])
 		self.assertEqual(tcs_charged, 200)
 		self.assertEqual(si.grand_total, 12200)
 		invoices.append(si)
@@ -147,7 +147,7 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 		si = create_sales_invoice(customer="Test TCS Customer", rate=5000)
 		si.submit()
 
-		tcs_charged = sum(d.base_tax_amount for d in si.taxes if d.account_head == "TCS - _TC")
+		tcs_charged = sum(d.base_tax_amount for d in si.taxes if d.account_head == "TCS - __TC1")
 		self.assertEqual(tcs_charged, 500)
 		invoices.append(si)
 
@@ -170,8 +170,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 		pe = create_payment_entry(
 			payment_type="Receive", party_type="Customer", party="Test TCS Customer", paid_amount=20000
 		)
-		pe.paid_from = "Debtors - _TC"
-		pe.paid_to = "Cash - _TC"
+		pe.paid_from = "Debtors - __TC1"
+		pe.paid_to = "Cash - __TC1"
 		pe.submit()
 		vouchers.append(pe)
 
@@ -182,10 +182,10 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 
 		# reconcile
 		pr = frappe.get_doc("Payment Reconciliation")
-		pr.company = "_Test Company"
+		pr.company = "__Test Company 1"
 		pr.party_type = "Customer"
 		pr.party = "Test TCS Customer"
-		pr.receivable_payable_account = "Debtors - _TC"
+		pr.receivable_payable_account = "Debtors - __TC1"
 		pr.get_unreconciled_entries()
 		invoices = [x.as_dict() for x in pr.get("invoices")]
 		payments = [x.as_dict() for x in pr.get("payments")]
@@ -204,8 +204,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 		vouchers.append(si3)
 
 		# assert tax collection on total invoice amount created until now
-		tcs_charged = sum([d.base_tax_amount for d in si2.taxes if d.account_head == "TCS - _TC"])
-		tcs_charged += sum([d.base_tax_amount for d in si3.taxes if d.account_head == "TCS - _TC"])
+		tcs_charged = sum([d.base_tax_amount for d in si2.taxes if d.account_head == "TCS - __TC1"])
+		tcs_charged += sum([d.base_tax_amount for d in si3.taxes if d.account_head == "TCS - __TC1"])
 		self.assertEqual(tcs_charged, 1500)
 
 		# cancel invoice and payments to avoid clashing
@@ -225,8 +225,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 			{
 				"category": "Total",
 				"charge_type": "Actual",
-				"account_head": "_Test Account VAT - _TC",
-				"cost_center": "Main - _TC",
+				"account_head": "_Test Account VAT - __TC1",
+				"cost_center": "Main - __TC1",
 				"tax_amount": 1000,
 				"description": "Test",
 				"add_deduct_tax": "Add",
@@ -262,8 +262,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 					"item_code": frappe.db.get_value("Item", {"item_name": "TDS Item"}, "name"),
 					"qty": 1,
 					"rate": 20000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 					"apply_tds": 0,
 				},
 				{
@@ -271,8 +271,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 					"item_code": frappe.db.get_value("Item", {"item_name": "TDS Item"}, "name"),
 					"qty": 1,
 					"rate": 35000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 					"apply_tds": 1,
 				},
 			],
@@ -298,8 +298,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 					"item_code": frappe.db.get_value("Item", {"item_name": "TDS Item"}, "name"),
 					"qty": 1,
 					"rate": 20000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 					"apply_tds": 0,
 				},
 				{
@@ -307,8 +307,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 					"item_code": frappe.db.get_value("Item", {"item_name": "TDS Item"}, "name"),
 					"qty": 1,
 					"rate": 35000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 					"apply_tds": 1,
 				},
 			],
@@ -337,8 +337,8 @@ class TestTaxWithholdingCategory(unittest.TestCase):
 			{
 				"category": "Total",
 				"charge_type": "Actual",
-				"account_head": "_Test Account VAT - _TC",
-				"cost_center": "Main - _TC",
+				"account_head": "_Test Account VAT - __TC1",
+				"cost_center": "Main - __TC1",
 				"tax_amount": 8000,
 				"description": "Test",
 				"add_deduct_tax": "Add",
@@ -525,10 +525,10 @@ def create_purchase_invoice(**args):
 			"posting_date": today(),
 			"apply_tds": 0 if args.do_not_apply_tds else 1,
 			"supplier": args.supplier,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"taxes_and_charges": "",
 			"currency": "INR",
-			"credit_to": "Creditors - _TC",
+			"credit_to": "Creditors - __TC1",
 			"taxes": [],
 			"items": [
 				{
@@ -536,8 +536,8 @@ def create_purchase_invoice(**args):
 					"item_code": item,
 					"qty": args.qty or 1,
 					"rate": args.rate or 10000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 				}
 			],
 		}
@@ -559,7 +559,7 @@ def create_purchase_order(**args):
 			"schedule_date": today(),
 			"apply_tds": 0 if args.do_not_apply_tds else 1,
 			"supplier": args.supplier,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"taxes_and_charges": "",
 			"currency": "INR",
 			"taxes": [],
@@ -569,8 +569,8 @@ def create_purchase_order(**args):
 					"item_code": item,
 					"qty": args.qty or 1,
 					"rate": args.rate or 10000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Stock Received But Not Billed - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Stock Received But Not Billed - __TC1",
 				}
 			],
 		}
@@ -590,10 +590,10 @@ def create_sales_invoice(**args):
 			"doctype": "Sales Invoice",
 			"posting_date": today(),
 			"customer": args.customer,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"taxes_and_charges": "",
 			"currency": "INR",
-			"debit_to": "Debtors - _TC",
+			"debit_to": "Debtors - __TC1",
 			"taxes": [],
 			"items": [
 				{
@@ -601,9 +601,9 @@ def create_sales_invoice(**args):
 					"item_code": item,
 					"qty": args.qty or 1,
 					"rate": args.rate or 10000,
-					"cost_center": "Main - _TC",
-					"expense_account": "Cost of Goods Sold - _TC",
-					"warehouse": args.warehouse or "_Test Warehouse - _TC",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Cost of Goods Sold - __TC1",
+					"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 				}
 			],
 		}
@@ -623,9 +623,9 @@ def create_payment_entry(**args):
 			"payment_type": args.payment_type,
 			"party_type": args.party_type,
 			"party": args.party,
-			"company": "_Test Company",
-			"paid_from": "Cash - _TC",
-			"paid_to": "Creditors - _TC",
+			"company": "__Test Company 1",
+			"paid_from": "Cash - __TC1",
+			"paid_to": "Creditors - __TC1",
 			"paid_amount": args.paid_amount or 10000,
 			"received_amount": args.paid_amount or 10000,
 			"reference_no": args.reference_no or "12345",
@@ -696,26 +696,26 @@ def create_records():
 		).insert()
 
 	# create tds account
-	if not frappe.db.exists("Account", "TDS - _TC"):
+	if not frappe.db.exists("Account", "TDS - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "TDS",
-				"parent_account": "Tax Assets - _TC",
+				"parent_account": "Tax Assets - __TC1",
 				"report_type": "Balance Sheet",
 				"root_type": "Asset",
 			}
 		).insert()
 
 	# create tcs account
-	if not frappe.db.exists("Account", "TCS - _TC"):
+	if not frappe.db.exists("Account", "TCS - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"account_name": "TCS",
-				"parent_account": "Duties and Taxes - _TC",
+				"parent_account": "Duties and Taxes - __TC1",
 				"report_type": "Balance Sheet",
 				"root_type": "Liability",
 			}
@@ -723,7 +723,7 @@ def create_records():
 
 
 def create_tax_withholding_category_records():
-	fiscal_year = get_fiscal_year(today(), company="_Test Company")
+	fiscal_year = get_fiscal_year(today(), company="__Test Company 1")
 	from_date = fiscal_year[1]
 	to_date = fiscal_year[2]
 
@@ -733,7 +733,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=0,
 		cumulative_threshold=30000.00,
 	)
@@ -744,7 +744,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TCS - _TC",
+		account="TCS - __TC1",
 		single_threshold=0,
 		cumulative_threshold=30000.00,
 	)
@@ -755,7 +755,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=20000,
 		cumulative_threshold=0,
 	)
@@ -765,7 +765,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=0,
 		cumulative_threshold=30000,
 		round_off_tax_amount=1,
@@ -778,7 +778,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=2000,
 		cumulative_threshold=2000,
 	)
@@ -788,7 +788,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=2000,
 		cumulative_threshold=2000,
 	)
@@ -798,7 +798,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=5000,
 		cumulative_threshold=10000,
 	)
@@ -808,7 +808,7 @@ def create_tax_withholding_category_records():
 		rate=10,
 		from_date=from_date,
 		to_date=to_date,
-		account="TDS - _TC",
+		account="TDS - __TC1",
 		single_threshold=5000,
 		cumulative_threshold=10000,
 		consider_party_ledger_amount=1,
@@ -845,7 +845,7 @@ def create_tax_withholding_category(
 						"cumulative_threshold": cumulative_threshold,
 					}
 				],
-				"accounts": [{"company": "_Test Company", "account": account}],
+				"accounts": [{"company": "__Test Company 1", "account": account}],
 			}
 		).insert()
 
@@ -853,12 +853,12 @@ def create_tax_withholding_category(
 def create_lower_deduction_certificate(
 	supplier, tax_withholding_category, tax_rate, certificate_no, limit
 ):
-	fiscal_year = get_fiscal_year(today(), company="_Test Company")
+	fiscal_year = get_fiscal_year(today(), company="__Test Company 1")
 	if not frappe.db.exists("Lower Deduction Certificate", certificate_no):
 		frappe.get_doc(
 			{
 				"doctype": "Lower Deduction Certificate",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"supplier": supplier,
 				"certificate_no": certificate_no,
 				"tax_withholding_category": tax_withholding_category,

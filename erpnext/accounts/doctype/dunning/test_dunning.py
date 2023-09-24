@@ -57,7 +57,7 @@ class TestDunning(unittest.TestCase):
 		)
 		self.assertTrue(gl_entries)
 		expected_values = dict(
-			(d[0], d) for d in [["Debtors - _TC", 20.44, 0.0], ["Sales - _TC", 0.0, 20.44]]
+			(d[0], d) for d in [["Debtors - __TC1", 20.44, 0.0], ["Sales - __TC1", 0.0, 20.44]]
 		)
 		for gle in gl_entries:
 			self.assertEqual(expected_values[gle.account][0], gle.account)

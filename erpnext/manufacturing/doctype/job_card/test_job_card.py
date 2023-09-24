@@ -180,7 +180,7 @@ class TestJobCard(FrappeTestCase):
 	def test_job_card_multiple_materials_transfer(self):
 		"Test transferring RMs separately against Job Card with multiple RMs."
 		self.transfer_material_against = "Job Card"
-		self.source_warehouse = "Stores - _TC"
+		self.source_warehouse = "Stores - __TC1"
 
 		self.generate_required_stock(self.work_order)
 
@@ -211,7 +211,7 @@ class TestJobCard(FrappeTestCase):
 	def test_job_card_excess_material_transfer(self):
 		"Test transferring more than required RM against Job Card."
 		self.transfer_material_against = "Job Card"
-		self.source_warehouse = "Stores - _TC"
+		self.source_warehouse = "Stores - __TC1"
 
 		self.generate_required_stock(self.work_order)
 
@@ -254,7 +254,7 @@ class TestJobCard(FrappeTestCase):
 	def test_job_card_excess_material_transfer_block(self):
 
 		self.transfer_material_against = "Job Card"
-		self.source_warehouse = "Stores - _TC"
+		self.source_warehouse = "Stores - __TC1"
 
 		self.generate_required_stock(self.work_order)
 
@@ -278,7 +278,7 @@ class TestJobCard(FrappeTestCase):
 	def test_job_card_excess_material_transfer_with_no_reference(self):
 
 		self.transfer_material_against = "Job Card"
-		self.source_warehouse = "Stores - _TC"
+		self.source_warehouse = "Stores - __TC1"
 
 		self.generate_required_stock(self.work_order)
 
@@ -313,7 +313,7 @@ class TestJobCard(FrappeTestCase):
 	def test_job_card_partial_material_transfer(self):
 		"Test partial material transfer against Job Card"
 		self.transfer_material_against = "Job Card"
-		self.source_warehouse = "Stores - _TC"
+		self.source_warehouse = "Stores - __TC1"
 
 		self.generate_required_stock(self.work_order)
 
@@ -626,7 +626,7 @@ def make_wo_with_transfer_against_jc():
 		item="_Test FG Item 2",
 		qty=4,
 		transfer_material_against="Job Card",
-		source_warehouse="Stores - _TC",
+		source_warehouse="Stores - __TC1",
 		do_not_submit=True,
 	)
 	work_order.required_items[0].operation = "Test Operation A"

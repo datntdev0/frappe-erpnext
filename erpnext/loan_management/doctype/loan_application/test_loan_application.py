@@ -20,15 +20,15 @@ class TestLoanApplication(unittest.TestCase):
 			1,
 			0,
 			"Cash",
-			"Disbursement Account - _TC",
-			"Payment Account - _TC",
-			"Loan Account - _TC",
-			"Interest Income Account - _TC",
-			"Penalty Income Account - _TC",
+			"Disbursement Account - __TC1",
+			"Payment Account - __TC1",
+			"Loan Account - __TC1",
+			"Interest Income Account - __TC1",
+			"Penalty Income Account - __TC1",
 			"Repay Over Number of Periods",
 			18,
 		)
-		self.applicant = make_employee("kate_loan@loan.com", "_Test Company")
+		self.applicant = make_employee("kate_loan@loan.com", "__Test Company 1")
 		self.create_loan_application()
 
 	def create_loan_application(self):
@@ -41,7 +41,7 @@ class TestLoanApplication(unittest.TestCase):
 				"loan_amount": 250000,
 				"repayment_method": "Repay Over Number of Periods",
 				"repayment_periods": 18,
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			}
 		)
 		loan_application.insert()

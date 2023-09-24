@@ -39,10 +39,10 @@ class TestSalesPaymentSummary(unittest.TestCase):
 			si.submit()
 
 			if int(si.name[-3:]) % 2 == 0:
-				bank_account = "_Test Cash - _TC"
+				bank_account = "_Test Cash - __TC1"
 				mode_of_payment = "Cash"
 			else:
-				bank_account = "_Test Bank - _TC"
+				bank_account = "_Test Bank - __TC1"
 				mode_of_payment = "Credit Card"
 
 			pe = get_payment_entry("Sales Invoice", si.name, bank_account=bank_account)
@@ -79,10 +79,10 @@ class TestSalesPaymentSummary(unittest.TestCase):
 			si.submit()
 
 			if int(si.name[-3:]) % 2 == 0:
-				bank_account = "_Test Cash - _TC"
+				bank_account = "_Test Cash - __TC1"
 				mode_of_payment = "Cash"
 			else:
-				bank_account = "_Test Bank - _TC"
+				bank_account = "_Test Bank - __TC1"
 				mode_of_payment = "Credit Card"
 
 			pe = get_payment_entry("Sales Invoice", si.name, bank_account=bank_account)
@@ -119,7 +119,7 @@ class TestSalesPaymentSummary(unittest.TestCase):
 
 
 def get_filters():
-	return {"from_date": "1900-01-01", "to_date": today(), "company": "_Test Company"}
+	return {"from_date": "1900-01-01", "to_date": today(), "company": "__Test Company 1"}
 
 
 def create_sales_invoice_record(qty=1):
@@ -128,12 +128,12 @@ def create_sales_invoice_record(qty=1):
 		{
 			"doctype": "Sales Invoice",
 			"customer": frappe.get_doc("Customer", {"customer_name": "Prestiga-Biz"}).name,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"due_date": today(),
 			"posting_date": today(),
 			"currency": "INR",
 			"taxes_and_charges": "",
-			"debit_to": "Debtors - _TC",
+			"debit_to": "Debtors - __TC1",
 			"taxes": [],
 			"items": [
 				{
@@ -141,9 +141,9 @@ def create_sales_invoice_record(qty=1):
 					"item_code": frappe.get_doc("Item", {"item_name": "Consulting"}).name,
 					"qty": qty,
 					"rate": 10000,
-					"income_account": "Sales - _TC",
-					"cost_center": "Main - _TC",
-					"expense_account": "Cost of Goods Sold - _TC",
+					"income_account": "Sales - __TC1",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Cost of Goods Sold - __TC1",
 				}
 			],
 		}
@@ -172,7 +172,7 @@ def create_records():
 			"item_code": "Consulting",
 			"item_name": "Consulting",
 			"item_group": "All Item Groups",
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"is_stock_item": 0,
 		}
 	).insert()

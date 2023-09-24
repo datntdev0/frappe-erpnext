@@ -20,13 +20,13 @@ payment_method = [
 		"doctype": "Payment Gateway Account",
 		"is_default": 1,
 		"payment_gateway": "_Test Gateway",
-		"payment_account": "_Test Bank - _TC",
+		"payment_account": "_Test Bank - __TC1",
 		"currency": "INR",
 	},
 	{
 		"doctype": "Payment Gateway Account",
 		"payment_gateway": "_Test Gateway",
-		"payment_account": "_Test Bank USD - _TC",
+		"payment_account": "_Test Bank USD - __TC1",
 		"currency": "USD",
 	},
 ]
@@ -78,7 +78,7 @@ class TestPaymentRequest(unittest.TestCase):
 	def test_payment_entry_against_purchase_invoice(self):
 		si_usd = make_purchase_invoice(
 			customer="_Test Supplier USD",
-			debit_to="_Test Payable USD - _TC",
+			debit_to="_Test Payable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
@@ -100,10 +100,10 @@ class TestPaymentRequest(unittest.TestCase):
 
 	def test_payment_entry(self):
 		frappe.db.set_value(
-			"Company", "_Test Company", "exchange_gain_loss_account", "_Test Exchange Gain/Loss - _TC"
+			"Company", "__Test Company 1", "exchange_gain_loss_account", "_Test Exchange Gain/Loss - __TC1"
 		)
-		frappe.db.set_value("Company", "_Test Company", "write_off_account", "_Test Write Off - _TC")
-		frappe.db.set_value("Company", "_Test Company", "cost_center", "_Test Cost Center - _TC")
+		frappe.db.set_value("Company", "__Test Company 1", "write_off_account", "_Test Write Off - __TC1")
+		frappe.db.set_value("Company", "__Test Company 1", "cost_center", "_Test Cost Center - __TC1")
 
 		so_inr = make_sales_order(currency="INR")
 		pr = make_payment_request(
@@ -123,7 +123,7 @@ class TestPaymentRequest(unittest.TestCase):
 
 		si_usd = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
@@ -143,7 +143,7 @@ class TestPaymentRequest(unittest.TestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Receivable USD - _TC", 0, 5000, si_usd.name],
+				["_Test Receivable USD - __TC1", 0, 5000, si_usd.name],
 				[pr.payment_account, 5000.0, 0, None],
 			]
 		)
@@ -167,7 +167,7 @@ class TestPaymentRequest(unittest.TestCase):
 	def test_status(self):
 		si_usd = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)

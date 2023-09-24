@@ -23,7 +23,7 @@ class TestAssetCapitalization(unittest.TestCase):
 		frappe.db.sql("delete from `tabTax Rule`")
 
 	def test_capitalization_with_perpetual_inventory(self):
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		set_depreciation_settings_in_company(company=company)
 
 		# Variables
@@ -114,7 +114,7 @@ class TestAssetCapitalization(unittest.TestCase):
 		self.assertFalse(get_actual_sle_dict(asset_capitalization.name))
 
 	def test_capitalization_with_periodical_inventory(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 		# Variables
 		consumed_asset_value = 100000
 
@@ -132,7 +132,7 @@ class TestAssetCapitalization(unittest.TestCase):
 			asset_name="Asset Capitalization Consumable Asset",
 			asset_value=consumed_asset_value,
 			submit=1,
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			company=company,
 		)
 
@@ -146,7 +146,7 @@ class TestAssetCapitalization(unittest.TestCase):
 			consumed_asset=consumed_asset.name,
 			service_qty=service_qty,
 			service_rate=service_rate,
-			service_expense_account="Expenses Included In Asset Valuation - _TC",
+			service_expense_account="Expenses Included In Asset Valuation - __TC1",
 			company=company,
 			submit=1,
 		)
@@ -179,8 +179,8 @@ class TestAssetCapitalization(unittest.TestCase):
 		# Test General Ledger Entries
 		default_expense_account = frappe.db.get_value("Company", company, "default_expense_account")
 		expected_gle = {
-			"_Test Fixed Asset - _TC": 3000,
-			"Expenses Included In Asset Valuation - _TC": -1000,
+			"_Test Fixed Asset - __TC1": 3000,
+			"Expenses Included In Asset Valuation - __TC1": -1000,
 			default_expense_account: -2000,
 		}
 		actual_gle = get_actual_gle_dict(asset_capitalization.name)
@@ -189,7 +189,7 @@ class TestAssetCapitalization(unittest.TestCase):
 
 		# Test Stock Ledger Entries
 		expected_sle = {
-			("Capitalization Source Stock Item", "_Test Warehouse - _TC"): {
+			("Capitalization Source Stock Item", "_Test Warehouse - __TC1"): {
 				"actual_qty": -stock_qty,
 				"stock_value_difference": -stock_amount,
 			}
@@ -237,7 +237,7 @@ class TestAssetCapitalization(unittest.TestCase):
 			total_number_of_depreciations=total_number_of_depreciations,
 			frequency_of_depreciation=12,
 			expected_value_after_useful_life=expected_value_after_useful_life,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			submit=1,
 		)
 
@@ -248,7 +248,7 @@ class TestAssetCapitalization(unittest.TestCase):
 			target_item_code="Capitalization Target Stock Item",
 			target_qty=target_qty,
 			consumed_asset=consumed_asset.name,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			submit=1,
 		)
 
@@ -317,7 +317,7 @@ def create_asset_capitalization(**args):
 	now = now_datetime()
 	target_asset = frappe.get_doc("Asset", args.target_asset) if args.target_asset else frappe._dict()
 	target_item_code = target_asset.item_code or args.target_item_code
-	company = target_asset.company or args.company or "_Test Company"
+	company = target_asset.company or args.company or "__Test Company 1"
 	warehouse = args.warehouse or create_warehouse("_Test Warehouse", company=company)
 	target_warehouse = args.target_warehouse or warehouse
 	source_warehouse = args.source_warehouse or warehouse
@@ -414,7 +414,7 @@ def create_depreciation_asset(**args):
 	asset.calculate_depreciation = 1
 	asset.asset_owner = "Company"
 
-	asset.company = args.company or "_Test Company"
+	asset.company = args.company or "__Test Company 1"
 	asset.item_code = args.item_code or "Macbook Pro"
 	asset.asset_name = args.asset_name or asset.item_code
 	asset.location = args.location or "Test Location"
@@ -435,7 +435,7 @@ def create_depreciation_asset(**args):
 	if args.submit:
 		asset.submit()
 
-		frappe.db.set_value("Company", "_Test Company", "series_for_depreciation_entry", "DEPR-")
+		frappe.db.set_value("Company", "__Test Company 1", "series_for_depreciation_entry", "DEPR-")
 		post_depreciation_entries(date=finance_book.depreciation_start_date)
 		asset.load_from_db()
 

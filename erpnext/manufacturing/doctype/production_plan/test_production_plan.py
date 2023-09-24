@@ -122,10 +122,10 @@ class TestProductionPlan(FrappeTestCase):
 		- Test if MR Planning table pulls Raw Material Qty even if it is in stock.
 		"""
 		sr1 = create_stock_reconciliation(
-			item_code="Raw Material Item 1", target="_Test Warehouse - _TC", qty=1, rate=110
+			item_code="Raw Material Item 1", target="_Test Warehouse - __TC1", qty=1, rate=110
 		)
 		sr2 = create_stock_reconciliation(
-			item_code="Raw Material Item 2", target="_Test Warehouse - _TC", qty=1, rate=120
+			item_code="Raw Material Item 2", target="_Test Warehouse - __TC1", qty=1, rate=120
 		)
 
 		pln = create_production_plan(item_code="Test Production Item 1", ignore_existing_ordered_qty=1)
@@ -155,10 +155,10 @@ class TestProductionPlan(FrappeTestCase):
 		non exploded BOM.
 		"""
 		sr1 = create_stock_reconciliation(
-			item_code="Raw Material Item 1", target="_Test Warehouse - _TC", qty=1, rate=130
+			item_code="Raw Material Item 1", target="_Test Warehouse - __TC1", qty=1, rate=130
 		)
 		sr2 = create_stock_reconciliation(
-			item_code="Subassembly Item 1", target="_Test Warehouse - _TC", qty=1, rate=140
+			item_code="Subassembly Item 1", target="_Test Warehouse - __TC1", qty=1, rate=140
 		)
 
 		pln = create_production_plan(
@@ -203,7 +203,7 @@ class TestProductionPlan(FrappeTestCase):
 
 		wo_doc = frappe.get_doc("Work Order", work_order)
 		wo_doc.update(
-			{"wip_warehouse": "Work In Progress - _TC", "fg_warehouse": "Finished Goods - _TC"}
+			{"wip_warehouse": "Work In Progress - __TC1", "fg_warehouse": "Finished Goods - __TC1"}
 		)
 		wo_doc.submit()
 
@@ -364,7 +364,7 @@ class TestProductionPlan(FrappeTestCase):
 		wo_doc = frappe.get_doc("Work Order", work_order)
 		wo_doc.update(
 			{
-				"wip_warehouse": "Work In Progress - _TC",
+				"wip_warehouse": "Work In Progress - __TC1",
 			}
 		)
 
@@ -392,7 +392,7 @@ class TestProductionPlan(FrappeTestCase):
 		bom = create_nested_bom(bom_tree_1, prefix="")
 
 		item_doc = frappe.get_doc("Item", "Test Motherboard")
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		item_doc.is_sub_contracted_item = 1
 		for row in item_doc.item_defaults:
@@ -417,7 +417,7 @@ class TestProductionPlan(FrappeTestCase):
 		create_nested_bom(bom_tree_1, prefix="")
 
 		item_doc = frappe.get_doc("Item", "Test Motherboard 1")
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		item_doc.is_sub_contracted_item = 1
 		for row in item_doc.item_defaults:
@@ -487,7 +487,7 @@ class TestProductionPlan(FrappeTestCase):
 		self.assertEqual(plan.sub_assembly_items[0].stock_qty, 2.0)
 
 		# change warehouse in one row, sub-assemblies should not merge
-		plan.po_items[0].warehouse = "Finished Goods - _TC"
+		plan.po_items[0].warehouse = "Finished Goods - __TC1"
 		plan.get_sub_assembly_items()
 		self.assertTrue(len(plan.sub_assembly_items), 2)
 
@@ -539,7 +539,7 @@ class TestProductionPlan(FrappeTestCase):
 
 		item_code = "Test BOM 1"
 		pln = frappe.new_doc("Production Plan")
-		pln.company = "_Test Company"
+		pln.company = "__Test Company 1"
 		pln.append(
 			"po_items",
 			{
@@ -564,10 +564,10 @@ class TestProductionPlan(FrappeTestCase):
 
 	def test_get_warehouse_list_group(self):
 		"Check if required child warehouses are returned."
-		warehouse_json = '[{"warehouse":"_Test Warehouse Group - _TC"}]'
+		warehouse_json = '[{"warehouse":"_Test Warehouse Group - __TC1"}]'
 
 		warehouses = set(get_warehouse_list(warehouse_json))
-		expected_warehouses = {"_Test Warehouse Group-C1 - _TC", "_Test Warehouse Group-C2 - _TC"}
+		expected_warehouses = {"_Test Warehouse Group-C1 - __TC1", "_Test Warehouse Group-C2 - __TC1"}
 
 		missing_warehouse = expected_warehouses - warehouses
 
@@ -578,11 +578,11 @@ class TestProductionPlan(FrappeTestCase):
 
 	def test_get_warehouse_list_single(self):
 		"Check if same warehouse is returned in absence of child warehouses."
-		warehouse_json = '[{"warehouse":"_Test Scrap Warehouse - _TC"}]'
+		warehouse_json = '[{"warehouse":"_Test Scrap Warehouse - __TC1"}]'
 
 		warehouses = set(get_warehouse_list(warehouse_json))
 		expected_warehouses = {
-			"_Test Scrap Warehouse - _TC",
+			"_Test Scrap Warehouse - __TC1",
 		}
 
 		self.assertEqual(warehouses, expected_warehouses)
@@ -703,7 +703,7 @@ class TestProductionPlan(FrappeTestCase):
 				wo_name = pln.create_work_order(item)
 				wo_doc = frappe.get_doc("Work Order", wo_name)
 				wo_doc.update(
-					{"wip_warehouse": "Work In Progress - _TC", "fg_warehouse": "Finished Goods - _TC"}
+					{"wip_warehouse": "Work In Progress - __TC1", "fg_warehouse": "Finished Goods - __TC1"}
 				)
 				wo_doc.submit()
 				wo_list.append(wo_name)
@@ -751,14 +751,14 @@ class TestProductionPlan(FrappeTestCase):
 		"""
 		from erpnext.manufacturing.doctype.work_order.test_work_order import make_wo_order_test_record
 
-		make_stock_entry(item_code="_Test Item", target="Work In Progress - _TC", qty=2, basic_rate=100)
+		make_stock_entry(item_code="_Test Item", target="Work In Progress - __TC1", qty=2, basic_rate=100)
 		make_stock_entry(
-			item_code="_Test Item Home Desktop 100", target="Work In Progress - _TC", qty=4, basic_rate=100
+			item_code="_Test Item Home Desktop 100", target="Work In Progress - __TC1", qty=4, basic_rate=100
 		)
 
 		item = "_Test FG Item"
 
-		make_stock_entry(item_code=item, target="_Test Warehouse - _TC", qty=1)
+		make_stock_entry(item_code=item, target="_Test Warehouse - __TC1", qty=1)
 
 		so = make_sales_order(item_code=item, qty=2)
 
@@ -776,8 +776,8 @@ class TestProductionPlan(FrappeTestCase):
 			item_code=item,
 			qty=1,
 			company=so.company,
-			wip_warehouse="Work In Progress - _TC",
-			fg_warehouse="Finished Goods - _TC",
+			wip_warehouse="Work In Progress - __TC1",
+			fg_warehouse="Finished Goods - __TC1",
 			skip_transfer=1,
 			use_multi_level_bom=1,
 			do_not_submit=True,
@@ -801,10 +801,10 @@ class TestProductionPlan(FrappeTestCase):
 		from erpnext.manufacturing.doctype.work_order.test_work_order import make_wo_order_test_record
 
 		make_stock_entry(
-			item_code="Raw Material Item 1", target="Work In Progress - _TC", qty=2, basic_rate=100
+			item_code="Raw Material Item 1", target="Work In Progress - __TC1", qty=2, basic_rate=100
 		)
 		make_stock_entry(
-			item_code="Raw Material Item 2", target="Work In Progress - _TC", qty=2, basic_rate=100
+			item_code="Raw Material Item 2", target="Work In Progress - __TC1", qty=2, basic_rate=100
 		)
 
 		pln = create_production_plan(item_code="Test Production Item 1", skip_getting_mr_items=True)
@@ -814,8 +814,8 @@ class TestProductionPlan(FrappeTestCase):
 			item_code="Test Production Item 1",
 			qty=1,
 			company=pln.company,
-			wip_warehouse="Work In Progress - _TC",
-			fg_warehouse="Finished Goods - _TC",
+			wip_warehouse="Work In Progress - __TC1",
+			fg_warehouse="Finished Goods - __TC1",
 			skip_transfer=1,
 			use_multi_level_bom=1,
 			do_not_submit=True,
@@ -859,7 +859,7 @@ class TestProductionPlan(FrappeTestCase):
 		fg_item = make_item(properties={"is_stock_item": 1, "stock_uom": "_Test UOM 1"}).name
 		bom_item = make_item().name
 
-		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - _TC")
+		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - __TC1")
 
 		pln = create_production_plan(item_code=fg_item, planned_qty=0.55, stock_uom="_Test UOM 1")
 		self.assertEqual(pln.po_items[0].planned_qty, 0.55)
@@ -904,7 +904,7 @@ class TestProductionPlan(FrappeTestCase):
 		make_stock_entry(
 			item_code=rm_item,
 			qty=60,
-			to_warehouse="Work In Progress - _TC",
+			to_warehouse="Work In Progress - __TC1",
 			rate=99,
 			purpose="Material Receipt",
 		)
@@ -924,12 +924,12 @@ class TestProductionPlan(FrappeTestCase):
 			wo_doc = frappe.get_doc("Work Order", work_order)
 			if wo_doc.production_plan_item:
 				wo_doc.update(
-					{"wip_warehouse": "Work In Progress - _TC", "fg_warehouse": "Finished Goods - _TC"}
+					{"wip_warehouse": "Work In Progress - __TC1", "fg_warehouse": "Finished Goods - __TC1"}
 				)
 				fg_wo = wo_doc.name
 			else:
 				wo_doc.update(
-					{"wip_warehouse": "Work In Progress - _TC", "fg_warehouse": "Work In Progress - _TC"}
+					{"wip_warehouse": "Work In Progress - __TC1", "fg_warehouse": "Work In Progress - __TC1"}
 				)
 				sa_wo = wo_doc.name
 			wo_doc.submit()
@@ -959,7 +959,7 @@ class TestProductionPlan(FrappeTestCase):
 			doc.append("uoms", {"uom": "Nos", "conversion_factor": 10})
 			doc.save()
 
-		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - _TC")
+		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - __TC1")
 
 		pln = create_production_plan(
 			item_code=fg_item, planned_qty=10, ignore_existing_ordered_qty=1, stock_uom="_Test UOM 1"
@@ -1011,12 +1011,12 @@ class TestProductionPlan(FrappeTestCase):
 	def test_resered_qty_for_production_plan_for_material_requests(self):
 		from erpnext.stock.utils import get_or_make_bin
 
-		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
+		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - __TC1")
 		before_qty = flt(frappe.db.get_value("Bin", bin_name, "reserved_qty_for_production_plan"))
 
 		pln = create_production_plan(item_code="Test Production Item 1")
 
-		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
+		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - __TC1")
 		after_qty = flt(frappe.db.get_value("Bin", bin_name, "reserved_qty_for_production_plan"))
 
 		self.assertEqual(after_qty - before_qty, 1)
@@ -1024,7 +1024,7 @@ class TestProductionPlan(FrappeTestCase):
 		pln = frappe.get_doc("Production Plan", pln.name)
 		pln.cancel()
 
-		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
+		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - __TC1")
 		after_qty = flt(frappe.db.get_value("Bin", bin_name, "reserved_qty_for_production_plan"))
 
 		self.assertEqual(after_qty, before_qty)
@@ -1042,9 +1042,9 @@ class TestProductionPlan(FrappeTestCase):
 			doc.append("uoms", {"uom": "Nos", "conversion_factor": 25})
 			doc.save()
 
-		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - _TC")
+		make_bom(item=fg_item, raw_materials=[bom_item], source_warehouse="_Test Warehouse - __TC1")
 
-		bin_name = get_or_make_bin(bom_item, "_Test Warehouse - _TC")
+		bin_name = get_or_make_bin(bom_item, "_Test Warehouse - __TC1")
 		before_qty = flt(frappe.db.get_value("Bin", bin_name, "reserved_qty_for_production_plan"))
 
 		pln = create_production_plan(
@@ -1067,9 +1067,9 @@ class TestProductionPlan(FrappeTestCase):
 			filters={"production_plan": pln.name},
 		):
 			wo_doc = frappe.get_doc("Work Order", work_order.name)
-			wo_doc.source_warehouse = "_Test Warehouse - _TC"
-			wo_doc.wip_warehouse = "_Test Warehouse 1 - _TC"
-			wo_doc.fg_warehouse = "_Test Warehouse - _TC"
+			wo_doc.source_warehouse = "_Test Warehouse - __TC1"
+			wo_doc.wip_warehouse = "_Test Warehouse 1 - __TC1"
+			wo_doc.fg_warehouse = "_Test Warehouse - __TC1"
 			wo_doc.submit()
 
 		reserved_qty_after_mr = flt(
@@ -1094,14 +1094,14 @@ class TestProductionPlan(FrappeTestCase):
 			ignore_existing_ordered_qty=1,
 			do_not_submit=1,
 			skip_available_sub_assembly_item=1,
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 		)
 
 		make_stock_entry(
 			item_code="SubAssembly1 For SUB Test",
 			qty=5,
 			rate=100,
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 		)
 
 		self.assertTrue(plan.skip_available_sub_assembly_item)
@@ -1133,7 +1133,7 @@ def create_production_plan(**args):
 	pln = frappe.get_doc(
 		{
 			"doctype": "Production Plan",
-			"company": args.company or "_Test Company",
+			"company": args.company or "__Test Company 1",
 			"customer": args.customer or "_Test Customer",
 			"posting_date": nowdate(),
 			"include_non_stock_items": args.include_non_stock_items or 0,
@@ -1194,7 +1194,7 @@ def make_bom(**args):
 			"item": args.item,
 			"currency": args.currency or "USD",
 			"quantity": args.quantity or 1,
-			"company": args.company or "_Test Company",
+			"company": args.company or "__Test Company 1",
 			"routing": args.routing,
 			"with_operations": args.with_operations or 0,
 		}

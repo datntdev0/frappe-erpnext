@@ -36,7 +36,7 @@ class AccountsTestMixin:
 		item = create_item(item_name, is_stock_item=is_stock, warehouse=warehouse, company=company)
 		self.item = item.name
 
-	def create_company(self, company_name="_Test Company", abbr="_TC"):
+	def create_company(self, company_name="__Test Company 1", abbr="__TC1"):
 		self.company_abbr = abbr
 		if frappe.db.exists("Company", company_name):
 			company = frappe.get_doc("Company", company_name)

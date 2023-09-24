@@ -21,7 +21,7 @@ class TestRequestedItemsToOrderAndReceive(FrappeTestCase):
 		self.setup_material_request(order=True, receive=True, days=2)  # complete (ordered & received)
 
 		self.filters = frappe._dict(
-			company="_Test Company",
+			company="__Test Company 1",
 			from_date=today(),
 			to_date=add_days(today(), 30),
 			item_code="Test MR Report Item",

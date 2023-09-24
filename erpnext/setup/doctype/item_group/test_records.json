@@ -5,10 +5,10 @@
   "item_group_name": "_Test Item Group",
   "parent_item_group": "All Item Groups",
   "item_group_defaults": [{
-		"company": "_Test Company",
-		"buying_cost_center": "_Test Cost Center 2 - _TC",
-		"selling_cost_center": "_Test Cost Center 2 - _TC",
-		"default_warehouse": "_Test Warehouse - _TC"
+		"company": "__Test Company 1",
+		"buying_cost_center": "_Test Cost Center 2 - __TC1",
+		"selling_cost_center": "_Test Cost Center 2 - __TC1",
+		"default_warehouse": "_Test Warehouse - __TC1"
 	}]
  },
  {
@@ -80,13 +80,13 @@
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 10 - _TC",
+    "item_tax_template": "_Test Account Excise Duty @ 10 - __TC1",
     "tax_category": ""
    },
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 12 - _TC",
+    "item_tax_template": "_Test Account Excise Duty @ 12 - __TC1",
     "tax_category": "_Test Tax Category 1"
    }
   ]
@@ -100,7 +100,7 @@
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 15 - _TC",
+    "item_tax_template": "_Test Account Excise Duty @ 15 - __TC1",
     "tax_category": ""
    }
   ]

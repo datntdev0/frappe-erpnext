@@ -26,7 +26,7 @@ class TestQualityInspection(FrappeTestCase):
 
 	def test_qa_for_delivery(self):
 		make_stock_entry(
-			item_code="_Test Item with QA", target="_Test Warehouse - _TC", qty=1, basic_rate=100
+			item_code="_Test Item with QA", target="_Test Warehouse - __TC1", qty=1, basic_rate=100
 		)
 		dn = create_delivery_note(item_code="_Test Item with QA", do_not_submit=True)
 
@@ -152,7 +152,7 @@ class TestQualityInspection(FrappeTestCase):
 		"""Test if rejected QI blocks Stock Entry as per Stock Settings."""
 		se = make_stock_entry(
 			item_code="_Test Item with QA",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=1,
 			basic_rate=100,
 			inspection_required=True,
@@ -186,7 +186,7 @@ class TestQualityInspection(FrappeTestCase):
 
 	def test_qi_status(self):
 		make_stock_entry(
-			item_code="_Test Item with QA", target="_Test Warehouse - _TC", qty=1, basic_rate=100
+			item_code="_Test Item with QA", target="_Test Warehouse - __TC1", qty=1, basic_rate=100
 		)
 		dn = create_delivery_note(item_code="_Test Item with QA", do_not_submit=True)
 		qa = create_quality_inspection(

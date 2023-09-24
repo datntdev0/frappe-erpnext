@@ -15,7 +15,7 @@ class TestGeneralLedger(FrappeTestCase):
 		"""
 		# create a new account with USD currency
 		account_name = "Test USD Account for Revalutation"
-		company = "_Test Company"
+		company = "__Test Company 1"
 		account = frappe.get_doc(
 			{
 				"account_name": account_name,
@@ -24,7 +24,7 @@ class TestGeneralLedger(FrappeTestCase):
 				"root_type": "Asset",
 				"report_type": "Balance Sheet",
 				"account_currency": "USD",
-				"parent_account": "Bank Accounts - _TC",
+				"parent_account": "Bank Accounts - __TC1",
 				"account_type": "Bank",
 				"doctype": "Account",
 			}
@@ -35,7 +35,7 @@ class TestGeneralLedger(FrappeTestCase):
 		jv.posting_date = today()
 		jv.company = company
 		jv.multi_currency = 1
-		jv.cost_center = "_Test Cost Center - _TC"
+		jv.cost_center = "_Test Cost Center - __TC1"
 		jv.set(
 			"accounts",
 			[
@@ -44,13 +44,13 @@ class TestGeneralLedger(FrappeTestCase):
 					"debit_in_account_currency": 1000,
 					"credit_in_account_currency": 0,
 					"exchange_rate": 75,
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 				},
 				{
-					"account": "Cash - _TC",
+					"account": "Cash - __TC1",
 					"debit_in_account_currency": 0,
 					"credit_in_account_currency": 75000,
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 				},
 			],
 		)
@@ -61,7 +61,7 @@ class TestGeneralLedger(FrappeTestCase):
 		jv.posting_date = today()
 		jv.company = company
 		jv.multi_currency = 1
-		jv.cost_center = "_Test Cost Center - _TC"
+		jv.cost_center = "_Test Cost Center - __TC1"
 		jv.set(
 			"accounts",
 			[
@@ -70,13 +70,13 @@ class TestGeneralLedger(FrappeTestCase):
 					"debit_in_account_currency": 0,
 					"credit_in_account_currency": 900,
 					"exchange_rate": 100,
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 				},
 				{
-					"account": "Cash - _TC",
+					"account": "Cash - __TC1",
 					"debit_in_account_currency": 90000,
 					"credit_in_account_currency": 0,
-					"cost_center": "_Test Cost Center - _TC",
+					"cost_center": "_Test Cost Center - __TC1",
 				},
 			],
 		)
@@ -106,12 +106,12 @@ class TestGeneralLedger(FrappeTestCase):
 
 		# post journal entry to revaluate
 		frappe.db.set_value(
-			"Company", company, "unrealized_exchange_gain_loss_account", "_Test Exchange Gain/Loss - _TC"
+			"Company", company, "unrealized_exchange_gain_loss_account", "_Test Exchange Gain/Loss - __TC1"
 		)
 		revaluation_jv = revaluation.make_jv_for_revaluation()
-		revaluation_jv.cost_center = "_Test Cost Center - _TC"
+		revaluation_jv.cost_center = "_Test Cost Center - __TC1"
 		for acc in revaluation_jv.get("accounts"):
-			acc.cost_center = "_Test Cost Center - _TC"
+			acc.cost_center = "_Test Cost Center - __TC1"
 		revaluation_jv.save()
 		revaluation_jv.submit()
 

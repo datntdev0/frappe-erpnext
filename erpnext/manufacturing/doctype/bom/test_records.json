@@ -10,7 +10,7 @@
     "rate": 5000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    },
    {
@@ -22,7 +22,7 @@
     "rate": 1000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    }
   ],
@@ -32,7 +32,7 @@
   "is_active": 1,
   "is_default": 1,
   "item": "_Test Item Home Desktop Manufactured",
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "quantity": 1.0
  },
  {
@@ -57,7 +57,7 @@
     "rate": 5000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    },
    {
@@ -69,7 +69,7 @@
     "rate": 1000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    }
   ],
@@ -102,7 +102,7 @@
     "rate": 5000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    },
    {
@@ -115,7 +115,7 @@
     "rate": 1000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    }
   ],
@@ -125,7 +125,7 @@
   "is_default": 1,
   "currency": "USD",
   "conversion_rate": 60,
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "item": "_Test FG Item 2",
   "quantity": 1.0,
   "with_operations": 1
@@ -150,7 +150,7 @@
     "rate": 3000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    }
   ],
@@ -174,7 +174,7 @@
     "rate": 3000.0,
     "uom": "_Test UOM",
     "stock_uom": "_Test UOM",
-    "source_warehouse": "_Test Warehouse - _TC",
+    "source_warehouse": "_Test Warehouse - __TC1",
     "include_item_in_manufacturing": 1
    }
   ],

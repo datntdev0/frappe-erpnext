@@ -2,26 +2,26 @@
  {
   "cheque_date": "2013-03-14",
   "cheque_no": "33",
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "doctype": "Journal Entry",
   "accounts": [
    {
-    "account": "_Test Receivable - _TC",
+    "account": "_Test Receivable - __TC1",
 	  "party_type": "Customer",
 	  "party": "_Test Customer",
     "credit_in_account_currency": 400.0,
     "debit_in_account_currency": 0.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    },
    {
-    "account": "_Test Bank - _TC",
+    "account": "_Test Bank - __TC1",
     "credit_in_account_currency": 0.0,
     "debit_in_account_currency": 400.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    }
   ],
   "naming_series": "_T-Journal Entry-",
@@ -34,26 +34,26 @@
  {
   "cheque_date": "2013-02-14",
   "cheque_no": "33",
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "doctype": "Journal Entry",
   "accounts": [
    {
-    "account": "_Test Payable - _TC",
+    "account": "_Test Payable - __TC1",
   	"party_type": "Supplier",
 	  "party": "_Test Supplier",
     "credit_in_account_currency": 0.0,
     "debit_in_account_currency": 400.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    },
    {
-    "account": "_Test Bank - _TC",
+    "account": "_Test Bank - __TC1",
     "credit_in_account_currency": 400.0,
     "debit_in_account_currency": 0.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    }
   ],
   "naming_series": "_T-Journal Entry-",
@@ -66,27 +66,27 @@
  {
   "cheque_date": "2013-02-14",
   "cheque_no": "33",
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "doctype": "Journal Entry",
   "accounts": [
    {
-    "account": "_Test Receivable - _TC",
+    "account": "_Test Receivable - __TC1",
 	  "party_type": "Customer",
   	"party": "_Test Customer",
     "credit_in_account_currency": 0.0,
     "debit_in_account_currency": 400.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    },
    {
-    "account": "Sales - _TC",
-    "cost_center": "_Test Cost Center - _TC",
+    "account": "Sales - __TC1",
+    "cost_center": "_Test Cost Center - __TC1",
     "credit_in_account_currency": 400.0,
     "debit_in_account_currency": 0.0,
     "doctype": "Journal Entry Account",
     "parentfield": "accounts",
-    "cost_center": "_Test Cost Center - _TC"
+    "cost_center": "_Test Cost Center - __TC1"
    }
   ],
   "naming_series": "_T-Journal Entry-",

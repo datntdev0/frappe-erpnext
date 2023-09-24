@@ -22,7 +22,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		frappe.db.set_value("Buying Settings", None, "allow_multiple_items", 1)
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			get_multiple_items=True,
@@ -125,7 +125,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		from erpnext.stock.doctype.item.test_item import make_item
 
 		item = make_item("LCV Stock Item", {"is_stock_item": 1})
-		warehouse = "Stores - _TC"
+		warehouse = "Stores - __TC1"
 
 		pr1 = make_purchase_receipt(
 			item_code=item.name,
@@ -180,7 +180,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		from erpnext.stock.doctype.item.test_item import make_item
 
 		item = make_item("LCV Stock Item", {"is_stock_item": 1})
-		warehouse = "Stores - _TC"
+		warehouse = "Stores - __TC1"
 
 		pr = make_purchase_receipt(
 			item_code=item.name,
@@ -235,7 +235,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 			posting_date=frappe.utils.nowdate(),
 			posting_time=frappe.utils.nowtime(),
 			cash_bank_account="Cash - TCP1",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			supplier_warehouse="Work In Progress - TCP1",
 			warehouse="Stores - TCP1",
 			cost_center="Main - TCP1",
@@ -301,7 +301,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 			"delete from `tabSerial No` where name in ('SN001', 'SN002', 'SN003', 'SN004', 'SN005')"
 		)
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			get_multiple_items=True,
@@ -338,7 +338,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		warehouse = "Stores - TCP1"
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse=warehouse,
 			qty=1,
 			rate=200,
@@ -351,7 +351,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		# deliver it before creating LCV
 		dn = create_delivery_note(
 			item_code=item_code,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			serial_no=serial_no,
 			qty=1,
@@ -386,7 +386,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 
 	def test_landed_cost_voucher_for_odd_numbers(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			do_not_save=True,
@@ -412,7 +412,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 
 	def test_multiple_landed_cost_voucher_against_pr(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Stores - TCP1",
 			do_not_save=True,
@@ -476,12 +476,12 @@ class TestLandedCostVoucher(FrappeTestCase):
 		usd_shipping = create_account(
 			account_name="Shipping Charges USD",
 			parent_account="Duties and Taxes - TCP1",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			account_currency="USD",
 		)
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Stores - TCP1",
 		)
@@ -529,7 +529,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 	def test_asset_lcv(self):
 		"Check if LCV for an Asset updates the Assets Gross Purchase Amount correctly."
 		frappe.db.set_value(
-			"Company", "_Test Company", "capital_work_in_progress_account", "CWIP Account - _TC"
+			"Company", "__Test Company 1", "capital_work_in_progress_account", "CWIP Account - __TC1"
 		)
 
 		if not frappe.db.exists("Asset Category", "Computers"):
@@ -549,7 +549,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 			receipt_document_type="Purchase Receipt",
 			receipt_document=pr.name,
 			charges=80,
-			expense_account="Expenses Included In Valuation - _TC",
+			expense_account="Expenses Included In Valuation - __TC1",
 		)
 
 		lcv.save()
@@ -568,7 +568,7 @@ def make_landed_cost_voucher(**args):
 	ref_doc = frappe.get_doc(args.receipt_document_type, args.receipt_document)
 
 	lcv = frappe.new_doc("Landed Cost Voucher")
-	lcv.company = args.company or "_Test Company"
+	lcv.company = args.company or "__Test Company 1"
 	lcv.distribute_charges_based_on = args.distribute_charges_based_on or "Amount"
 
 	lcv.set(

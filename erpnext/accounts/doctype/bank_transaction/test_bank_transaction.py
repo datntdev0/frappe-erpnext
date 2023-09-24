@@ -169,7 +169,7 @@ class TestBankTransaction(FrappeTestCase):
 				"doctype": "Bank Account",
 				"account_name": "Payment Account",
 				"bank": "Citi Bank",
-				"account": "Payment Account - _TC",
+				"account": "Payment Account - __TC1",
 			}
 		).insert(ignore_if_duplicate=True)
 
@@ -190,7 +190,7 @@ class TestBankTransaction(FrappeTestCase):
 		self.assertEqual(linked_payments[0][2], repayment_entry.name)
 
 
-def create_bank_account(bank_name="Citi Bank", account_name="_Test Bank - _TC"):
+def create_bank_account(bank_name="Citi Bank", account_name="_Test Bank - __TC1"):
 	try:
 		frappe.get_doc(
 			{
@@ -294,7 +294,7 @@ def add_vouchers():
 
 	pi = make_purchase_invoice(supplier="Conrad Electronic", qty=1, rate=690)
 
-	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 	pe.reference_no = "Conrad Oct 18"
 	pe.reference_date = "2018-10-24"
 	pe.insert()
@@ -313,14 +313,14 @@ def add_vouchers():
 		pass
 
 	pi = make_purchase_invoice(supplier="Mr G", qty=1, rate=1200)
-	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 	pe.reference_no = "Herr G Oct 18"
 	pe.reference_date = "2018-10-24"
 	pe.insert()
 	pe.submit()
 
 	pi = make_purchase_invoice(supplier="Mr G", qty=1, rate=1700)
-	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 	pe.reference_no = "Herr G Nov 18"
 	pe.reference_date = "2018-11-01"
 	pe.insert()
@@ -351,10 +351,10 @@ def add_vouchers():
 		pass
 
 	pi = make_purchase_invoice(supplier="Poore Simon's", qty=1, rate=3900, is_paid=1, do_not_save=1)
-	pi.cash_bank_account = "_Test Bank - _TC"
+	pi.cash_bank_account = "_Test Bank - __TC1"
 	pi.insert()
 	pi.submit()
-	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 	pe.reference_no = "Poore Simon's Oct 18"
 	pe.reference_date = "2018-10-28"
 	pe.paid_amount = 690
@@ -363,7 +363,7 @@ def add_vouchers():
 	pe.submit()
 
 	si = create_sales_invoice(customer="Poore Simon's", qty=1, rate=3900)
-	pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - _TC")
+	pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - __TC1")
 	pe.reference_no = "Poore Simon's Oct 18"
 	pe.reference_date = "2018-10-28"
 	pe.insert()
@@ -384,17 +384,17 @@ def add_vouchers():
 	mode_of_payment = frappe.get_doc({"doctype": "Mode of Payment", "name": "Cash"})
 
 	if not frappe.db.get_value(
-		"Mode of Payment Account", {"company": "_Test Company", "parent": "Cash"}
+		"Mode of Payment Account", {"company": "__Test Company 1", "parent": "Cash"}
 	):
 		mode_of_payment.append(
-			"accounts", {"company": "_Test Company", "default_account": "_Test Bank - _TC"}
+			"accounts", {"company": "__Test Company 1", "default_account": "_Test Bank - __TC1"}
 		)
 		mode_of_payment.save()
 
 	si = create_sales_invoice(customer="Fayva", qty=1, rate=109080, do_not_save=1)
 	si.is_pos = 1
 	si.append(
-		"payments", {"mode_of_payment": "Cash", "account": "_Test Bank - _TC", "amount": 109080}
+		"payments", {"mode_of_payment": "Cash", "account": "_Test Bank - __TC1", "amount": 109080}
 	)
 	si.insert()
 	si.submit()
@@ -418,20 +418,20 @@ def create_loan_and_repayment():
 		8.4,
 		is_term_loan=1,
 		mode_of_payment="Cash",
-		disbursement_account="Disbursement Account - _TC",
-		payment_account="Payment Account - _TC",
-		loan_account="Loan Account - _TC",
-		interest_income_account="Interest Income Account - _TC",
-		penalty_income_account="Penalty Income Account - _TC",
+		disbursement_account="Disbursement Account - __TC1",
+		payment_account="Payment Account - __TC1",
+		loan_account="Loan Account - __TC1",
+		interest_income_account="Interest Income Account - __TC1",
+		penalty_income_account="Penalty Income Account - __TC1",
 	)
 
-	applicant = make_employee("test_bank_reco@loan.com", company="_Test Company")
+	applicant = make_employee("test_bank_reco@loan.com", company="__Test Company 1")
 	loan = create_loan(applicant, "Personal Loan", 5000, "Repay Over Number of Periods", 20)
 	loan = frappe.get_doc(
 		{
 			"doctype": "Loan",
 			"applicant_type": "Employee",
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"applicant": applicant,
 			"loan_type": "Personal Loan",
 			"loan_amount": 5000,

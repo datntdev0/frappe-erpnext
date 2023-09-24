@@ -19,7 +19,7 @@ def stock_analytics(filters):
 class TestStockAnalyticsReport(FrappeTestCase):
 	def setUp(self) -> None:
 		self.item = make_item().name
-		self.warehouse = "_Test Warehouse - _TC"
+		self.warehouse = "_Test Warehouse - __TC1"
 
 	def assert_single_item_report(self, movement, expected_buckets):
 		self.generate_stock(movement)
@@ -28,7 +28,7 @@ class TestStockAnalyticsReport(FrappeTestCase):
 			from_date=movement[0][1].replace(day=1),
 			to_date=movement[-1][1].replace(day=28),
 			value_quantity="Quantity",
-			company="_Test Company",
+			company="__Test Company 1",
 			item_code=self.item,
 		)
 

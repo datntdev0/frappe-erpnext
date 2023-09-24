@@ -29,7 +29,7 @@ class TestSubcontractedItemToBeReceived(FrappeTestCase):
 		make_service_item("Subcontracted Service Item 1")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 500,
@@ -38,7 +38,7 @@ class TestSubcontractedItemToBeReceived(FrappeTestCase):
 			},
 		]
 		sco = get_subcontracting_order(
-			service_items=service_items, supplier_warehouse="_Test Warehouse 1 - _TC"
+			service_items=service_items, supplier_warehouse="_Test Warehouse 1 - __TC1"
 		)
 		rm_items = get_rm_items(sco.supplied_items)
 		itemwise_details = make_stock_in_entry(rm_items=rm_items)

@@ -54,8 +54,8 @@ def make_item(item_code=None, properties=None, uoms=None):
 
 	if item.is_stock_item:
 		for item_default in [doc for doc in item.get("item_defaults") if not doc.default_warehouse]:
-			item_default.default_warehouse = "_Test Warehouse - _TC"
-			item_default.company = "_Test Company"
+			item_default.default_warehouse = "_Test Warehouse - __TC1"
+			item_default.company = "__Test Company 1"
 
 	if uoms:
 		for uom in uoms:
@@ -89,10 +89,10 @@ class TestItem(FrappeTestCase):
 			"item_code": "_Test Item",
 			"item_name": "_Test Item",
 			"description": "_Test Item 1",
-			"warehouse": "_Test Warehouse - _TC",
-			"income_account": "Sales - _TC",
-			"expense_account": "_Test Account Cost for Goods Sold - _TC",
-			"cost_center": "_Test Cost Center - _TC",
+			"warehouse": "_Test Warehouse - __TC1",
+			"income_account": "Sales - __TC1",
+			"expense_account": "_Test Account Cost for Goods Sold - __TC1",
+			"cost_center": "_Test Cost Center - __TC1",
 			"qty": 1.0,
 			"price_list_rate": 100.0,
 			"base_price_list_rate": 0.0,
@@ -115,7 +115,7 @@ class TestItem(FrappeTestCase):
 			[
 				{
 					"item_code": "_Test Item",
-					"warehouse": "_Test Warehouse - _TC",
+					"warehouse": "_Test Warehouse - __TC1",
 					"reserved_qty": 1,
 					"actual_qty": 5,
 					"ordered_qty": 10,
@@ -124,7 +124,7 @@ class TestItem(FrappeTestCase):
 			],
 		)
 
-		company = "_Test Company"
+		company = "__Test Company 1"
 		currency = frappe.get_cached_value("Company", company, "default_currency")
 
 		details = get_item_details(
@@ -153,12 +153,12 @@ class TestItem(FrappeTestCase):
 			{
 				"item_code": "_Test Item With Item Tax Template",
 				"tax_category": "",
-				"item_tax_template": "_Test Account Excise Duty @ 10 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 10 - __TC1",
 			},
 			{
 				"item_code": "_Test Item With Item Tax Template",
 				"tax_category": "_Test Tax Category 1",
-				"item_tax_template": "_Test Account Excise Duty @ 12 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 12 - __TC1",
 			},
 			{
 				"item_code": "_Test Item With Item Tax Template",
@@ -168,12 +168,12 @@ class TestItem(FrappeTestCase):
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 1",
 				"tax_category": "",
-				"item_tax_template": "_Test Account Excise Duty @ 10 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 10 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 1",
 				"tax_category": "_Test Tax Category 1",
-				"item_tax_template": "_Test Account Excise Duty @ 12 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 12 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 1",
@@ -183,12 +183,12 @@ class TestItem(FrappeTestCase):
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 2",
 				"tax_category": "",
-				"item_tax_template": "_Test Account Excise Duty @ 15 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 15 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 2",
 				"tax_category": "_Test Tax Category 1",
-				"item_tax_template": "_Test Account Excise Duty @ 12 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 12 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Inherit Group Item Tax Template 2",
@@ -198,12 +198,12 @@ class TestItem(FrappeTestCase):
 			{
 				"item_code": "_Test Item Override Group Item Tax Template",
 				"tax_category": "",
-				"item_tax_template": "_Test Account Excise Duty @ 20 - _TC",
+				"item_tax_template": "_Test Account Excise Duty @ 20 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Override Group Item Tax Template",
 				"tax_category": "_Test Tax Category 1",
-				"item_tax_template": "_Test Item Tax Template 1 - _TC",
+				"item_tax_template": "_Test Item Tax Template 1 - __TC1",
 			},
 			{
 				"item_code": "_Test Item Override Group Item Tax Template",
@@ -214,14 +214,14 @@ class TestItem(FrappeTestCase):
 
 		expected_item_tax_map = {
 			None: {},
-			"_Test Account Excise Duty @ 10 - _TC": {"_Test Account Excise Duty - _TC": 10},
-			"_Test Account Excise Duty @ 12 - _TC": {"_Test Account Excise Duty - _TC": 12},
-			"_Test Account Excise Duty @ 15 - _TC": {"_Test Account Excise Duty - _TC": 15},
-			"_Test Account Excise Duty @ 20 - _TC": {"_Test Account Excise Duty - _TC": 20},
-			"_Test Item Tax Template 1 - _TC": {
-				"_Test Account Excise Duty - _TC": 5,
-				"_Test Account Education Cess - _TC": 10,
-				"_Test Account S&H Education Cess - _TC": 15,
+			"_Test Account Excise Duty @ 10 - __TC1": {"_Test Account Excise Duty - __TC1": 10},
+			"_Test Account Excise Duty @ 12 - __TC1": {"_Test Account Excise Duty - __TC1": 12},
+			"_Test Account Excise Duty @ 15 - __TC1": {"_Test Account Excise Duty - __TC1": 15},
+			"_Test Account Excise Duty @ 20 - __TC1": {"_Test Account Excise Duty - __TC1": 20},
+			"_Test Item Tax Template 1 - __TC1": {
+				"_Test Account Excise Duty - __TC1": 5,
+				"_Test Account Education Cess - __TC1": 10,
+				"_Test Account S&H Education Cess - __TC1": 15,
 			},
 		}
 
@@ -230,7 +230,7 @@ class TestItem(FrappeTestCase):
 				{
 					"item_code": data["item_code"],
 					"tax_category": data["tax_category"],
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"price_list": "_Test Price List",
 					"currency": "_Test Currency",
 					"doctype": "Sales Order",
@@ -259,10 +259,10 @@ class TestItem(FrappeTestCase):
 				"brand": "_Test Brand With Item Defaults",
 				"item_defaults": [
 					{
-						"company": "_Test Company",
-						"default_warehouse": "_Test Warehouse 2 - _TC",  # no override
-						"expense_account": "_Test Account Stock Expenses - _TC",  # override brand default
-						"buying_cost_center": "_Test Write Off Cost Center - _TC",  # override item group default
+						"company": "__Test Company 1",
+						"default_warehouse": "_Test Warehouse 2 - __TC1",  # no override
+						"expense_account": "_Test Account Stock Expenses - __TC1",  # override brand default
+						"buying_cost_center": "_Test Write Off Cost Center - __TC1",  # override item group default
 					}
 				],
 			},
@@ -270,15 +270,15 @@ class TestItem(FrappeTestCase):
 
 		sales_item_check = {
 			"item_code": "Test Item With Defaults",
-			"warehouse": "_Test Warehouse 2 - _TC",  # from item
-			"income_account": "_Test Account Sales - _TC",  # from brand
-			"expense_account": "_Test Account Stock Expenses - _TC",  # from item
-			"cost_center": "_Test Cost Center 2 - _TC",  # from item group
+			"warehouse": "_Test Warehouse 2 - __TC1",  # from item
+			"income_account": "_Test Account Sales - __TC1",  # from brand
+			"expense_account": "_Test Account Stock Expenses - __TC1",  # from item
+			"cost_center": "_Test Cost Center 2 - __TC1",  # from item group
 		}
 		sales_item_details = get_item_details(
 			{
 				"item_code": "Test Item With Defaults",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"price_list": "_Test Price List",
 				"currency": "_Test Currency",
 				"doctype": "Sales Invoice",
@@ -293,15 +293,15 @@ class TestItem(FrappeTestCase):
 
 		purchase_item_check = {
 			"item_code": "Test Item With Defaults",
-			"warehouse": "_Test Warehouse 2 - _TC",  # from item
-			"expense_account": "_Test Account Stock Expenses - _TC",  # from item
-			"income_account": "_Test Account Sales - _TC",  # from brand
-			"cost_center": "_Test Write Off Cost Center - _TC",  # from item
+			"warehouse": "_Test Warehouse 2 - __TC1",  # from item
+			"expense_account": "_Test Account Stock Expenses - __TC1",  # from item
+			"income_account": "_Test Account Sales - __TC1",  # from brand
+			"cost_center": "_Test Write Off Cost Center - __TC1",  # from item
 		}
 		purchase_item_details = get_item_details(
 			{
 				"item_code": "Test Item With Defaults",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"price_list": "_Test Price List",
 				"currency": "_Test Currency",
 				"doctype": "Purchase Invoice",
@@ -323,11 +323,11 @@ class TestItem(FrappeTestCase):
 					"item_group": "_Test Item Group",
 					"item_defaults": [
 						{
-							"company": "_Test Company 1",
-							"default_warehouse": "_Test Warehouse - _TC",
-							"expense_account": "Stock In Hand - _TC",
-							"buying_cost_center": "_Test Cost Center - _TC",
-							"selling_cost_center": "_Test Cost Center - _TC",
+							"company": "__Test Company 2",
+							"default_warehouse": "_Test Warehouse - __TC1",
+							"expense_account": "Stock In Hand - __TC1",
+							"buying_cost_center": "_Test Cost Center - __TC1",
+							"selling_cost_center": "_Test Cost Center - __TC1",
 						}
 					],
 				},
@@ -436,7 +436,7 @@ class TestItem(FrappeTestCase):
 						"increment": 0.5,
 					},
 				],
-				"item_defaults": [{"default_warehouse": "_Test Warehouse - _TC", "company": "_Test Company"}],
+				"item_defaults": [{"default_warehouse": "_Test Warehouse - __TC1", "company": "__Test Company 1"}],
 				"has_variants": 1,
 			},
 		)
@@ -461,19 +461,19 @@ class TestItem(FrappeTestCase):
 		old = create_item(frappe.generate_hash(length=20)).name
 		new = create_item(frappe.generate_hash(length=20)).name
 
-		make_stock_entry(item_code=old, target="_Test Warehouse - _TC", qty=1, rate=100)
-		make_stock_entry(item_code=old, target="_Test Warehouse 1 - _TC", qty=1, rate=100)
-		make_stock_entry(item_code=new, target="_Test Warehouse 1 - _TC", qty=1, rate=100)
+		make_stock_entry(item_code=old, target="_Test Warehouse - __TC1", qty=1, rate=100)
+		make_stock_entry(item_code=old, target="_Test Warehouse 1 - __TC1", qty=1, rate=100)
+		make_stock_entry(item_code=new, target="_Test Warehouse 1 - __TC1", qty=1, rate=100)
 
 		frappe.rename_doc("Item", old, new, merge=True)
 
 		self.assertFalse(frappe.db.exists("Item", old))
 
 		self.assertTrue(
-			frappe.db.get_value("Bin", {"item_code": new, "warehouse": "_Test Warehouse - _TC"})
+			frappe.db.get_value("Bin", {"item_code": new, "warehouse": "_Test Warehouse - __TC1"})
 		)
 		self.assertTrue(
-			frappe.db.get_value("Bin", {"item_code": new, "warehouse": "_Test Warehouse 1 - _TC"})
+			frappe.db.get_value("Bin", {"item_code": new, "warehouse": "_Test Warehouse 1 - __TC1"})
 		)
 
 	def test_item_merging_with_product_bundle(self):
@@ -664,12 +664,12 @@ class TestItem(FrappeTestCase):
 		item.stock_uom = "Gram"
 		item.save()
 
-		update_bin_qty(item.item_code, "_Test Warehouse - _TC", {"reserved_qty": 10})
+		update_bin_qty(item.item_code, "_Test Warehouse - __TC1", {"reserved_qty": 10})
 
 		item.stock_uom = "Kilometer"
 		self.assertRaises(frappe.ValidationError, item.save)
 
-		update_bin_qty(item.item_code, "_Test Warehouse - _TC", {"reserved_qty": 0})
+		update_bin_qty(item.item_code, "_Test Warehouse - __TC1", {"reserved_qty": 0})
 
 		item.load_from_db()
 		item.stock_uom = "Kilometer"
@@ -723,11 +723,11 @@ class TestItem(FrappeTestCase):
 
 		# create a future entry so all new entries are backdated
 		make_stock_entry(
-			qty=1, item_code=item.name, target="_Test Warehouse - _TC", posting_date=add_days(today(), 5)
+			qty=1, item_code=item.name, target="_Test Warehouse - __TC1", posting_date=add_days(today(), 5)
 		)
 		self.consume_item_code_with_differet_stock_transactions(item_code=item.name)
 
-	@change_settings("Stock Settings", {"sample_retention_warehouse": "_Test Warehouse - _TC"})
+	@change_settings("Stock Settings", {"sample_retention_warehouse": "_Test Warehouse - __TC1"})
 	def test_retain_sample(self):
 		item = make_item(
 			"_TestRetainSample", {"has_batch_no": 1, "retain_sample": 1, "sample_quantity": 1}
@@ -744,7 +744,7 @@ class TestItem(FrappeTestCase):
 		item.delete()
 
 	def consume_item_code_with_differet_stock_transactions(
-		self, item_code, warehouse="_Test Warehouse - _TC"
+		self, item_code, warehouse="_Test Warehouse - __TC1"
 	):
 		from erpnext.accounts.doctype.sales_invoice.test_sales_invoice import create_sales_invoice
 		from erpnext.stock.doctype.delivery_note.test_delivery_note import create_delivery_note
@@ -756,7 +756,7 @@ class TestItem(FrappeTestCase):
 		create_delivery_note(**typical_args)
 		create_sales_invoice(update_stock=1, **typical_args)
 		make_stock_entry(item_code=item_code, source=warehouse, qty=1, purpose="Material Issue")
-		make_stock_entry(item_code=item_code, source=warehouse, target="Stores - _TC", qty=1)
+		make_stock_entry(item_code=item_code, source=warehouse, target="Stores - __TC1", qty=1)
 		# standalone return
 		make_purchase_receipt(is_return=True, qty=-1, **typical_args)
 
@@ -764,7 +764,7 @@ class TestItem(FrappeTestCase):
 		from erpnext.stock.dashboard.item_dashboard import get_data
 
 		self.assertTrue(get_data(item_code="_Test Item"))
-		self.assertTrue(get_data(warehouse="_Test Warehouse - _TC"))
+		self.assertTrue(get_data(warehouse="_Test Warehouse - __TC1"))
 		self.assertTrue(get_data(item_group="All Item Groups"))
 
 	def test_empty_description(self):
@@ -784,7 +784,7 @@ class TestItem(FrappeTestCase):
 		transaction_creators = [
 			lambda i: make_purchase_receipt(item_code=i),
 			lambda i: make_purchase_invoice(item_code=i, update_stock=1),
-			lambda i: make_stock_entry(item_code=i, qty=1, target="_Test Warehouse - _TC"),
+			lambda i: make_stock_entry(item_code=i, qty=1, target="_Test Warehouse - __TC1"),
 			lambda i: create_delivery_note(item_code=i),
 		]
 
@@ -886,14 +886,14 @@ def create_item(
 	is_stock_item=1,
 	valuation_rate=0,
 	stock_uom="Nos",
-	warehouse="_Test Warehouse - _TC",
+	warehouse="_Test Warehouse - __TC1",
 	is_customer_provided_item=None,
 	customer=None,
 	is_purchase_item=None,
 	opening_stock=0,
 	is_fixed_asset=0,
 	asset_category=None,
-	company="_Test Company",
+	company="__Test Company 1",
 ):
 	if not frappe.db.exists("Item", item_code):
 		item = frappe.new_doc("Item")

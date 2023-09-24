@@ -21,11 +21,11 @@ class TestWarehouse(FrappeTestCase):
 			make_test_records("Item")
 
 	def test_parent_warehouse(self):
-		parent_warehouse = frappe.get_doc("Warehouse", "_Test Warehouse Group - _TC")
+		parent_warehouse = frappe.get_doc("Warehouse", "_Test Warehouse Group - __TC1")
 		self.assertEqual(parent_warehouse.is_group, 1)
 
 	def test_warehouse_hierarchy(self):
-		p_warehouse = frappe.get_doc("Warehouse", "_Test Warehouse Group - _TC")
+		p_warehouse = frappe.get_doc("Warehouse", "_Test Warehouse Group - __TC1")
 
 		child_warehouses = frappe.db.sql(
 			"""select name, is_group, parent_warehouse from `tabWarehouse` wh
@@ -49,7 +49,7 @@ class TestWarehouse(FrappeTestCase):
 		self.assertIn(warehouse_name, wh.name)
 
 	def test_unlinking_warehouse_from_item_defaults(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		warehouse_names = [f"_Test Warehouse {i} for Unlinking" for i in range(2)]
 		warehouse_ids = []
@@ -99,21 +99,21 @@ class TestWarehouse(FrappeTestCase):
 		self.assertRaises(frappe.ValidationError, convert_to_group_or_ledger, warehouse.name)
 
 	def test_get_children(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		children = get_children("Warehouse", parent=company, company=company, is_root=True)
-		self.assertTrue(any(wh["value"] == "_Test Warehouse - _TC" for wh in children))
+		self.assertTrue(any(wh["value"] == "_Test Warehouse - __TC1" for wh in children))
 
 
 def create_warehouse(warehouse_name, properties=None, company=None):
 	if not company:
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 	warehouse_id = erpnext.encode_company_abbr(warehouse_name, company)
 	if not frappe.db.exists("Warehouse", warehouse_id):
 		w = frappe.new_doc("Warehouse")
 		w.warehouse_name = warehouse_name
-		w.parent_warehouse = "_Test Warehouse Group - _TC"
+		w.parent_warehouse = "_Test Warehouse Group - __TC1"
 		w.company = company
 		w.account = get_warehouse_account(warehouse_name, company)
 		if properties:
@@ -131,7 +131,7 @@ def get_warehouse(**args):
 	else:
 		w = frappe.get_doc(
 			{
-				"company": args.company or "_Test Company",
+				"company": args.company or "__Test Company 1",
 				"doctype": "Warehouse",
 				"warehouse_name": args.warehouse_name,
 				"is_group": 0,

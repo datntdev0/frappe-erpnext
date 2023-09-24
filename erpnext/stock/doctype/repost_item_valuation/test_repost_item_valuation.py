@@ -91,7 +91,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 			repost_doc = frappe.get_doc(
 				doctype="Repost Item Valuation",
 				item_code="_Test Item",
-				warehouse="_Test Warehouse - _TC",
+				warehouse="_Test Warehouse - __TC1",
 				based_on="Item and Warehouse",
 				posting_date=nowdate(),
 				status="Skipped",
@@ -114,7 +114,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 
 	def test_create_item_wise_repost_item_valuation_entries(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			get_multiple_items=True,
 		)
@@ -124,7 +124,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		self.assertIn("_Test Item", [d.item_code for d in rivs])
 
 		for riv in rivs:
-			self.assertEqual(riv.company, "_Test Company with perpetual inventory")
+			self.assertEqual(riv.company, "__Test Company 7")
 			self.assertEqual(riv.warehouse, "Stores - TCP1")
 
 	def test_deduplication(self):
@@ -135,7 +135,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		riv_args = frappe._dict(
 			doctype="Repost Item Valuation",
 			item_code="_Test Item",
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			based_on="Item and Warehouse",
 			voucher_type="Sales Invoice",
 			voucher_no="SI-1",
@@ -167,7 +167,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		_assert_status(riv1, "Skipped")
 
 		# unrelated reposts, shouldn't do anything to others.
-		riv4 = frappe.get_doc(riv_args.update({"warehouse": "Stores - _TC"}))
+		riv4 = frappe.get_doc(riv_args.update({"warehouse": "Stores - __TC1"}))
 		riv4.flags.dont_run_in_test = True
 		riv4.submit()
 		riv4.deduplicate_similar_repost()
@@ -185,7 +185,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		riv = frappe.get_doc(
 			doctype="Repost Item Valuation",
 			item_code="_Test Item",
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			based_on="Item and Warehouse",
 			posting_date=today,
 			posting_time="00:01:00",
@@ -204,7 +204,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		frappe.flags.dont_execute_stock_reposts = True
 
 		item = make_item()
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		old = make_stock_entry(item_code=item.name, to_warehouse=warehouse, qty=2, rate=5)
 		_new = make_stock_entry(item_code=item.name, to_warehouse=warehouse, qty=5, rate=10)
 
@@ -238,7 +238,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		doc.db_set = MagicMock()
 
 		vouchers = []
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		posting_date = today()
 
 		for _ in range(3):
@@ -264,7 +264,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 
 		item = self.make_item().name
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		for _ in range(10):
 			make_stock_entry(item=item, company=company, qty=1, rate=10, target="Stores - TCP1")
@@ -314,7 +314,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		item.allow_negative_stock = 1
 		item.save()
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		# consume non-existing stock
 		sinv = create_sales_invoice(
@@ -360,7 +360,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		riv = frappe.get_doc(
 			doctype="Repost Item Valuation",
 			item_code="_Test Item",
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			based_on="Item and Warehouse",
 			posting_date=today,
 			posting_time="00:01:00",
@@ -379,7 +379,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 
 	def test_create_repost_entry_for_cancelled_document(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			get_multiple_items=True,
 		)
@@ -399,7 +399,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		)
 
 		doc = frappe.new_doc("Closing Stock Balance")
-		doc.company = "_Test Company"
+		doc.company = "__Test Company 1"
 		doc.from_date = today()
 		doc.to_date = today()
 		doc.submit()
@@ -413,7 +413,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 		riv.update(
 			{
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"based_on": "Item and Warehouse",
 				"posting_date": today(),
 				"posting_time": "00:01:00",

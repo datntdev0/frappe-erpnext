@@ -18,7 +18,7 @@ class TestCashFlowMapping(unittest.TestCase):
 		doc = frappe.new_doc("Cash Flow Mapping")
 		doc.mapping_name = "Test Mapping"
 		doc.label = "Test label"
-		doc.append("accounts", {"account": "Accounts Receivable - _TC"})
+		doc.append("accounts", {"account": "Accounts Receivable - __TC1"})
 		doc.is_working_capital = 1
 		doc.is_finance_cost = 1
 

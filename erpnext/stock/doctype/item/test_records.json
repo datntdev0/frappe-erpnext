@@ -14,17 +14,17 @@
   "opening_stock": 10,
   "valuation_rate": 100,
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "reorder_levels": [
    {
     "material_request_type": "Purchase",
-    "warehouse": "_Test Warehouse - _TC",
+    "warehouse": "_Test Warehouse - __TC1",
     "warehouse_reorder_level": 20,
     "warehouse_reorder_qty": 20
    }
@@ -56,12 +56,12 @@
   "opening_stock": 10,
   "valuation_rate": 100,
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -77,18 +77,18 @@
   "item_name": "_Test Item Home Desktop 100",
   "valuation_rate": 100,
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "taxes": [
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 10 - _TC"
+    "item_tax_template": "_Test Account Excise Duty @ 10 - __TC1"
    }
   ],
   "stock_uom": "_Test UOM 1"
@@ -105,12 +105,12 @@
   "item_name": "_Test Item Home Desktop 200",
   "stock_uom": "_Test UOM 1",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -126,12 +126,12 @@
   "item_name": "_Test Product Bundle Item",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -147,12 +147,12 @@
   "item_name": "_Test FG Item",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -168,12 +168,12 @@
   "item_name": "_Test Non Stock Item",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -189,12 +189,12 @@
   "item_name": "_Test Serialized Item",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -211,12 +211,12 @@
   "serial_no_series": "ABCD.#####",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -232,12 +232,12 @@
   "item_name": "_Test Item Home Desktop Manufactured",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -253,12 +253,12 @@
   "item_name": "_Test FG Item 2",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -275,12 +275,12 @@
   "stock_uom": "_Test UOM",
   "has_variants": 1,
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "attributes": [
 	  {
@@ -291,7 +291,7 @@
   "reorder_levels": [
       {
        "material_request_type": "Purchase",
-       "warehouse": "_Test Warehouse - _TC",
+       "warehouse": "_Test Warehouse - __TC1",
        "warehouse_reorder_level": 20,
        "warehouse_reorder_qty": 20
       }
@@ -310,18 +310,18 @@
   "item_name": "_Test Item Warehouse Group Wise Reorder",
   "apply_warehouse_wise_reorder_level": 1,
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse Group-C1 - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse Group-C1 - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "reorder_levels": [
    {
-	"warehouse_group": "_Test Warehouse Group - _TC",
+	"warehouse_group": "_Test Warehouse Group - __TC1",
     "material_request_type": "Purchase",
-    "warehouse": "_Test Warehouse Group-C1 - _TC",
+    "warehouse": "_Test Warehouse Group-C1 - __TC1",
     "warehouse_reorder_level": 20,
     "warehouse_reorder_qty": 20
    }
@@ -341,23 +341,23 @@
   "item_name": "_Test Item With Item Tax Template",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "taxes": [
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 10 - _TC"
+    "item_tax_template": "_Test Account Excise Duty @ 10 - __TC1"
    },
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 12 - _TC",
+    "item_tax_template": "_Test Account Excise Duty @ 12 - __TC1",
     "tax_category": "_Test Tax Category 1"
    }
   ]
@@ -375,12 +375,12 @@
   "item_name": "_Test Item Inherit Group Item Tax Template 1",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -396,12 +396,12 @@
   "item_name": "_Test Item Inherit Group Item Tax Template 2",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }]
  },
  {
@@ -417,24 +417,24 @@
   "item_name": "_Test Item Override Group Item Tax Template",
   "stock_uom": "_Test UOM",
   "item_defaults": [{
-    "company": "_Test Company",
-    "default_warehouse": "_Test Warehouse - _TC",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC",
-    "income_account": "Sales - _TC"
+    "company": "__Test Company 1",
+    "default_warehouse": "_Test Warehouse - __TC1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1",
+    "income_account": "Sales - __TC1"
   }],
   "taxes": [
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
-    "item_tax_template": "_Test Account Excise Duty @ 20 - _TC"
+    "item_tax_template": "_Test Account Excise Duty @ 20 - __TC1"
    },
    {
     "doctype": "Item Tax",
     "parentfield": "taxes",
     "tax_category": "_Test Tax Category 1",
-    "item_tax_template": "_Test Item Tax Template 1 - _TC"
+    "item_tax_template": "_Test Item Tax Template 1 - __TC1"
    }
   ]
  },

@@ -75,18 +75,18 @@ class TestQueries(unittest.TestCase):
 	def test_account_query(self):
 		query = add_default_params(queries.get_account_list, "Account")
 
-		debtor_accounts = query(txt="Debtors", filters={"company": "_Test Company"})
-		self.assert_nested_in("Debtors - _TC", debtor_accounts)
+		debtor_accounts = query(txt="Debtors", filters={"company": "__Test Company 1"})
+		self.assert_nested_in("Debtors - __TC1", debtor_accounts)
 
 	def test_income_account_query(self):
 		query = add_default_params(queries.get_income_account, "Account")
 
-		self.assertGreaterEqual(len(query(filters={"company": "_Test Company"})), 1)
+		self.assertGreaterEqual(len(query(filters={"company": "__Test Company 1"})), 1)
 
 	def test_expense_account_query(self):
 		query = add_default_params(queries.get_expense_account, "Account")
 
-		self.assertGreaterEqual(len(query(filters={"company": "_Test Company"})), 1)
+		self.assertGreaterEqual(len(query(filters={"company": "__Test Company 1"})), 1)
 
 	def test_warehouse_query(self):
 		query = add_default_params(queries.warehouse_query, "Account")

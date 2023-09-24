@@ -324,7 +324,7 @@ class TestLIFOValuation(unittest.TestCase):
 
 class TestLIFOValuationSLE(FrappeTestCase):
 	ITEM_CODE = "_Test LIFO item"
-	WAREHOUSE = "_Test Warehouse - _TC"
+	WAREHOUSE = "_Test Warehouse - __TC1"
 
 	@classmethod
 	def setUpClass(cls) -> None:

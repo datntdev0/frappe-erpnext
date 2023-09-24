@@ -15,7 +15,7 @@ class TestPOSProfile(unittest.TestCase):
 	def test_pos_profile(self):
 		make_pos_profile()
 
-		pos_profile = get_pos_profile("_Test Company") or {}
+		pos_profile = get_pos_profile("__Test Company 1") or {}
 		if pos_profile:
 			doc = frappe.get_doc("POS Profile", pos_profile.get("name"))
 			doc.append("item_groups", {"item_group": "_Test Item Group"})
@@ -104,26 +104,26 @@ def make_pos_profile(**args):
 
 	pos_profile = frappe.get_doc(
 		{
-			"company": args.company or "_Test Company",
-			"cost_center": args.cost_center or "_Test Cost Center - _TC",
+			"company": args.company or "__Test Company 1",
+			"cost_center": args.cost_center or "_Test Cost Center - __TC1",
 			"currency": args.currency or "INR",
 			"doctype": "POS Profile",
-			"expense_account": args.expense_account or "_Test Account Cost for Goods Sold - _TC",
-			"income_account": args.income_account or "Sales - _TC",
+			"expense_account": args.expense_account or "_Test Account Cost for Goods Sold - __TC1",
+			"income_account": args.income_account or "Sales - __TC1",
 			"name": args.name or "_Test POS Profile",
 			"naming_series": "_T-POS Profile-",
 			"selling_price_list": args.selling_price_list or "_Test Price List",
 			"territory": args.territory or "_Test Territory",
 			"customer_group": frappe.db.get_value("Customer Group", {"is_group": 0}, "name"),
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
-			"write_off_account": args.write_off_account or "_Test Write Off - _TC",
-			"write_off_cost_center": args.write_off_cost_center or "_Test Write Off Cost Center - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
+			"write_off_account": args.write_off_account or "_Test Write Off - __TC1",
+			"write_off_cost_center": args.write_off_cost_center or "_Test Write Off Cost Center - __TC1",
 		}
 	)
 
 	mode_of_payment = frappe.get_doc("Mode of Payment", "Cash")
-	company = args.company or "_Test Company"
-	default_account = args.income_account or "Sales - _TC"
+	company = args.company or "__Test Company 1"
+	default_account = args.income_account or "Sales - __TC1"
 
 	if not frappe.db.get_value("Mode of Payment Account", {"company": company, "parent": "Cash"}):
 		mode_of_payment.append("accounts", {"company": company, "default_account": default_account})

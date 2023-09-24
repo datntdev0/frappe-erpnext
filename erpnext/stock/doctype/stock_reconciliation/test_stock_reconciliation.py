@@ -119,14 +119,14 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 	def test_get_items(self):
 		create_warehouse(
 			"_Test Warehouse Group 1",
-			{"is_group": 1, "company": "_Test Company", "parent_warehouse": "All Warehouses - _TC"},
+			{"is_group": 1, "company": "__Test Company 1", "parent_warehouse": "All Warehouses - __TC1"},
 		)
 		create_warehouse(
 			"_Test Warehouse Ledger 1",
 			{
 				"is_group": 0,
-				"parent_warehouse": "_Test Warehouse Group 1 - _TC",
-				"company": "_Test Company",
+				"parent_warehouse": "_Test Warehouse Group 1 - __TC1",
+				"company": "__Test Company 1",
 			},
 		)
 
@@ -134,14 +134,14 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			"_Test Stock Reco Item",
 			is_stock_item=1,
 			valuation_rate=100,
-			warehouse="_Test Warehouse Ledger 1 - _TC",
+			warehouse="_Test Warehouse Ledger 1 - __TC1",
 			opening_stock=100,
 		)
 
-		items = get_items("_Test Warehouse Group 1 - _TC", nowdate(), nowtime(), "_Test Company")
+		items = get_items("_Test Warehouse Group 1 - __TC1", nowdate(), nowtime(), "__Test Company 1")
 
 		self.assertEqual(
-			["_Test Stock Reco Item", "_Test Warehouse Ledger 1 - _TC", 100],
+			["_Test Stock Reco Item", "_Test Warehouse Ledger 1 - __TC1", 100],
 			[items[0]["item_code"], items[0]["warehouse"], items[0]["qty"]],
 		)
 
@@ -151,7 +151,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 
 		# Add new serial nos
 		serial_item_code = "Stock-Reco-Serial-Item-1"
-		serial_warehouse = "_Test Warehouse for Stock Reco1 - _TC"
+		serial_warehouse = "_Test Warehouse for Stock Reco1 - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=serial_item_code, warehouse=serial_warehouse, qty=5, rate=200
@@ -203,7 +203,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 
 		# Add new serial nos
 		serial_item_code = "Stock-Reco-Serial-Item-2"
-		serial_warehouse = "_Test Warehouse for Stock Reco1 - _TC"
+		serial_warehouse = "_Test Warehouse for Stock Reco1 - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=serial_item_code,
@@ -249,7 +249,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 
 		# Add new serial nos
 		item_code = "Stock-Reco-batch-Item-1"
-		warehouse = "_Test Warehouse for Stock Reco2 - _TC"
+		warehouse = "_Test Warehouse for Stock Reco2 - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=item_code, warehouse=warehouse, qty=5, rate=200, do_not_save=1
@@ -299,7 +299,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		item.serial_no_series = "TBS-.####"
 		item.save()
 
-		warehouse = "_Test Warehouse for Stock Reco2 - _TC"
+		warehouse = "_Test Warehouse for Stock Reco2 - __TC1"
 
 		sr = create_stock_reconciliation(item_code=item.item_code, warehouse=warehouse, qty=1, rate=100)
 
@@ -358,7 +358,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		item.serial_no_series = "TBSD-.####"
 		item.save()
 
-		warehouse = "_Test Warehouse for Stock Reco2 - _TC"
+		warehouse = "_Test Warehouse for Stock Reco2 - __TC1"
 
 		stock_reco = create_stock_reconciliation(
 			item_code=item.item_code, warehouse=warehouse, qty=1, rate=100
@@ -418,7 +418,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		PR3		| PR	|	1	|	7	(posting date: today) # can't post future PR
 		"""
 		item_code = self.make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		frappe.flags.dont_execute_stock_reposts = True
 
@@ -484,7 +484,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		from erpnext.stock.stock_ledger import NegativeStockError
 
 		item_code = self.make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		pr1 = make_purchase_receipt(
 			item_code=item_code, warehouse=warehouse, qty=10, rate=100, posting_date=add_days(nowdate(), -2)
@@ -532,7 +532,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		from erpnext.stock.stock_ledger import NegativeStockError
 
 		item_code = self.make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=item_code,
@@ -577,7 +577,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		frappe.flags.dont_execute_stock_reposts = True
 
 		item_code = self.make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=item_code, warehouse=warehouse, qty=10, rate=100, posting_date=add_days(nowdate(), 10)
@@ -618,7 +618,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			item.save()
 
 		item_code = item.name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		se1 = make_stock_entry(item_code=item_code, target=warehouse, qty=10, basic_rate=700)
 
@@ -645,7 +645,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			item.save()
 
 		item_code = item.name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=item.name,
@@ -683,7 +683,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			},
 		)
 
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		sr = create_stock_reconciliation(
 			item_code=item.name,
@@ -715,7 +715,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			},
 		).name
 
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		# Added 100 Qty, Balace Qty 100
 		se1 = make_stock_entry(
@@ -779,7 +779,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			},
 		).name
 
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		# Stock Reco for 100, Balace Qty 100
 		stock_reco = create_stock_reconciliation(
@@ -826,7 +826,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 		from erpnext.stock.doctype.stock_entry.test_stock_entry import make_stock_entry
 
 		item_code = self.make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		# Stock Value => 100 * 100 = 10000
 		se = make_stock_entry(
@@ -880,7 +880,7 @@ class TestStockReconciliation(FrappeTestCase, StockTestMixin):
 			},
 		).name
 
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		# Added 100 Qty, Balace Qty 100
 		se = make_stock_entry(
@@ -962,12 +962,12 @@ def insert_existing_sle(warehouse, item_code="_Test Item"):
 def create_batch_or_serial_no_items():
 	create_warehouse(
 		"_Test Warehouse for Stock Reco1",
-		{"is_group": 0, "parent_warehouse": "_Test Warehouse Group - _TC"},
+		{"is_group": 0, "parent_warehouse": "_Test Warehouse Group - __TC1"},
 	)
 
 	create_warehouse(
 		"_Test Warehouse for Stock Reco2",
-		{"is_group": 0, "parent_warehouse": "_Test Warehouse Group - _TC"},
+		{"is_group": 0, "parent_warehouse": "_Test Warehouse Group - __TC1"},
 	)
 
 	serial_item_doc = create_item("Stock-Reco-Serial-Item-1", is_stock_item=1)
@@ -997,7 +997,7 @@ def create_stock_reconciliation(**args):
 	sr.posting_date = args.posting_date or nowdate()
 	sr.posting_time = args.posting_time or nowtime()
 	sr.set_posting_time = 1
-	sr.company = args.company or "_Test Company"
+	sr.company = args.company or "__Test Company 1"
 	sr.expense_account = args.expense_account or (
 		(
 			frappe.get_cached_value("Company", sr.company, "stock_adjustment_account")
@@ -1020,7 +1020,7 @@ def create_stock_reconciliation(**args):
 		"items",
 		{
 			"item_code": args.item_code or "_Test Item",
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"qty": args.qty,
 			"valuation_rate": args.rate,
 			"serial_no": args.serial_no,
@@ -1046,7 +1046,7 @@ def set_valuation_method(item_code, valuation_method):
 	frappe.db.set_value("Item", item_code, "valuation_method", valuation_method)
 
 	for warehouse in frappe.get_all(
-		"Warehouse", filters={"company": "_Test Company"}, fields=["name", "is_group"]
+		"Warehouse", filters={"company": "__Test Company 1"}, fields=["name", "is_group"]
 	):
 		if not warehouse.is_group:
 			update_entries_after(

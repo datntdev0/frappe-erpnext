@@ -13,16 +13,16 @@ from erpnext.accounts.doctype.journal_entry.test_journal_entry import make_journ
 
 class TestGLEntry(unittest.TestCase):
 	def test_round_off_entry(self):
-		frappe.db.set_value("Company", "_Test Company", "round_off_account", "_Test Write Off - _TC")
+		frappe.db.set_value("Company", "__Test Company 1", "round_off_account", "_Test Write Off - __TC1")
 		frappe.db.set_value(
-			"Company", "_Test Company", "round_off_cost_center", "_Test Cost Center - _TC"
+			"Company", "__Test Company 1", "round_off_cost_center", "_Test Cost Center - __TC1"
 		)
 
 		jv = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC",
-			"_Test Bank - _TC",
+			"_Test Account Cost for Goods Sold - __TC1",
+			"_Test Bank - __TC1",
 			100,
-			"_Test Cost Center - _TC",
+			"_Test Cost Center - __TC1",
 			submit=False,
 		)
 
@@ -42,13 +42,13 @@ class TestGLEntry(unittest.TestCase):
 
 	def test_rename_entries(self):
 		je = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC", "_Test Bank - _TC", 100, submit=True
+			"_Test Account Cost for Goods Sold - __TC1", "_Test Bank - __TC1", 100, submit=True
 		)
 		rename_gle_sle_docs()
 		naming_series = parse_naming_series(parts=frappe.get_meta("GL Entry").autoname.split(".")[:-1])
 
 		je = make_journal_entry(
-			"_Test Account Cost for Goods Sold - _TC", "_Test Bank - _TC", 100, submit=True
+			"_Test Account Cost for Goods Sold - __TC1", "_Test Bank - __TC1", 100, submit=True
 		)
 
 		gl_entries = frappe.get_all(

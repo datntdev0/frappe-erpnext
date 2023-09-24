@@ -25,7 +25,7 @@ class TestAnalytics(FrappeTestCase):
 			"range": "Monthly",
 			"to_date": "2018-03-31",
 			"tree_type": "Customer",
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"from_date": "2017-04-01",
 			"value_quantity": "Value",
 		}
@@ -94,7 +94,7 @@ class TestAnalytics(FrappeTestCase):
 			"range": "Monthly",
 			"to_date": "2018-03-31",
 			"tree_type": "Customer Group",
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"from_date": "2017-04-01",
 			"value_quantity": "Value",
 		}
@@ -126,7 +126,7 @@ class TestAnalytics(FrappeTestCase):
 			"range": "Monthly",
 			"to_date": "2018-03-31",
 			"tree_type": "Customer",
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"from_date": "2017-04-01",
 			"value_quantity": "Quantity",
 		}
@@ -194,7 +194,7 @@ def create_sales_orders():
 	frappe.set_user("Administrator")
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=10,
 		customer="_Test Customer 1",
 		transaction_date="2018-02-10",
@@ -203,7 +203,7 @@ def create_sales_orders():
 	)
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=10,
 		customer="_Test Customer 1",
 		transaction_date="2018-02-15",
@@ -212,7 +212,7 @@ def create_sales_orders():
 	)
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=10,
 		customer="_Test Customer 2",
 		transaction_date="2017-10-10",
@@ -221,7 +221,7 @@ def create_sales_orders():
 	)
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=15,
 		customer="_Test Customer 2",
 		transaction_date="2017-09-23",
@@ -230,7 +230,7 @@ def create_sales_orders():
 	)
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=20,
 		customer="_Test Customer 3",
 		transaction_date="2017-06-15",
@@ -239,7 +239,7 @@ def create_sales_orders():
 	)
 
 	make_sales_order(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		qty=10,
 		customer="_Test Customer 3",
 		transaction_date="2017-07-10",

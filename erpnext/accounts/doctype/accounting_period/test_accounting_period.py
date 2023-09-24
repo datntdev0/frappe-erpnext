@@ -35,7 +35,7 @@ class TestAccountingPeriod(unittest.TestCase):
 		ap1.save()
 
 		doc = create_sales_invoice(
-			do_not_save=1, cost_center="_Test Company - _TC", warehouse="Stores - _TC"
+			do_not_save=1, cost_center="_Test Company - __TC1", warehouse="Stores - __TC1"
 		)
 		self.assertRaises(ClosedAccountingPeriod, doc.save)
 
@@ -50,7 +50,7 @@ def create_accounting_period(**args):
 	accounting_period = frappe.new_doc("Accounting Period")
 	accounting_period.start_date = args.start_date or nowdate()
 	accounting_period.end_date = args.end_date or add_months(nowdate(), 1)
-	accounting_period.company = args.company or "_Test Company"
+	accounting_period.company = args.company or "__Test Company 1"
 	accounting_period.period_name = args.period_name or "_Test_Period_Name_1"
 	accounting_period.append("closed_documents", {"document_type": "Sales Invoice", "closed": 1})
 

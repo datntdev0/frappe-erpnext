@@ -68,8 +68,8 @@ class TestAccountsController(FrappeTestCase):
 		frappe.db.rollback()
 
 	def create_company(self):
-		company_name = "_Test Company"
-		self.company_abbr = abbr = "_TC"
+		company_name = "__Test Company 1"
+		self.company_abbr = abbr = "__TC1"
 		if frappe.db.exists("Company", company_name):
 			company = frappe.get_doc("Company", company_name)
 		else:

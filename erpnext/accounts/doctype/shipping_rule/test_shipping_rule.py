@@ -50,10 +50,10 @@ def create_shipping_rule(shipping_rule_type, shipping_rule_name):
 		return frappe.get_doc("Shipping Rule", shipping_rule_name)
 
 	sr = frappe.new_doc("Shipping Rule")
-	sr.account = "_Test Account Shipping Charges - _TC"
+	sr.account = "_Test Account Shipping Charges - __TC1"
 	sr.calculate_based_on = "Net Total"
-	sr.company = "_Test Company"
-	sr.cost_center = "_Test Cost Center - _TC"
+	sr.company = "__Test Company 1"
+	sr.cost_center = "_Test Cost Center - __TC1"
 	sr.label = shipping_rule_name
 	sr.name = shipping_rule_name
 	sr.shipping_rule_type = shipping_rule_type

@@ -4,7 +4,7 @@ from typing import List, Tuple
 from erpnext.tests.utils import ReportFilters, ReportName, execute_script_report
 
 DEFAULT_FILTERS = {
-	"company": "_Test Company",
+	"company": "__Test Company 1",
 	"from_date": "2010-01-01",
 	"to_date": "2030-01-01",
 	"period_start_date": "2010-01-01",

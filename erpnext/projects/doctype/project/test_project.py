@@ -165,7 +165,7 @@ def get_project(name, template):
 			status="Open",
 			project_template=template.name,
 			expected_start_date=nowdate(),
-			company="_Test Company",
+			company="__Test Company 1",
 		)
 	).insert()
 
@@ -184,7 +184,7 @@ def make_project(args):
 			project_name=args.project_name,
 			status="Open",
 			expected_start_date=args.start_date,
-			company=args.company or "_Test Company",
+			company=args.company or "__Test Company 1",
 		)
 	)
 

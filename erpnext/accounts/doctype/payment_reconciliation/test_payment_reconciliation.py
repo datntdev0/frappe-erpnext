@@ -918,7 +918,7 @@ class TestPaymentReconciliation(FrappeTestCase):
 		pi_return.items[0].qty = -pi_return.items[0].qty
 		pi_return.submit()
 
-		self.company = "_Test Company"
+		self.company = "__Test Company 1"
 		self.party_type = "Supplier"
 		self.customer = "_Test Supplier USD"
 

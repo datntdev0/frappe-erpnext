@@ -27,7 +27,7 @@ class TestPaymentOrder(unittest.TestCase):
 	def test_payment_order_creation_against_payment_entry(self):
 		purchase_invoice = make_purchase_invoice()
 		payment_entry = get_payment_entry(
-			"Purchase Invoice", purchase_invoice.name, bank_account="_Test Bank - _TC"
+			"Purchase Invoice", purchase_invoice.name, bank_account="_Test Bank - __TC1"
 		)
 		payment_entry.reference_no = "_Test_Payment_Order"
 		payment_entry.reference_date = getdate()
@@ -47,7 +47,7 @@ def create_payment_order_against_payment_entry(ref_doc, order_type):
 	payment_order = frappe.get_doc(
 		dict(
 			doctype="Payment Order",
-			company="_Test Company",
+			company="__Test Company 1",
 			payment_order_type=order_type,
 			company_bank_account="Checking Account - Citi Bank",
 		)

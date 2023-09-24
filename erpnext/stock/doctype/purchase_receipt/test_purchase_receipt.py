@@ -134,18 +134,18 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		existing_bin_qty, existing_bin_stock_value = frappe.db.get_value(
 			"Bin",
-			{"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"},
 			["actual_qty", "stock_value"],
 		)
 
 		if existing_bin_qty < 0:
 			make_stock_entry(
-				item_code="_Test Item", target="_Test Warehouse - _TC", qty=abs(existing_bin_qty)
+				item_code="_Test Item", target="_Test Warehouse - __TC1", qty=abs(existing_bin_qty)
 			)
 
 		existing_bin_qty, existing_bin_stock_value = frappe.db.get_value(
 			"Bin",
-			{"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"},
 			["actual_qty", "stock_value"],
 		)
 
@@ -157,7 +157,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 				"voucher_type": "Purchase Receipt",
 				"voucher_no": pr.name,
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 			},
 			"stock_value_difference",
 		)
@@ -165,7 +165,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 		self.assertEqual(stock_value_difference, 250)
 
 		current_bin_stock_value = frappe.db.get_value(
-			"Bin", {"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"}, "stock_value"
+			"Bin", {"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"}, "stock_value"
 		)
 		self.assertEqual(current_bin_stock_value, existing_bin_stock_value + 250)
 
@@ -229,7 +229,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 			qty=2,
 			rate=500,
 			serial_no="\n".join(serial_nos),
-			company="_Test Company 1",
+			company="__Test Company 2",
 			do_not_submit=True,
 			warehouse="Stores - _TC1",
 		)
@@ -262,7 +262,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 			rate=500,
 			posting_date=posting_date,
 			serial_no="\n".join(serial_nos),
-			company="_Test Company 1",
+			company="__Test Company 2",
 			do_not_submit=True,
 			warehouse="Stores - _TC1",
 		)
@@ -277,7 +277,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 	def test_purchase_receipt_gl_entry(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			get_multiple_items=True,
@@ -338,7 +338,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 		pr.get("items")[0].qty = 3
 		pr.get("items")[0].rejected_qty = 2
 		pr.get("items")[0].received_qty = 5
-		pr.get("items")[0].rejected_warehouse = "_Test Rejected Warehouse - _TC"
+		pr.get("items")[0].rejected_warehouse = "_Test Rejected Warehouse - __TC1"
 		pr.insert()
 		pr.submit()
 
@@ -360,13 +360,13 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 	def test_purchase_return_partial(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 		)
 
 		return_pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			is_return=1,
@@ -447,13 +447,13 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 	def test_purchase_return_full(self):
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 		)
 
 		return_pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			is_return=1,
@@ -483,13 +483,13 @@ class TestPurchaseReceipt(FrappeTestCase):
 		rejected_warehouse = "_Test Rejected Warehouse - TCP1"
 		if not frappe.db.exists("Warehouse", rejected_warehouse):
 			get_warehouse(
-				company="_Test Company with perpetual inventory",
+				company="__Test Company 7",
 				abbr=" - TCP1",
 				warehouse_name="_Test Rejected Warehouse",
 			).name
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			qty=2,
@@ -498,7 +498,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 		)
 
 		return_pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 			is_return=1,
@@ -529,13 +529,13 @@ class TestPurchaseReceipt(FrappeTestCase):
 		rejected_warehouse = "_Test Rejected Warehouse - TCP1"
 		if not frappe.db.exists("Warehouse", rejected_warehouse):
 			get_warehouse(
-				company="_Test Company with perpetual inventory",
+				company="__Test Company 7",
 				abbr=" - TCP1",
 				warehouse_name="_Test Rejected Warehouse",
 			).name
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			received_qty=2,
 			rejected_qty=2,
@@ -575,7 +575,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 		serial_no = get_serial_nos(pr.get("items")[0].serial_no)[0]
 
 		_check_serial_no_values(
-			serial_no, {"warehouse": "_Test Warehouse - _TC", "purchase_document_no": pr.name}
+			serial_no, {"warehouse": "_Test Warehouse - __TC1", "purchase_document_no": pr.name}
 		)
 
 		return_pr = make_purchase_receipt(
@@ -747,10 +747,10 @@ class TestPurchaseReceipt(FrappeTestCase):
 						"frequency_of_depreciation": 1,
 						"accounts": [
 							{
-								"company_name": "_Test Company",
-								"fixed_asset_account": "_Test Fixed Asset - _TC",
-								"accumulated_depreciation_account": "_Test Accumulated Depreciations - _TC",
-								"depreciation_expense_account": "_Test Depreciations - _TC",
+								"company_name": "__Test Company 1",
+								"fixed_asset_account": "_Test Fixed Asset - __TC1",
+								"accumulated_depreciation_account": "_Test Accumulated Depreciations - __TC1",
+								"depreciation_expense_account": "_Test Depreciations - __TC1",
 							}
 						],
 					}
@@ -817,7 +817,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 		cost_center = "_Test Cost Center for BS Account - TCP1"
 		create_cost_center(
 			cost_center_name="_Test Cost Center for BS Account",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 
 		if not frappe.db.exists("Location", "Test Location"):
@@ -825,7 +825,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		pr = make_purchase_receipt(
 			cost_center=cost_center,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 		)
@@ -849,7 +849,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 			frappe.get_doc({"doctype": "Location", "location_name": "Test Location"}).insert()
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			supplier_warehouse="Work In Progress - TCP1",
 		)
@@ -899,7 +899,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 			"items",
 			{
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 1,
 				"received_qty": 1,
 				"rate": 100,
@@ -929,11 +929,11 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 	def test_stock_transfer_from_purchase_receipt(self):
 		pr1 = make_purchase_receipt(
-			warehouse="Work In Progress - TCP1", company="_Test Company with perpetual inventory"
+			warehouse="Work In Progress - TCP1", company="__Test Company 7"
 		)
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory", warehouse="Stores - TCP1", do_not_save=1
+			company="__Test Company 7", warehouse="Stores - TCP1", do_not_save=1
 		)
 
 		pr.supplier_warehouse = ""
@@ -957,17 +957,17 @@ class TestPurchaseReceipt(FrappeTestCase):
 	def test_stock_transfer_from_purchase_receipt_with_valuation(self):
 		create_warehouse(
 			"_Test Warehouse for Valuation",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			properties={"account": "_Test Account Stock In Hand - TCP1"},
 		)
 
 		pr1 = make_purchase_receipt(
 			warehouse="_Test Warehouse for Valuation - TCP1",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 
 		pr = make_purchase_receipt(
-			company="_Test Company with perpetual inventory", warehouse="Stores - TCP1", do_not_save=1
+			company="__Test Company 7", warehouse="Stores - TCP1", do_not_save=1
 		)
 
 		pr.items[0].from_warehouse = "_Test Warehouse for Valuation - TCP1"
@@ -1069,12 +1069,12 @@ class TestPurchaseReceipt(FrappeTestCase):
 		add_party_account(
 			"Supplier",
 			"_Test Supplier USD",
-			"_Test Company with perpetual inventory",
+			"__Test Company 7",
 			"_Test Payable USD - TCP1",
 		)
 
 		pi = create_purchase_invoice(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			cost_center="Main - TCP1",
 			warehouse="Stores - TCP1",
 			expense_account="_Test Account Cost for Goods Sold - TCP1",
@@ -1147,7 +1147,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		item_code = "_TestNegToPosItem"
 		warehouse = "Stores - TCP1"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		account = "Stock Received But Not Billed - TCP1"
 
 		make_item(item_code)
@@ -1178,7 +1178,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1264,7 +1264,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1330,7 +1330,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1442,7 +1442,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1627,7 +1627,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 	def test_validate_received_qty_for_internal_pr(self):
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		target_warehouse = create_warehouse("_Test Internal GIT Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1701,7 +1701,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 
 		prepare_data_for_internal_transfer()
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New", company=company)
 		target_warehouse = create_warehouse("_Test Internal GIT Warehouse New", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New", company=company)
@@ -1776,7 +1776,7 @@ class TestPurchaseReceipt(FrappeTestCase):
 	def test_internal_pr_reference(self):
 		item = make_item(properties={"is_stock_item": 1, "valuation_rate": 100})
 		customer = "_Test Internal Customer 2"
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		from_warehouse = create_warehouse("_Test Internal From Warehouse New 1", company=company)
 		target_warehouse = create_warehouse("_Test Internal GIT Warehouse New 1", company=company)
 		to_warehouse = create_warehouse("_Test Internal To Warehouse New 1", company=company)
@@ -2029,7 +2029,7 @@ def prepare_data_for_internal_transfer():
 	from erpnext.accounts.doctype.sales_invoice.test_sales_invoice import create_internal_supplier
 	from erpnext.selling.doctype.customer.test_customer import create_internal_customer
 
-	company = "_Test Company with perpetual inventory"
+	company = "__Test Company 7"
 
 	create_internal_customer(
 		"_Test Internal Customer 2",
@@ -2141,8 +2141,8 @@ def get_items(**args):
 			"rejected_qty": 0.0,
 			"stock_uom": "_Test UOM",
 			"uom": "_Test UOM",
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
-			"cost_center": args.cost_center or "Main - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
+			"cost_center": args.cost_center or "Main - __TC1",
 		},
 		{
 			"base_amount": 250.0,
@@ -2158,8 +2158,8 @@ def get_items(**args):
 			"rejected_qty": 0.0,
 			"stock_uom": "_Test UOM",
 			"uom": "_Test UOM",
-			"warehouse": args.warehouse or "_Test Warehouse 1 - _TC",
-			"cost_center": args.cost_center or "Main - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse 1 - __TC1",
+			"cost_center": args.cost_center or "Main - __TC1",
 		},
 	]
 
@@ -2176,10 +2176,10 @@ def make_purchase_receipt(**args):
 		pr.posting_time = args.posting_time
 	if args.posting_date or args.posting_time:
 		pr.set_posting_time = 1
-	pr.company = args.company or "_Test Company"
+	pr.company = args.company or "__Test Company 1"
 	pr.supplier = args.supplier or "_Test Supplier"
 	pr.is_subcontracted = args.is_subcontracted or 0
-	pr.supplier_warehouse = args.supplier_warehouse or "_Test Warehouse 1 - _TC"
+	pr.supplier_warehouse = args.supplier_warehouse or "_Test Warehouse 1 - __TC1"
 	pr.currency = args.currency or "INR"
 	pr.is_return = args.is_return
 	pr.return_against = args.return_against
@@ -2194,11 +2194,11 @@ def make_purchase_receipt(**args):
 		"items",
 		{
 			"item_code": item_code,
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"qty": qty,
 			"received_qty": received_qty,
 			"rejected_qty": rejected_qty,
-			"rejected_warehouse": args.rejected_warehouse or "_Test Rejected Warehouse - _TC"
+			"rejected_warehouse": args.rejected_warehouse or "_Test Rejected Warehouse - __TC1"
 			if rejected_qty != 0
 			else "",
 			"rate": args.rate if args.rate != None else 50,

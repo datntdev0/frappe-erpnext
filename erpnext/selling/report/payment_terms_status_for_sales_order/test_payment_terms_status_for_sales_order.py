@@ -22,8 +22,8 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 		frappe.db.rollback()
 
 	def cleanup_old_entries(self):
-		frappe.db.delete("Sales Invoice", filters={"company": "_Test Company"})
-		frappe.db.delete("Sales Order", filters={"company": "_Test Company"})
+		frappe.db.delete("Sales Invoice", filters={"company": "__Test Company 1"})
+		frappe.db.delete("Sales Order", filters={"company": "__Test Company 1"})
 
 	def create_payment_terms_template(self):
 		# create template for 50-50 payments
@@ -86,7 +86,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 		columns, data, message, chart = execute(
 			frappe._dict(
 				{
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"period_start_date": "2021-06-01",
 					"period_end_date": "2021-06-30",
 					"item": item.item_code,
@@ -138,7 +138,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 					"doctype": "Currency Exchange",
 					"date": date,
 					"from_currency": "USD",
-					"to_currency": frappe.get_cached_value("Company", "_Test Company", "default_currency"),
+					"to_currency": frappe.get_cached_value("Company", "__Test Company 1", "default_currency"),
 					"exchange_rate": 70,
 					"for_buying": True,
 					"for_selling": True,
@@ -178,7 +178,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 		columns, data, message, chart = execute(
 			frappe._dict(
 				{
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"period_start_date": "2021-06-01",
 					"period_end_date": "2021-06-30",
 					"item": item.item_code,
@@ -197,7 +197,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 6, 30),
 				"invoice_portion": 50.0,
-				"currency": frappe.get_cached_value("Company", "_Test Company", "default_currency"),
+				"currency": frappe.get_cached_value("Company", "__Test Company 1", "default_currency"),
 				"base_payment_amount": 3500000.0,
 				"paid_amount": 3500000.0,
 				"invoices": "," + sinv.name,
@@ -211,7 +211,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 7, 15),
 				"invoice_portion": 50.0,
-				"currency": frappe.get_cached_value("Company", "_Test Company", "default_currency"),
+				"currency": frappe.get_cached_value("Company", "__Test Company 1", "default_currency"),
 				"base_payment_amount": 3500000.0,
 				"paid_amount": 700000.0,
 				"invoices": "," + sinv.name,
@@ -262,7 +262,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 		so2.submit()
 
 		base_filters = {
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"period_start_date": "2021-06-01",
 			"period_end_date": "2021-06-30",
 		}
@@ -381,7 +381,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 		columns, data, message, chart = execute(
 			frappe._dict(
 				{
-					"company": "_Test Company",
+					"company": "__Test Company 1",
 					"item": item.item_code,
 					"from_due_date": add_months(transaction_date, -1),
 					"to_due_date": first_due_date,

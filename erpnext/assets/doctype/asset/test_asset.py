@@ -138,8 +138,8 @@ class TestAsset(AssetSetup):
 		self.assertEqual(asset.purchase_receipt, pr.name)
 
 		expected_gle = (
-			("Asset Received But Not Billed - _TC", 100000.0, 0.0),
-			("Creditors - _TC", 0.0, 100000.0),
+			("Asset Received But Not Billed - __TC1", 100000.0, 0.0),
+			("Creditors - __TC1", 0.0, 100000.0),
 		)
 
 		gle = frappe.db.sql(
@@ -236,13 +236,13 @@ class TestAsset(AssetSetup):
 
 		expected_gle = (
 			(
-				"_Test Accumulated Depreciations - _TC",
+				"_Test Accumulated Depreciations - __TC1",
 				flt(18000.0 + pro_rata_amount, asset.precision("gross_purchase_amount")),
 				0.0,
 			),
-			("_Test Fixed Asset - _TC", 0.0, 100000.0),
+			("_Test Fixed Asset - __TC1", 0.0, 100000.0),
 			(
-				"_Test Gain/Loss on Asset Disposal - _TC",
+				"_Test Gain/Loss on Asset Disposal - __TC1",
 				flt(82000.0 - pro_rata_amount, asset.precision("gross_purchase_amount")),
 				0.0,
 			),
@@ -286,7 +286,7 @@ class TestAsset(AssetSetup):
 
 		post_depreciation_entries(date=add_months(purchase_date, 2))
 
-		si = make_sales_invoice(asset=asset.name, item_code="Macbook Pro", company="_Test Company")
+		si = make_sales_invoice(asset=asset.name, item_code="Macbook Pro", company="__Test Company 1")
 		si.customer = "_Test Customer"
 		si.due_date = nowdate()
 		si.get("items")[0].rate = 25000
@@ -302,17 +302,17 @@ class TestAsset(AssetSetup):
 
 		expected_gle = (
 			(
-				"_Test Accumulated Depreciations - _TC",
+				"_Test Accumulated Depreciations - __TC1",
 				flt(18000.0 + pro_rata_amount, asset.precision("gross_purchase_amount")),
 				0.0,
 			),
-			("_Test Fixed Asset - _TC", 0.0, 100000.0),
+			("_Test Fixed Asset - __TC1", 0.0, 100000.0),
 			(
-				"_Test Gain/Loss on Asset Disposal - _TC",
+				"_Test Gain/Loss on Asset Disposal - __TC1",
 				flt(57000.0 - pro_rata_amount, asset.precision("gross_purchase_amount")),
 				0.0,
 			),
-			("Debtors - _TC", 25000.0, 0.0),
+			("Debtors - __TC1", 25000.0, 0.0),
 		)
 
 		gle = frappe.db.sql(
@@ -374,21 +374,21 @@ class TestAsset(AssetSetup):
 
 		expected_gle = (
 			(
-				"_Test Accumulated Depreciations - _TC",
+				"_Test Accumulated Depreciations - __TC1",
 				37742.47,
 				0.0,
 			),
 			(
-				"_Test Fixed Asset - _TC",
+				"_Test Fixed Asset - __TC1",
 				0.0,
 				60000.0,
 			),
 			(
-				"_Test Gain/Loss on Asset Disposal - _TC",
+				"_Test Gain/Loss on Asset Disposal - __TC1",
 				0.0,
 				17742.47,
 			),
-			("Debtors - _TC", 40000.0, 0.0),
+			("Debtors - __TC1", 40000.0, 0.0),
 		)
 
 		gle = frappe.db.sql(
@@ -415,7 +415,7 @@ class TestAsset(AssetSetup):
 
 		post_depreciation_entries(date="2021-01-01")
 
-		si = make_sales_invoice(asset=asset.name, item_code="Macbook Pro", company="_Test Company")
+		si = make_sales_invoice(asset=asset.name, item_code="Macbook Pro", company="__Test Company 1")
 		si.customer = "_Test Customer"
 		si.due_date = nowdate()
 		si.get("items")[0].rate = 25000
@@ -485,7 +485,7 @@ class TestAsset(AssetSetup):
 		)
 		doc = make_invoice(pr.name)
 
-		self.assertEqual("Asset Received But Not Billed - _TC", doc.items[0].expense_account)
+		self.assertEqual("Asset Received But Not Billed - __TC1", doc.items[0].expense_account)
 
 	# CWIP: Capital Work In Progress
 	def test_cwip_accounting(self):
@@ -500,18 +500,18 @@ class TestAsset(AssetSetup):
 					"category": "Total",
 					"add_deduct_tax": "Add",
 					"charge_type": "On Net Total",
-					"account_head": "_Test Account Service Tax - _TC",
+					"account_head": "_Test Account Service Tax - __TC1",
 					"description": "_Test Account Service Tax",
-					"cost_center": "Main - _TC",
+					"cost_center": "Main - __TC1",
 					"rate": 5.0,
 				},
 				{
 					"category": "Valuation and Total",
 					"add_deduct_tax": "Add",
 					"charge_type": "On Net Total",
-					"account_head": "_Test Account Shipping Charges - _TC",
+					"account_head": "_Test Account Shipping Charges - __TC1",
 					"description": "_Test Account Shipping Charges",
-					"cost_center": "Main - _TC",
+					"cost_center": "Main - __TC1",
 					"rate": 5.0,
 				},
 			],
@@ -520,8 +520,8 @@ class TestAsset(AssetSetup):
 		pr.submit()
 
 		expected_gle = (
-			("Asset Received But Not Billed - _TC", 0.0, 5250.0),
-			("CWIP Account - _TC", 5250.0, 0.0),
+			("Asset Received But Not Billed - __TC1", 0.0, 5250.0),
+			("CWIP Account - __TC1", 5250.0, 0.0),
 		)
 
 		pr_gle = frappe.db.sql(
@@ -537,11 +537,11 @@ class TestAsset(AssetSetup):
 		pi.submit()
 
 		expected_gle = (
-			("_Test Account Service Tax - _TC", 250.0, 0.0),
-			("_Test Account Shipping Charges - _TC", 250.0, 0.0),
-			("Asset Received But Not Billed - _TC", 5250.0, 0.0),
-			("Creditors - _TC", 0.0, 5500.0),
-			("Expenses Included In Asset Valuation - _TC", 0.0, 250.0),
+			("_Test Account Service Tax - __TC1", 250.0, 0.0),
+			("_Test Account Shipping Charges - __TC1", 250.0, 0.0),
+			("Asset Received But Not Billed - __TC1", 5250.0, 0.0),
+			("Creditors - __TC1", 0.0, 5500.0),
+			("Expenses Included In Asset Valuation - __TC1", 0.0, 250.0),
 		)
 
 		pi_gle = frappe.db.sql(
@@ -575,7 +575,7 @@ class TestAsset(AssetSetup):
 		)
 		asset_doc.submit()
 
-		expected_gle = (("_Test Fixed Asset - _TC", 5250.0, 0.0), ("CWIP Account - _TC", 0.0, 5250.0))
+		expected_gle = (("_Test Fixed Asset - __TC1", 5250.0, 0.0), ("CWIP Account - __TC1", 0.0, 5250.0))
 
 		gle = frappe.db.sql(
 			"""select account, debit, credit from `tabGL Entry`
@@ -591,11 +591,11 @@ class TestAsset(AssetSetup):
 		name = frappe.db.get_value(
 			"Asset Category Account", filters={"parent": "Computers"}, fieldname=["name"]
 		)
-		cwip_acc = "CWIP Account - _TC"
+		cwip_acc = "CWIP Account - __TC1"
 
 		frappe.db.set_value("Asset Category", "Computers", "enable_cwip_accounting", 0)
 		frappe.db.set_value("Asset Category Account", name, "capital_work_in_progress_account", "")
-		frappe.db.get_value("Company", "_Test Company", "capital_work_in_progress_account", "")
+		frappe.db.get_value("Company", "__Test Company 1", "capital_work_in_progress_account", "")
 
 		# case 0 -- PI with cwip disable, Asset with cwip disabled, No cwip account set
 		pi = make_purchase_invoice(
@@ -679,7 +679,7 @@ class TestAsset(AssetSetup):
 
 		frappe.db.set_value("Asset Category", "Computers", "enable_cwip_accounting", cwip)
 		frappe.db.set_value("Asset Category Account", name, "capital_work_in_progress_account", cwip_acc)
-		frappe.db.get_value("Company", "_Test Company", "capital_work_in_progress_account", cwip_acc)
+		frappe.db.get_value("Company", "__Test Company 1", "capital_work_in_progress_account", cwip_acc)
 
 
 class TestDepreciationMethods(AssetSetup):
@@ -1256,7 +1256,7 @@ class TestDepreciationBasics(AssetSetup):
 		]
 
 		for entry in accounting_entries:
-			if entry["account"] == "_Test Depreciations - _TC":
+			if entry["account"] == "_Test Depreciations - __TC1":
 				self.assertTrue(entry["debit"])
 				self.assertFalse(entry["credit"])
 			else:
@@ -1266,9 +1266,9 @@ class TestDepreciationBasics(AssetSetup):
 	def test_depr_entry_posting_when_depr_expense_account_is_an_income_account(self):
 		"""Tests if the Depreciation Expense Account gets credited and the Accumulated Depreciation Account gets debited when the former's an Income Account."""
 
-		depr_expense_account = frappe.get_doc("Account", "_Test Depreciations - _TC")
+		depr_expense_account = frappe.get_doc("Account", "_Test Depreciations - __TC1")
 		depr_expense_account.root_type = "Income"
-		depr_expense_account.parent_account = "Income - _TC"
+		depr_expense_account.parent_account = "Income - __TC1"
 		depr_expense_account.save()
 
 		asset = create_asset(
@@ -1292,7 +1292,7 @@ class TestDepreciationBasics(AssetSetup):
 		]
 
 		for entry in accounting_entries:
-			if entry["account"] == "_Test Depreciations - _TC":
+			if entry["account"] == "_Test Depreciations - __TC1":
 				self.assertTrue(entry["credit"])
 				self.assertFalse(entry["debit"])
 			else:
@@ -1301,7 +1301,7 @@ class TestDepreciationBasics(AssetSetup):
 
 		# resetting
 		depr_expense_account.root_type = "Expense"
-		depr_expense_account.parent_account = "Expenses - _TC"
+		depr_expense_account.parent_account = "Expenses - __TC1"
 		depr_expense_account.save()
 
 	def test_clear_depreciation_schedule(self):
@@ -1472,7 +1472,7 @@ class TestDepreciationBasics(AssetSetup):
 
 		self.assertEqual(asset.status, "Submitted")
 
-		frappe.db.set_value("Company", "_Test Company", "series_for_depreciation_entry", "DEPR-")
+		frappe.db.set_value("Company", "__Test Company 1", "series_for_depreciation_entry", "DEPR-")
 		post_depreciation_entries(date="2021-01-01")
 		asset.load_from_db()
 
@@ -1480,8 +1480,8 @@ class TestDepreciationBasics(AssetSetup):
 		self.assertEqual(asset.get("schedules")[0].journal_entry[:4], "DEPR")
 
 		expected_gle = (
-			("_Test Accumulated Depreciations - _TC", 0.0, 30000.0),
-			("_Test Depreciations - _TC", 30000.0, 0.0),
+			("_Test Accumulated Depreciations - __TC1", 0.0, 30000.0),
+			("_Test Depreciations - __TC1", 30000.0, 0.0),
 		)
 
 		gle = frappe.db.sql(
@@ -1521,7 +1521,7 @@ class TestDepreciationBasics(AssetSetup):
 
 		self.assertRaises(frappe.ValidationError, asset.submit)
 
-		asset.cost_center = "Main - _TC"
+		asset.cost_center = "Main - __TC1"
 		asset.submit()
 
 	def test_depreciation_on_final_day_of_the_month(self):
@@ -1563,7 +1563,7 @@ class TestDepreciationBasics(AssetSetup):
 		self.assertEqual(asset.get_value_after_depreciation(), 100000)
 
 		jv = make_journal_entry(
-			"_Test Depreciations - _TC", "_Test Accumulated Depreciations - _TC", 100, save=False
+			"_Test Depreciations - __TC1", "_Test Accumulated Depreciations - __TC1", 100, save=False
 		)
 		for d in jv.accounts:
 			d.reference_type = "Asset"
@@ -1596,7 +1596,7 @@ class TestDepreciationBasics(AssetSetup):
 		self.assertEqual(asset.get_value_after_depreciation(), 100000)
 
 		jv = make_journal_entry(
-			"_Test Depreciations - _TC", "_Test Accumulated Depreciations - _TC", 100, save=False
+			"_Test Depreciations - __TC1", "_Test Accumulated Depreciations - __TC1", 100, save=False
 		)
 		for d in jv.accounts:
 			d.reference_type = "Asset"
@@ -1626,7 +1626,7 @@ class TestDepreciationBasics(AssetSetup):
 		)
 
 		jv = make_journal_entry(
-			"_Test Depreciations - _TC", "_Test Accumulated Depreciations - _TC", 100, save=False
+			"_Test Depreciations - __TC1", "_Test Accumulated Depreciations - __TC1", 100, save=False
 		)
 		for d in jv.accounts:
 			d.reference_type = "Asset"
@@ -1659,7 +1659,7 @@ def create_asset(**args):
 			"asset_name": args.asset_name or "Macbook Pro 1",
 			"asset_category": args.asset_category or "Computers",
 			"item_code": args.item_code or "Macbook Pro",
-			"company": args.company or "_Test Company",
+			"company": args.company or "__Test Company 1",
 			"purchase_date": args.purchase_date or "2015-01-01",
 			"calculate_depreciation": args.calculate_depreciation or 0,
 			"opening_accumulated_depreciation": args.opening_accumulated_depreciation or 0,
@@ -1667,7 +1667,7 @@ def create_asset(**args):
 			"gross_purchase_amount": args.gross_purchase_amount or 100000,
 			"purchase_receipt_amount": args.purchase_receipt_amount or 100000,
 			"maintenance_required": args.maintenance_required or 0,
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"available_for_use_date": args.available_for_use_date or "2020-06-06",
 			"location": args.location or "Test Location",
 			"asset_owner": args.asset_owner or "Company",
@@ -1712,16 +1712,16 @@ def create_asset_category():
 	asset_category.append(
 		"accounts",
 		{
-			"company_name": "_Test Company",
-			"fixed_asset_account": "_Test Fixed Asset - _TC",
-			"accumulated_depreciation_account": "_Test Accumulated Depreciations - _TC",
-			"depreciation_expense_account": "_Test Depreciations - _TC",
+			"company_name": "__Test Company 1",
+			"fixed_asset_account": "_Test Fixed Asset - __TC1",
+			"accumulated_depreciation_account": "_Test Accumulated Depreciations - __TC1",
+			"depreciation_expense_account": "_Test Depreciations - __TC1",
 		},
 	)
 	asset_category.append(
 		"accounts",
 		{
-			"company_name": "_Test Company with perpetual inventory",
+			"company_name": "__Test Company 7",
 			"fixed_asset_account": "_Test Fixed Asset - TCP1",
 			"accumulated_depreciation_account": "_Test Accumulated Depreciations - TCP1",
 			"depreciation_expense_account": "_Test Depreciations - TCP1",
@@ -1759,7 +1759,7 @@ def create_fixed_asset_item(item_code=None, auto_create_assets=1, is_grouped_ass
 
 def set_depreciation_settings_in_company(company=None):
 	if not company:
-		company = "_Test Company"
+		company = "__Test Company 1"
 	company = frappe.get_doc("Company", company)
 	company.accumulated_depreciation_account = "_Test Accumulated Depreciations - " + company.abbr
 	company.depreciation_expense_account = "_Test Depreciations - " + company.abbr

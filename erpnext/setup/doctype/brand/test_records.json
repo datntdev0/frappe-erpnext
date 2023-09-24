@@ -7,11 +7,11 @@
   "brand": "_Test Brand With Item Defaults",
   "doctype": "Brand",
   "brand_defaults": [{
-    "company": "_Test Company",
-    "expense_account": "_Test Account Cost for Goods Sold - _TC",
-    "income_account": "_Test Account Sales - _TC",
-    "buying_cost_center": "_Test Cost Center - _TC",
-    "selling_cost_center": "_Test Cost Center - _TC"
+    "company": "__Test Company 1",
+    "expense_account": "_Test Account Cost for Goods Sold - __TC1",
+    "income_account": "_Test Account Sales - __TC1",
+    "buying_cost_center": "_Test Cost Center - __TC1",
+    "selling_cost_center": "_Test Cost Center - __TC1"
   }]
  }
 ]

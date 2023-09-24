@@ -83,8 +83,8 @@ class TestAssetValueAdjustment(unittest.TestCase):
 		asset_doc.reload()
 
 		expected_gle = (
-			("_Test Accumulated Depreciations - _TC", 0.0, 4625.29),
-			("_Test Depreciations - _TC", 4625.29, 0.0),
+			("_Test Accumulated Depreciations - __TC1", 0.0, 4625.29),
+			("_Test Depreciations - __TC1", 4625.29, 0.0),
 		)
 
 		gle = frappe.db.sql(
@@ -126,12 +126,12 @@ def make_asset_value_adjustment(**args):
 	doc = frappe.get_doc(
 		{
 			"doctype": "Asset Value Adjustment",
-			"company": args.company or "_Test Company",
+			"company": args.company or "__Test Company 1",
 			"asset": args.asset,
 			"date": args.date or nowdate(),
 			"new_asset_value": args.new_asset_value,
 			"current_asset_value": args.current_asset_value,
-			"cost_center": args.cost_center or "Main - _TC",
+			"cost_center": args.cost_center or "Main - __TC1",
 		}
 	).insert()
 

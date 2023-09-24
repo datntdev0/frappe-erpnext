@@ -35,18 +35,18 @@ class TestItemAlternative(FrappeTestCase):
 		set_backflush_based_on("BOM")
 
 		create_stock_reconciliation(
-			item_code="Alternate Item For A RW 1", warehouse="_Test Warehouse - _TC", qty=5, rate=2000
+			item_code="Alternate Item For A RW 1", warehouse="_Test Warehouse - __TC1", qty=5, rate=2000
 		)
 		create_stock_reconciliation(
-			item_code="Test FG A RW 2", warehouse="_Test Warehouse - _TC", qty=5, rate=2000
+			item_code="Test FG A RW 2", warehouse="_Test Warehouse - __TC1", qty=5, rate=2000
 		)
 
-		supplier_warehouse = "Test Supplier Warehouse - _TC"
+		supplier_warehouse = "Test Supplier Warehouse - __TC1"
 
 		make_service_item("Subcontracted Service Item 1")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 5,
 				"rate": 3000,
@@ -63,7 +63,7 @@ class TestItemAlternative(FrappeTestCase):
 				"rm_item_code": "Test FG A RW 1",
 				"item_name": "Test FG A RW 1",
 				"qty": 5,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"rate": 2000,
 				"amount": 10000,
 				"stock_uom": "Nos",
@@ -73,7 +73,7 @@ class TestItemAlternative(FrappeTestCase):
 				"rm_item_code": "Test FG A RW 2",
 				"item_name": "Test FG A RW 2",
 				"qty": 5,
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"rate": 2000,
 				"amount": 10000,
 				"stock_uom": "Nos",
@@ -82,7 +82,7 @@ class TestItemAlternative(FrappeTestCase):
 
 		reserved_qty_for_sub_contract = frappe.db.get_value(
 			"Bin",
-			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - __TC1"},
 			"reserved_qty_for_sub_contract",
 		)
 
@@ -102,7 +102,7 @@ class TestItemAlternative(FrappeTestCase):
 		doc.submit()
 		after_transfer_reserved_qty_for_sub_contract = frappe.db.get_value(
 			"Bin",
-			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - __TC1"},
 			"reserved_qty_for_sub_contract",
 		)
 
@@ -124,21 +124,21 @@ class TestItemAlternative(FrappeTestCase):
 
 	def test_alternative_item_for_production_rm(self):
 		create_stock_reconciliation(
-			item_code="Alternate Item For A RW 1", warehouse="_Test Warehouse - _TC", qty=5, rate=2000
+			item_code="Alternate Item For A RW 1", warehouse="_Test Warehouse - __TC1", qty=5, rate=2000
 		)
 		create_stock_reconciliation(
-			item_code="Test FG A RW 2", warehouse="_Test Warehouse - _TC", qty=5, rate=2000
+			item_code="Test FG A RW 2", warehouse="_Test Warehouse - __TC1", qty=5, rate=2000
 		)
 		pro_order = make_wo_order_test_record(
 			production_item="Test Finished Goods - A",
 			qty=5,
-			source_warehouse="_Test Warehouse - _TC",
-			wip_warehouse="Test Supplier Warehouse - _TC",
+			source_warehouse="_Test Warehouse - __TC1",
+			wip_warehouse="Test Supplier Warehouse - __TC1",
 		)
 
 		reserved_qty_for_production = frappe.db.get_value(
 			"Bin",
-			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - __TC1"},
 			"reserved_qty_for_production",
 		)
 
@@ -155,7 +155,7 @@ class TestItemAlternative(FrappeTestCase):
 		ste.submit()
 		reserved_qty_for_production_after_transfer = frappe.db.get_value(
 			"Bin",
-			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "Test FG A RW 1", "warehouse": "_Test Warehouse - __TC1"},
 			"reserved_qty_for_production",
 		)
 
@@ -186,7 +186,7 @@ def make_items():
 
 	try:
 		create_stock_reconciliation(
-			item_code="Test FG A RW 1", warehouse="_Test Warehouse - _TC", qty=10, rate=2000
+			item_code="Test FG A RW 1", warehouse="_Test Warehouse - __TC1", qty=10, rate=2000
 		)
 	except EmptyStockReconciliationItemsError:
 		pass
@@ -209,6 +209,6 @@ def make_items():
 			{
 				"doctype": "Warehouse",
 				"warehouse_name": "Test Supplier Warehouse",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			}
 		).insert(ignore_permissions=True)

@@ -60,7 +60,7 @@ class TestTimesheet(unittest.TestCase):
 		project = frappe.get_value("Project", {"project_name": "_Test Project"})
 
 		timesheet = make_timesheet(
-			emp, simulate=True, is_billable=1, project=project, company="_Test Company"
+			emp, simulate=True, is_billable=1, project=project, company="__Test Company 1"
 		)
 		sales_invoice = create_sales_invoice(do_not_save=True)
 		sales_invoice.project = project
@@ -88,7 +88,7 @@ class TestTimesheet(unittest.TestCase):
 				"activity_type": "_Test Activity Type",
 				"from_time": now_datetime(),
 				"to_time": now_datetime() + datetime.timedelta(hours=3),
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		)
 		timesheet.append(
@@ -98,7 +98,7 @@ class TestTimesheet(unittest.TestCase):
 				"activity_type": "_Test Activity Type",
 				"from_time": now_datetime(),
 				"to_time": now_datetime() + datetime.timedelta(hours=3),
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		)
 
@@ -124,7 +124,7 @@ class TestTimesheet(unittest.TestCase):
 				"activity_type": "_Test Activity Type",
 				"from_time": now_datetime(),
 				"to_time": now_datetime() + datetime.timedelta(hours=3),
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		)
 		timesheet.append(
@@ -134,7 +134,7 @@ class TestTimesheet(unittest.TestCase):
 				"activity_type": "_Test Activity Type",
 				"from_time": now_datetime() + datetime.timedelta(hours=3),
 				"to_time": now_datetime() + datetime.timedelta(hours=4),
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		)
 
@@ -153,7 +153,7 @@ class TestTimesheet(unittest.TestCase):
 				"activity_type": "_Test Activity Type",
 				"from_time": from_time,
 				"hours": 2,
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 			},
 		)
 		timesheet.save()
@@ -205,7 +205,7 @@ def make_timesheet(
 	update_activity_type(activity_type)
 	timesheet = frappe.new_doc("Timesheet")
 	timesheet.employee = employee
-	timesheet.company = company or "_Test Company"
+	timesheet.company = company or "__Test Company 1"
 	timesheet_detail = timesheet.append("time_logs", {})
 	timesheet_detail.is_billable = is_billable
 	timesheet_detail.activity_type = activity_type

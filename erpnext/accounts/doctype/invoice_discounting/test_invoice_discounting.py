@@ -16,33 +16,33 @@ class TestInvoiceDiscounting(unittest.TestCase):
 	def setUp(self):
 		self.ar_credit = create_account(
 			account_name="_Test Accounts Receivable Credit",
-			parent_account="Accounts Receivable - _TC",
-			company="_Test Company",
+			parent_account="Accounts Receivable - __TC1",
+			company="__Test Company 1",
 		)
 		self.ar_discounted = create_account(
 			account_name="_Test Accounts Receivable Discounted",
-			parent_account="Accounts Receivable - _TC",
-			company="_Test Company",
+			parent_account="Accounts Receivable - __TC1",
+			company="__Test Company 1",
 		)
 		self.ar_unpaid = create_account(
 			account_name="_Test Accounts Receivable Unpaid",
-			parent_account="Accounts Receivable - _TC",
-			company="_Test Company",
+			parent_account="Accounts Receivable - __TC1",
+			company="__Test Company 1",
 		)
 		self.short_term_loan = create_account(
 			account_name="_Test Short Term Loan",
-			parent_account="Source of Funds (Liabilities) - _TC",
-			company="_Test Company",
+			parent_account="Source of Funds (Liabilities) - __TC1",
+			company="__Test Company 1",
 		)
 		self.bank_account = create_account(
-			account_name="_Test Bank 2", parent_account="Bank Accounts - _TC", company="_Test Company"
+			account_name="_Test Bank 2", parent_account="Bank Accounts - __TC1", company="__Test Company 1"
 		)
 		self.bank_charges_account = create_account(
 			account_name="_Test Bank Charges Account",
-			parent_account="Expenses - _TC",
-			company="_Test Company",
+			parent_account="Expenses - __TC1",
+			company="__Test Company 1",
 		)
-		frappe.db.set_value("Company", "_Test Company", "default_bank_account", self.bank_account)
+		frappe.db.set_value("Company", "__Test Company 1", "default_bank_account", self.bank_account)
 
 	def test_total_amount(self):
 		inv1 = create_sales_invoice(rate=200)
@@ -320,7 +320,7 @@ def create_invoice_discounting(invoices, **args):
 	args = frappe._dict(args)
 	inv_disc = frappe.new_doc("Invoice Discounting")
 	inv_disc.posting_date = args.posting_date or nowdate()
-	inv_disc.company = args.company or "_Test Company"
+	inv_disc.company = args.company or "__Test Company 1"
 	inv_disc.bank_account = args.bank_account
 	inv_disc.short_term_loan = args.short_term_loan
 	inv_disc.accounts_receivable_credit = args.accounts_receivable_credit

@@ -17,7 +17,7 @@ from erpnext.stock.doctype.stock_entry.test_stock_entry import make_stock_entry
 class TestPOSClosingEntry(unittest.TestCase):
 	def setUp(self):
 		# Make stock available for POS Sales
-		make_stock_entry(target="_Test Warehouse - _TC", qty=2, basic_rate=100)
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=2, basic_rate=100)
 
 	def tearDown(self):
 		frappe.set_user("Administrator")
@@ -28,11 +28,11 @@ class TestPOSClosingEntry(unittest.TestCase):
 		opening_entry = create_opening_entry(pos_profile, test_user.name)
 
 		pos_inv1 = create_pos_invoice(rate=3500, do_not_submit=1)
-		pos_inv1.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3500})
+		pos_inv1.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3500})
 		pos_inv1.submit()
 
 		pos_inv2 = create_pos_invoice(rate=3200, do_not_submit=1)
-		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3200})
+		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3200})
 		pos_inv2.submit()
 
 		pcv_doc = make_closing_entry_from_opening(opening_entry)
@@ -54,11 +54,11 @@ class TestPOSClosingEntry(unittest.TestCase):
 		opening_entry = create_opening_entry(pos_profile, test_user.name)
 
 		pos_inv1 = create_pos_invoice(rate=3500, do_not_submit=1)
-		pos_inv1.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3500})
+		pos_inv1.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3500})
 		pos_inv1.submit()
 
 		pos_inv2 = create_pos_invoice(rate=3200, do_not_submit=1)
-		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - _TC", "amount": 3200})
+		pos_inv2.append("payments", {"mode_of_payment": "Cash", "account": "Cash - __TC1", "amount": 3200})
 		pos_inv2.submit()
 
 		pcv_doc = make_closing_entry_from_opening(opening_entry)

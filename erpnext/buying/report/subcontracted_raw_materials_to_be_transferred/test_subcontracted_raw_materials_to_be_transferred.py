@@ -22,7 +22,7 @@ class TestSubcontractedItemToBeTransferred(FrappeTestCase):
 		make_service_item("Subcontracted Service Item 1")
 		service_items = [
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"item_code": "Subcontracted Service Item 1",
 				"qty": 10,
 				"rate": 500,
@@ -33,9 +33,9 @@ class TestSubcontractedItemToBeTransferred(FrappeTestCase):
 		sco = get_subcontracting_order(service_items=service_items)
 
 		# Material Receipt of RMs
-		make_stock_entry(item_code="_Test Item", target="_Test Warehouse - _TC", qty=100, basic_rate=100)
+		make_stock_entry(item_code="_Test Item", target="_Test Warehouse - __TC1", qty=100, basic_rate=100)
 		make_stock_entry(
-			item_code="_Test Item Home Desktop 100", target="_Test Warehouse - _TC", qty=100, basic_rate=100
+			item_code="_Test Item Home Desktop 100", target="_Test Warehouse - __TC1", qty=100, basic_rate=100
 		)
 
 		transfer_subcontracted_raw_materials(sco)
@@ -84,7 +84,7 @@ def transfer_subcontracted_raw_materials(sco):
 			"rm_item_code": item_1,
 			"item_name": item_1,
 			"qty": transfer_qty_map[item_1],
-			"warehouse": "_Test Warehouse - _TC",
+			"warehouse": "_Test Warehouse - __TC1",
 			"rate": 100,
 			"amount": 100 * transfer_qty_map[item_1],
 			"stock_uom": "Nos",
@@ -95,15 +95,15 @@ def transfer_subcontracted_raw_materials(sco):
 			"rm_item_code": item_2,
 			"item_name": item_2,
 			"qty": transfer_qty_map[item_2],
-			"warehouse": "_Test Warehouse - _TC",
+			"warehouse": "_Test Warehouse - __TC1",
 			"rate": 100,
 			"amount": 100 * transfer_qty_map[item_2],
 			"stock_uom": "Nos",
 		},
 	]
 	se = frappe.get_doc(make_rm_stock_entry(sco.name, rm_items))
-	se.from_warehouse = "_Test Warehouse - _TC"
-	se.to_warehouse = "_Test Warehouse - _TC"
+	se.from_warehouse = "_Test Warehouse - __TC1"
+	se.to_warehouse = "_Test Warehouse - __TC1"
 	se.stock_entry_type = "Send to Subcontractor"
 	se.save()
 	se.submit()

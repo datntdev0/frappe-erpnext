@@ -1,7 +1,7 @@
 [
  {
   "buying_price_list": "_Test Price List",
-  "company": "_Test Company",
+  "company": "__Test Company 1",
   "conversion_rate": 1.0,
   "currency": "INR",
   "doctype": "Purchase Receipt",
@@ -10,7 +10,7 @@
   "base_net_total": 500.0,
   "taxes": [
    {
-    "account_head": "_Test Account Shipping Charges - _TC",
+    "account_head": "_Test Account Shipping Charges - __TC1",
     "add_deduct_tax": "Add",
     "category": "Valuation and Total",
     "charge_type": "Actual",
@@ -19,10 +19,10 @@
     "parentfield": "taxes",
     "rate": 100.0,
     "tax_amount": 100.0,
-	"cost_center": "Main - _TC"
+	"cost_center": "Main - __TC1"
    },
    {
-    "account_head": "_Test Account VAT - _TC",
+    "account_head": "_Test Account VAT - __TC1",
     "add_deduct_tax": "Add",
     "category": "Total",
     "charge_type": "Actual",
@@ -31,10 +31,10 @@
     "parentfield": "taxes",
     "rate": 120.0,
     "tax_amount": 120.0,
-	"cost_center": "Main - _TC"
+	"cost_center": "Main - __TC1"
    },
    {
-    "account_head": "_Test Account Customs Duty - _TC",
+    "account_head": "_Test Account Customs Duty - __TC1",
     "add_deduct_tax": "Add",
     "category": "Valuation",
     "charge_type": "Actual",
@@ -43,7 +43,7 @@
     "parentfield": "taxes",
     "rate": 150.0,
     "tax_amount": 150.0,
-	"cost_center": "Main - _TC"
+	"cost_center": "Main - __TC1"
    }
   ],
   "items": [
@@ -61,8 +61,8 @@
     "rejected_qty": 0.0,
     "stock_uom": "_Test UOM",
     "uom": "_Test UOM",
-    "warehouse": "_Test Warehouse - _TC",
-	"cost_center": "Main - _TC"
+    "warehouse": "_Test Warehouse - __TC1",
+	"cost_center": "Main - __TC1"
    },
    {
     "base_amount": 250.0,
@@ -78,8 +78,8 @@
     "rejected_qty": 0.0,
     "stock_uom": "_Test UOM",
     "uom": "_Test UOM",
-    "warehouse": "_Test Warehouse 1 - _TC",
-	"cost_center": "Main - _TC"
+    "warehouse": "_Test Warehouse 1 - __TC1",
+	"cost_center": "Main - __TC1"
    }
   ],
   "supplier": "_Test Supplier"

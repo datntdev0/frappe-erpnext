@@ -18,10 +18,10 @@ class TestAssetCategory(unittest.TestCase):
 		asset_category.append(
 			"accounts",
 			{
-				"company_name": "_Test Company",
-				"fixed_asset_account": "_Test Fixed Asset - _TC",
-				"accumulated_depreciation_account": "_Test Accumulated Depreciations - _TC",
-				"depreciation_expense_account": "_Test Depreciations - _TC",
+				"company_name": "__Test Company 1",
+				"fixed_asset_account": "_Test Fixed Asset - __TC1",
+				"accumulated_depreciation_account": "_Test Accumulated Depreciations - __TC1",
+				"depreciation_expense_account": "_Test Depreciations - __TC1",
 			},
 		)
 
@@ -32,9 +32,9 @@ class TestAssetCategory(unittest.TestCase):
 
 	def test_cwip_accounting(self):
 		company_cwip_acc = frappe.db.get_value(
-			"Company", "_Test Company", "capital_work_in_progress_account"
+			"Company", "__Test Company 1", "capital_work_in_progress_account"
 		)
-		frappe.db.set_value("Company", "_Test Company", "capital_work_in_progress_account", "")
+		frappe.db.set_value("Company", "__Test Company 1", "capital_work_in_progress_account", "")
 
 		asset_category = frappe.new_doc("Asset Category")
 		asset_category.asset_category_name = "Computers"
@@ -45,10 +45,10 @@ class TestAssetCategory(unittest.TestCase):
 		asset_category.append(
 			"accounts",
 			{
-				"company_name": "_Test Company",
-				"fixed_asset_account": "_Test Fixed Asset - _TC",
-				"accumulated_depreciation_account": "_Test Accumulated Depreciations - _TC",
-				"depreciation_expense_account": "_Test Depreciations - _TC",
+				"company_name": "__Test Company 1",
+				"fixed_asset_account": "_Test Fixed Asset - __TC1",
+				"accumulated_depreciation_account": "_Test Accumulated Depreciations - __TC1",
+				"depreciation_expense_account": "_Test Depreciations - __TC1",
 			},
 		)
 

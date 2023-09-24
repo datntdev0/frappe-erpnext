@@ -29,7 +29,7 @@ class TestBankClearance(unittest.TestCase):
 	# Detailed test can be added later
 	def test_bank_clearance(self):
 		bank_clearance = frappe.get_doc("Bank Clearance")
-		bank_clearance.account = "_Test Bank Clearance - _TC"
+		bank_clearance.account = "_Test Bank Clearance - __TC1"
 		bank_clearance.from_date = add_months(getdate(), -1)
 		bank_clearance.to_date = getdate()
 		bank_clearance.get_payment_entries()
@@ -37,14 +37,14 @@ class TestBankClearance(unittest.TestCase):
 
 
 def make_bank_account():
-	if not frappe.db.get_value("Account", "_Test Bank Clearance - _TC"):
+	if not frappe.db.get_value("Account", "_Test Bank Clearance - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
 				"account_type": "Bank",
 				"account_name": "_Test Bank Clearance",
-				"company": "_Test Company",
-				"parent_account": "Bank Accounts - _TC",
+				"company": "__Test Company 1",
+				"parent_account": "Bank Accounts - __TC1",
 			}
 		).insert()
 
@@ -58,11 +58,11 @@ def create_loan_masters():
 		0,
 		5,
 		"Cash",
-		"_Test Bank Clearance - _TC",
-		"_Test Bank Clearance - _TC",
-		"Loan Account - _TC",
-		"Interest Income Account - _TC",
-		"Penalty Income Account - _TC",
+		"_Test Bank Clearance - __TC1",
+		"_Test Bank Clearance - __TC1",
+		"Loan Account - __TC1",
+		"Interest Income Account - __TC1",
+		"Penalty Income Account - __TC1",
 	)
 
 
@@ -89,7 +89,7 @@ def make_loan():
 
 def make_payment_entry():
 	pi = make_purchase_invoice(supplier="_Test Supplier", qty=1, rate=690)
-	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank Clearance - _TC")
+	pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank Clearance - __TC1")
 	pe.reference_no = "Conrad Oct 18"
 	pe.reference_date = "2018-10-24"
 	pe.insert()

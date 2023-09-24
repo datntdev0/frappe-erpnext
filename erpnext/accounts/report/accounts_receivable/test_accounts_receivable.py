@@ -29,7 +29,7 @@ class TestAccountsReceivable(FrappeTestCase):
 	def create_usd_account(self):
 		name = "Debtors USD"
 		exists = frappe.db.get_list(
-			"Account", filters={"company": "_Test Company 2", "account_name": "Debtors USD"}
+			"Account", filters={"company": "__Test Company 3", "account_name": "Debtors USD"}
 		)
 		if exists:
 			self.debtors_usd = exists[0].name
@@ -37,7 +37,7 @@ class TestAccountsReceivable(FrappeTestCase):
 			debtors = frappe.get_doc(
 				"Account",
 				frappe.db.get_list(
-					"Account", filters={"company": "_Test Company 2", "account_name": "Debtors"}
+					"Account", filters={"company": "__Test Company 3", "account_name": "Debtors"}
 				)[0].name,
 			)
 
@@ -51,7 +51,7 @@ class TestAccountsReceivable(FrappeTestCase):
 
 	def test_accounts_receivable(self):
 		filters = {
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"based_on_payment_terms": 1,
 			"report_date": today(),
 			"range1": 30,
@@ -108,7 +108,7 @@ class TestAccountsReceivable(FrappeTestCase):
 		"""
 
 		so = make_sales_order(
-			company="_Test Company 2",
+			company="__Test Company 3",
 			customer="_Test Customer 2",
 			warehouse="Finished Goods - _TC2",
 			currency="EUR",
@@ -122,7 +122,7 @@ class TestAccountsReceivable(FrappeTestCase):
 		pe = pe.save().submit()
 
 		filters = {
-			"company": "_Test Company 2",
+			"company": "__Test Company 3",
 			"based_on_payment_terms": 0,
 			"report_date": today(),
 			"range1": 30,
@@ -154,7 +154,7 @@ class TestAccountsReceivable(FrappeTestCase):
 		Exchange Revaluation for party on Receivable/Payable shoule be included
 		"""
 
-		company = "_Test Company 2"
+		company = "__Test Company 3"
 		customer = "_Test Customer 2"
 
 		# Using Exchange Gain/Loss account for unrealized as well.
@@ -214,7 +214,7 @@ class TestAccountsReceivable(FrappeTestCase):
 		"""
 		Payment against credit/debit note should be considered against the parent invoice
 		"""
-		company = "_Test Company 2"
+		company = "__Test Company 3"
 		customer = "_Test Customer 2"
 
 		si1 = make_sales_invoice()
@@ -276,7 +276,7 @@ def make_sales_invoice(no_payment_schedule=False, do_not_submit=False):
 	frappe.set_user("Administrator")
 
 	si = create_sales_invoice(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		customer="_Test Customer 2",
 		currency="EUR",
 		warehouse="Finished Goods - _TC2",
@@ -318,7 +318,7 @@ def make_payment(docname):
 
 def make_credit_note(docname):
 	credit_note = create_sales_invoice(
-		company="_Test Company 2",
+		company="__Test Company 3",
 		customer="_Test Customer 2",
 		currency="EUR",
 		qty=-1,

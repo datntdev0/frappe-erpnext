@@ -14,7 +14,7 @@ from erpnext.stock.doctype.purchase_receipt.test_purchase_receipt import make_pu
 class TestAssetMovement(unittest.TestCase):
 	def setUp(self):
 		frappe.db.set_value(
-			"Company", "_Test Company", "capital_work_in_progress_account", "CWIP Account - _TC"
+			"Company", "__Test Company 1", "capital_work_in_progress_account", "CWIP Account - __TC1"
 		)
 		create_asset_data()
 		make_location()
@@ -72,7 +72,7 @@ class TestAssetMovement(unittest.TestCase):
 		movement1.cancel()
 		self.assertEqual(frappe.db.get_value("Asset", asset.name, "location"), "Test Location 2")
 
-		employee = make_employee("testassetmovemp@example.com", company="_Test Company")
+		employee = make_employee("testassetmovemp@example.com", company="__Test Company 1")
 		create_asset_movement(
 			purpose="Issue",
 			company=asset.company,

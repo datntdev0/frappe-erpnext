@@ -36,23 +36,23 @@ class TestUtils(unittest.TestCase):
 			doctype="Stock Entry",
 			purpose="Manufacture",
 			stock_entry_type="Manufacture",
-			company="_Test Company",
-			from_warehouse="_Test Warehouse - _TC",
-			to_warehouse="_Test Warehouse 1 - _TC",
+			company="__Test Company 1",
+			from_warehouse="_Test Warehouse - __TC1",
+			to_warehouse="_Test Warehouse 1 - __TC1",
 			items=[
 				frappe._dict(
-					item_code="_Test Item", qty=1, basic_rate=200, s_warehouse="_Test Warehouse - _TC"
+					item_code="_Test Item", qty=1, basic_rate=200, s_warehouse="_Test Warehouse - __TC1"
 				),
 				frappe._dict(
-					item_code="_Test FG Item", qty=4, t_warehouse="_Test Warehouse 1 - _TC", is_finished_item=1
+					item_code="_Test FG Item", qty=4, t_warehouse="_Test Warehouse 1 - __TC1", is_finished_item=1
 				),
 			],
 		)
 		se.save()
 
 		# default fields must be untouched
-		self.assertEqual(se.from_warehouse, "_Test Warehouse - _TC")
-		self.assertEqual(se.to_warehouse, "_Test Warehouse 1 - _TC")
+		self.assertEqual(se.from_warehouse, "_Test Warehouse - __TC1")
+		self.assertEqual(se.to_warehouse, "_Test Warehouse 1 - __TC1")
 
 		se.delete()
 

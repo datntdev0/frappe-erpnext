@@ -243,12 +243,12 @@ def create_sales_invoice_record(qty=1):
 		{
 			"doctype": "Sales Invoice",
 			"customer": frappe.get_doc("Customer", {"customer_name": "Test Loyalty Customer"}).name,
-			"company": "_Test Company",
+			"company": "__Test Company 1",
 			"due_date": today(),
 			"posting_date": today(),
 			"currency": "INR",
 			"taxes_and_charges": "",
-			"debit_to": "Debtors - _TC",
+			"debit_to": "Debtors - __TC1",
 			"taxes": [],
 			"items": [
 				{
@@ -256,9 +256,9 @@ def create_sales_invoice_record(qty=1):
 					"item_code": frappe.get_doc("Item", {"item_name": "Loyal Item"}).name,
 					"qty": qty,
 					"rate": 10000,
-					"income_account": "Sales - _TC",
-					"cost_center": "Main - _TC",
-					"expense_account": "Cost of Goods Sold - _TC",
+					"income_account": "Sales - __TC1",
+					"cost_center": "Main - __TC1",
+					"expense_account": "Cost of Goods Sold - __TC1",
 				}
 			],
 		}
@@ -267,13 +267,13 @@ def create_sales_invoice_record(qty=1):
 
 def create_records():
 	# create a new loyalty Account
-	if not frappe.db.exists("Account", "Loyalty - _TC"):
+	if not frappe.db.exists("Account", "Loyalty - __TC1"):
 		frappe.get_doc(
 			{
 				"doctype": "Account",
 				"account_name": "Loyalty",
-				"parent_account": "Direct Expenses - _TC",
-				"company": "_Test Company",
+				"parent_account": "Direct Expenses - __TC1",
+				"company": "__Test Company 1",
 				"is_group": 0,
 				"account_type": "Expense Account",
 			}
@@ -290,9 +290,9 @@ def create_records():
 				"loyalty_program_type": "Single Tier Program",
 				"conversion_factor": 1,
 				"expiry_duration": 10,
-				"company": "_Test Company",
-				"cost_center": "Main - _TC",
-				"expense_account": "Loyalty - _TC",
+				"company": "__Test Company 1",
+				"cost_center": "Main - __TC1",
+				"expense_account": "Loyalty - __TC1",
 				"collection_rules": [{"tier_name": "Silver", "collection_factor": 1000, "min_spent": 1000}],
 			}
 		).insert()
@@ -320,9 +320,9 @@ def create_records():
 				"loyalty_program_type": "Multiple Tier Program",
 				"conversion_factor": 1,
 				"expiry_duration": 10,
-				"company": "_Test Company",
-				"cost_center": "Main - _TC",
-				"expense_account": "Loyalty - _TC",
+				"company": "__Test Company 1",
+				"cost_center": "Main - __TC1",
+				"expense_account": "Loyalty - __TC1",
 				"collection_rules": [
 					{"tier_name": "Silver", "collection_factor": 1000, "min_spent": 10000},
 					{"tier_name": "Gold", "collection_factor": 1000, "min_spent": 19000},
@@ -338,7 +338,7 @@ def create_records():
 				"item_code": "Loyal Item",
 				"item_name": "Loyal Item",
 				"item_group": "All Item Groups",
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"is_stock_item": 1,
 				"opening_stock": 100,
 				"valuation_rate": 10000,

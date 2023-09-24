@@ -126,7 +126,7 @@ def make_promotional_scheme(**args):
 		},
 	)
 
-	ps.company = "_Test Company"
+	ps.company = "__Test Company 1"
 	if args.applicable_for:
 		ps.applicable_for = args.applicable_for
 		ps.append(

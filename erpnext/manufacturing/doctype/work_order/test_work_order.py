@@ -32,7 +32,7 @@ test_dependencies = ["BOM"]
 
 class TestWorkOrder(FrappeTestCase):
 	def setUp(self):
-		self.warehouse = "_Test Warehouse 2 - _TC"
+		self.warehouse = "_Test Warehouse 2 - __TC1"
 		self.item = "_Test Item"
 		prepare_data_for_backflush_based_on_materials_transferred()
 
@@ -43,7 +43,7 @@ class TestWorkOrder(FrappeTestCase):
 
 		planned0 = (
 			frappe.db.get_value(
-				"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - _TC"}, "planned_qty"
+				"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - __TC1"}, "planned_qty"
 			)
 			or 0
 		)
@@ -51,23 +51,23 @@ class TestWorkOrder(FrappeTestCase):
 		wo_order = make_wo_order_test_record()
 
 		planned1 = frappe.db.get_value(
-			"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - _TC"}, "planned_qty"
+			"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - __TC1"}, "planned_qty"
 		)
 
 		self.assertEqual(planned1, planned0 + 10)
 
 		# add raw materials to stores
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="Stores - _TC", qty=100, basic_rate=100
+			item_code="_Test Item", target="Stores - __TC1", qty=100, basic_rate=100
 		)
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item Home Desktop 100", target="Stores - _TC", qty=100, basic_rate=100
+			item_code="_Test Item Home Desktop 100", target="Stores - __TC1", qty=100, basic_rate=100
 		)
 
 		# from stores to wip
 		s = frappe.get_doc(make_stock_entry(wo_order.name, "Material Transfer for Manufacture", 4))
 		for d in s.get("items"):
-			d.s_warehouse = "Stores - _TC"
+			d.s_warehouse = "Stores - __TC1"
 		s.insert()
 		s.submit()
 
@@ -79,7 +79,7 @@ class TestWorkOrder(FrappeTestCase):
 		self.assertEqual(frappe.db.get_value("Work Order", wo_order.name, "produced_qty"), 4)
 
 		planned2 = frappe.db.get_value(
-			"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - _TC"}, "planned_qty"
+			"Bin", {"item_code": "_Test FG Item", "warehouse": "_Test Warehouse 1 - __TC1"}, "planned_qty"
 		)
 
 		self.assertEqual(planned2, planned0 + 6)
@@ -90,10 +90,10 @@ class TestWorkOrder(FrappeTestCase):
 		wo_doc = self.check_planned_qty()
 
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=100, basic_rate=100
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=100, basic_rate=100
 		)
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item Home Desktop 100", target="_Test Warehouse - _TC", qty=100, basic_rate=100
+			item_code="_Test Item Home Desktop 100", target="_Test Warehouse - __TC1", qty=100, basic_rate=100
 		)
 
 		s = frappe.get_doc(make_stock_entry(wo_doc.name, "Manufacture", 7))
@@ -113,7 +113,7 @@ class TestWorkOrder(FrappeTestCase):
 
 	def test_reserved_qty_for_partial_completion(self):
 		item = "_Test Item"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		bin1_at_start = get_bin(item, warehouse)
 
@@ -251,11 +251,11 @@ class TestWorkOrder(FrappeTestCase):
 		allow_overproduction("overproduction_percentage_for_work_order", 30)
 		wo_order = make_wo_order_test_record(planned_start_date=now(), qty=100)
 		ste1 = test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=120, basic_rate=5000.0
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=120, basic_rate=5000.0
 		)
 		ste2 = test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=240,
 			basic_rate=1000.0,
 		)
@@ -339,15 +339,15 @@ class TestWorkOrder(FrappeTestCase):
 
 		# add raw materials to stores
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="Stores - _TC", qty=10, basic_rate=5000.0
+			item_code="_Test Item", target="Stores - __TC1", qty=10, basic_rate=5000.0
 		)
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item Home Desktop 100", target="Stores - _TC", qty=10, basic_rate=1000.0
+			item_code="_Test Item Home Desktop 100", target="Stores - __TC1", qty=10, basic_rate=1000.0
 		)
 
 		s = frappe.get_doc(make_stock_entry(wo_order.name, "Material Transfer for Manufacture", 2))
 		for d in s.get("items"):
-			d.s_warehouse = "Stores - _TC"
+			d.s_warehouse = "Stores - __TC1"
 		s.insert()
 		s.submit()
 
@@ -372,11 +372,11 @@ class TestWorkOrder(FrappeTestCase):
 		allow_overproduction("overproduction_percentage_for_work_order", 0)
 		wo_order = make_wo_order_test_record(planned_start_date=now(), qty=2)
 		test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=10, basic_rate=5000.0
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=10, basic_rate=5000.0
 		)
 		test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=10,
 			basic_rate=1000.0,
 		)
@@ -430,7 +430,7 @@ class TestWorkOrder(FrappeTestCase):
 
 		fg_item = "Finished Good Test Item For non stock"
 		test_stock_entry.make_stock_entry(
-			item_code="_Test FG Item", target="_Test Warehouse - _TC", qty=1, basic_rate=100
+			item_code="_Test FG Item", target="_Test Warehouse - __TC1", qty=1, basic_rate=100
 		)
 
 		if not frappe.db.get_value("BOM", {"item": fg_item, "docstatus": 1}):
@@ -459,15 +459,15 @@ class TestWorkOrder(FrappeTestCase):
 	@timeout(seconds=60)
 	def test_job_card(self):
 		stock_entries = []
-		bom = frappe.get_doc("BOM", {"docstatus": 1, "with_operations": 1, "company": "_Test Company"})
+		bom = frappe.get_doc("BOM", {"docstatus": 1, "with_operations": 1, "company": "__Test Company 1"})
 
 		work_order = make_wo_order_test_record(
-			item=bom.item, qty=1, bom_no=bom.name, source_warehouse="_Test Warehouse - _TC"
+			item=bom.item, qty=1, bom_no=bom.name, source_warehouse="_Test Warehouse - __TC1"
 		)
 
 		for row in work_order.required_items:
 			stock_entry_doc = test_stock_entry.make_stock_entry(
-				item_code=row.item_code, target="_Test Warehouse - _TC", qty=row.required_qty, basic_rate=100
+				item_code=row.item_code, target="_Test Warehouse - __TC1", qty=row.required_qty, basic_rate=100
 			)
 			stock_entries.append(stock_entry_doc)
 
@@ -506,7 +506,7 @@ class TestWorkOrder(FrappeTestCase):
 
 		data = frappe.get_cached_value(
 			"BOM",
-			{"docstatus": 1, "item": "_Test FG Item 2", "with_operations": 1, "company": "_Test Company"},
+			{"docstatus": 1, "item": "_Test FG Item 2", "with_operations": 1, "company": "__Test Company 1"},
 			["name", "item"],
 		)
 
@@ -542,10 +542,10 @@ class TestWorkOrder(FrappeTestCase):
 
 		fg_item = "Finished Good Transfer Item"
 		test_stock_entry.make_stock_entry(
-			item_code="_Test FG Item", target="_Test Warehouse - _TC", qty=1, basic_rate=100
+			item_code="_Test FG Item", target="_Test Warehouse - __TC1", qty=1, basic_rate=100
 		)
 		test_stock_entry.make_stock_entry(
-			item_code="_Test FG Item 1", target="_Test Warehouse - _TC", qty=1, basic_rate=100
+			item_code="_Test FG Item 1", target="_Test Warehouse - __TC1", qty=1, basic_rate=100
 		)
 
 		if not frappe.db.get_value("BOM", {"item": fg_item}):
@@ -562,7 +562,7 @@ class TestWorkOrder(FrappeTestCase):
 	def test_cost_center_for_manufacture(self):
 		wo_order = make_wo_order_test_record()
 		ste = make_stock_entry(wo_order.name, "Material Transfer for Manufacture", wo_order.qty)
-		self.assertEqual(ste.get("items")[0].get("cost_center"), "_Test Cost Center - _TC")
+		self.assertEqual(ste.get("items")[0].get("cost_center"), "_Test Cost Center - __TC1")
 
 	def test_operation_time_with_batch_size(self):
 		fg_item = "Test Batch Size Item For BOM"
@@ -636,7 +636,7 @@ class TestWorkOrder(FrappeTestCase):
 			bom_name = bom.name
 
 		ste1 = test_stock_entry.make_stock_entry(
-			item_code=rm1, target="_Test Warehouse - _TC", qty=32, basic_rate=5000.0
+			item_code=rm1, target="_Test Warehouse - __TC1", qty=32, basic_rate=5000.0
 		)
 
 		work_order = make_wo_order_test_record(
@@ -695,11 +695,11 @@ class TestWorkOrder(FrappeTestCase):
 
 		ste_cancel_list = []
 		ste1 = test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=20, basic_rate=5000.0
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=20, basic_rate=5000.0
 		)
 		ste2 = test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=20,
 			basic_rate=1000.0,
 		)
@@ -739,11 +739,11 @@ class TestWorkOrder(FrappeTestCase):
 
 		ste_cancel_list = []
 		ste1 = test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=20, basic_rate=5000.0
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=20, basic_rate=5000.0
 		)
 		ste2 = test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=20,
 			basic_rate=1000.0,
 		)
@@ -796,7 +796,7 @@ class TestWorkOrder(FrappeTestCase):
 		if not frappe.db.exists("BOM", {"item": finished_item}):
 			make_bom(item=finished_item, raw_materials=[customer_provided_item], rm_qty=1)
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		customer_warehouse = create_warehouse("Test Customer Provided Warehouse", company=company)
 		wo = make_wo_order_test_record(
 			item=finished_item, qty=1, source_warehouse=customer_warehouse, company=company
@@ -831,7 +831,7 @@ class TestWorkOrder(FrappeTestCase):
 		if not frappe.db.get_value("BOM", {"item": item_name}):
 			make_bom(item=item_name, raw_materials=[rm_item], rm_qty=1)
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		source_warehouse = create_warehouse("Test Valuation Rate Missing Warehouse", company=company)
 		wo = make_wo_order_test_record(
 			item=item_name, qty=1, source_warehouse=source_warehouse, company=company
@@ -848,8 +848,8 @@ class TestWorkOrder(FrappeTestCase):
 
 		qty = 10
 		scrap_qty = 0.25  # bom item qty = 1, consider as 25% of FG
-		source_warehouse = "Stores - _TC"
-		wip_warehouse = "_Test Warehouse - _TC"
+		source_warehouse = "Stores - __TC1"
+		wip_warehouse = "_Test Warehouse - __TC1"
 		fg_item_non_whole, _, bom_item = create_process_loss_bom_items()
 
 		test_stock_entry.make_stock_entry(
@@ -873,7 +873,7 @@ class TestWorkOrder(FrappeTestCase):
 		)
 
 		se = frappe.get_doc(make_stock_entry(wo.name, "Material Transfer for Manufacture", qty))
-		se.get("items")[0].s_warehouse = "Stores - _TC"
+		se.get("items")[0].s_warehouse = "Stores - __TC1"
 		se.insert()
 		se.submit()
 
@@ -901,7 +901,7 @@ class TestWorkOrder(FrappeTestCase):
 			"Test RM Item 2 for Scrap Item Test",
 		]
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		for item_code in items:
 			create_item(
 				item_code=item_code,
@@ -980,7 +980,7 @@ class TestWorkOrder(FrappeTestCase):
 			"Test RM Item 2 for Closed WO",
 		]
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		for item_code in items:
 			create_item(
 				item_code=item_code,
@@ -1084,11 +1084,11 @@ class TestWorkOrder(FrappeTestCase):
 
 		wo_order = make_wo_order_test_record(planned_start_date=now(), qty=100)
 		ste1 = test_stock_entry.make_stock_entry(
-			item_code="_Test Item", target="_Test Warehouse - _TC", qty=120, basic_rate=5000.0
+			item_code="_Test Item", target="_Test Warehouse - __TC1", qty=120, basic_rate=5000.0
 		)
 		ste2 = test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=240,
 			basic_rate=1000.0,
 		)
@@ -1188,13 +1188,13 @@ class TestWorkOrder(FrappeTestCase):
 		"""Test if WO containing BOM with partial exploded items and scrap items, maps idx correctly."""
 		test_stock_entry.make_stock_entry(
 			item_code="_Test Item",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			basic_rate=5000.0,
 			qty=2,
 		)
 		test_stock_entry.make_stock_entry(
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			basic_rate=1000.0,
 			qty=2,
 		)
@@ -1221,13 +1221,13 @@ class TestWorkOrder(FrappeTestCase):
 		work_order = make_wo_order_test_record(planned_start_date=now(), qty=1)
 		test_stock_entry.make_stock_entry(  # stock up RM
 			item_code="_Test Item",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=1,
 			basic_rate=5000.0,
 		)
 		test_stock_entry.make_stock_entry(  # stock up RM
 			item_code="_Test Item Home Desktop 100",
-			target="_Test Warehouse - _TC",
+			target="_Test Warehouse - __TC1",
 			qty=2,
 			basic_rate=1000.0,
 		)
@@ -1272,7 +1272,7 @@ class TestWorkOrder(FrappeTestCase):
 		fg_item = "Test FG Item with Batch Raw Materials"
 
 		ste_doc = test_stock_entry.make_stock_entry(
-			item_code=batch_item, target="Stores - _TC", qty=2, basic_rate=100, do_not_save=True
+			item_code=batch_item, target="Stores - __TC1", qty=2, basic_rate=100, do_not_save=True
 		)
 
 		ste_doc.append(
@@ -1282,7 +1282,7 @@ class TestWorkOrder(FrappeTestCase):
 				"item_name": batch_item,
 				"description": batch_item,
 				"basic_rate": 100,
-				"t_warehouse": "Stores - _TC",
+				"t_warehouse": "Stores - __TC1",
 				"qty": 2,
 				"uom": "Nos",
 				"stock_uom": "Nos",
@@ -1342,7 +1342,7 @@ class TestWorkOrder(FrappeTestCase):
 		fg_item = "Test FG Item with Serial No Raw Materials"
 
 		ste_doc = test_stock_entry.make_stock_entry(
-			item_code=sn_item, target="Stores - _TC", qty=4, basic_rate=100, do_not_save=True
+			item_code=sn_item, target="Stores - __TC1", qty=4, basic_rate=100, do_not_save=True
 		)
 
 		# Inward raw materials in Stores warehouse
@@ -1386,7 +1386,7 @@ class TestWorkOrder(FrappeTestCase):
 		fg_item = "Test FG Item with Serial & Batch No Raw Materials"
 
 		ste_doc = test_stock_entry.make_stock_entry(
-			item_code=sn_batch_item, target="Stores - _TC", qty=2, basic_rate=100, do_not_save=True
+			item_code=sn_batch_item, target="Stores - __TC1", qty=2, basic_rate=100, do_not_save=True
 		)
 
 		ste_doc.append(
@@ -1396,7 +1396,7 @@ class TestWorkOrder(FrappeTestCase):
 				"item_name": sn_batch_item,
 				"description": sn_batch_item,
 				"basic_rate": 100,
-				"t_warehouse": "Stores - _TC",
+				"t_warehouse": "Stores - __TC1",
 				"qty": 2,
 				"uom": "Nos",
 				"stock_uom": "Nos",
@@ -1475,7 +1475,7 @@ class TestWorkOrder(FrappeTestCase):
 		item_code = item.name
 		bom_doc = make_bom(
 			item=item_code,
-			source_warehouse="Stores - _TC",
+			source_warehouse="Stores - __TC1",
 			raw_materials=["Test Batch MCC Keyboard", "Test Serial No BTT Headphone"],
 		)
 
@@ -1491,7 +1491,7 @@ class TestWorkOrder(FrappeTestCase):
 			row.qty += 2
 			row.transfer_qty += 2
 			nste_doc = test_stock_entry.make_stock_entry(
-				item_code=row.item_code, target="Stores - _TC", qty=row.qty, basic_rate=100
+				item_code=row.item_code, target="Stores - __TC1", qty=row.qty, basic_rate=100
 			)
 
 			row.batch_no = nste_doc.items[0].batch_no
@@ -1605,7 +1605,7 @@ class TestWorkOrder(FrappeTestCase):
 			"Test RM Item 2 for Scrap Item Test 1",
 		]
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		for item_code in items:
 			create_item(
 				item_code=item_code,
@@ -1659,7 +1659,7 @@ class TestWorkOrder(FrappeTestCase):
 
 	def test_make_serial_no_batch_from_work_order_for_serial_no(self):
 		item_code = "Test Serial No Item For Work Order"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		raw_materials = [
 			"Test RM Item 1 for Serial No Item In Work Order",
 		]
@@ -1779,7 +1779,7 @@ def prepare_data_for_workstation_type_check():
 	if not frappe.db.exists("BOM", {"item": fg_item.name}):
 		bom_doc = make_bom(
 			item=fg_item.name,
-			source_warehouse="Stores - _TC",
+			source_warehouse="Stores - __TC1",
 			raw_materials=[rm_item.name],
 			do_not_submit=True,
 		)
@@ -1823,7 +1823,7 @@ def prepare_data_for_backflush_based_on_materials_transferred():
 		},
 	)
 
-	make_bom(item=item.name, source_warehouse="Stores - _TC", raw_materials=[batch_item_doc.name])
+	make_bom(item=item.name, source_warehouse="Stores - __TC1", raw_materials=[batch_item_doc.name])
 
 	sn_item_doc = make_item(
 		"Test Serial No BTT Headphone",
@@ -1843,7 +1843,7 @@ def prepare_data_for_backflush_based_on_materials_transferred():
 		},
 	)
 
-	make_bom(item=item.name, source_warehouse="Stores - _TC", raw_materials=[sn_item_doc.name])
+	make_bom(item=item.name, source_warehouse="Stores - __TC1", raw_materials=[sn_item_doc.name])
 
 	sn_batch_item_doc = make_item(
 		"Test Batch Serial No WebCam",
@@ -1866,7 +1866,7 @@ def prepare_data_for_backflush_based_on_materials_transferred():
 		},
 	)
 
-	make_bom(item=item.name, source_warehouse="Stores - _TC", raw_materials=[sn_batch_item_doc.name])
+	make_bom(item=item.name, source_warehouse="Stores - __TC1", raw_materials=[sn_batch_item_doc.name])
 
 
 def update_job_card(job_card, jc_qty=None):
@@ -1917,7 +1917,7 @@ def allow_overproduction(fieldname, percentage):
 
 def make_wo_order_test_record(**args):
 	args = frappe._dict(args)
-	if args.company and args.company != "_Test Company":
+	if args.company and args.company != "__Test Company 1":
 		warehouse_map = {"fg_warehouse": "_Test FG Warehouse", "wip_warehouse": "_Test WIP Warehouse"}
 
 		for attr, wh_name in warehouse_map.items():
@@ -1930,10 +1930,10 @@ def make_wo_order_test_record(**args):
 		"BOM", {"item": wo_order.production_item, "is_active": 1, "is_default": 1}
 	)
 	wo_order.qty = args.qty or 10
-	wo_order.wip_warehouse = args.wip_warehouse or "_Test Warehouse - _TC"
-	wo_order.fg_warehouse = args.fg_warehouse or "_Test Warehouse 1 - _TC"
-	wo_order.scrap_warehouse = args.fg_warehouse or "_Test Scrap Warehouse - _TC"
-	wo_order.company = args.company or "_Test Company"
+	wo_order.wip_warehouse = args.wip_warehouse or "_Test Warehouse - __TC1"
+	wo_order.fg_warehouse = args.fg_warehouse or "_Test Warehouse 1 - __TC1"
+	wo_order.scrap_warehouse = args.fg_warehouse or "_Test Scrap Warehouse - __TC1"
+	wo_order.company = args.company or "__Test Company 1"
 	wo_order.stock_uom = args.stock_uom or "_Test UOM"
 	wo_order.use_multi_level_bom = args.use_multi_level_bom or 0
 	wo_order.skip_transfer = args.skip_transfer or 0

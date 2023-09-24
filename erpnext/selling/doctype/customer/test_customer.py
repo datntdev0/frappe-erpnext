@@ -24,7 +24,7 @@ class TestCustomer(FrappeTestCase):
 			make_test_records("Item")
 
 	def tearDown(self):
-		set_credit_limit("_Test Customer", "_Test Company", 0)
+		set_credit_limit("_Test Customer", "__Test Company 1", 0)
 
 	def test_get_customer_group_details(self):
 		doc = frappe.new_doc("Customer Group")
@@ -34,10 +34,10 @@ class TestCustomer(FrappeTestCase):
 		doc.default_price_list = "Standard Buying"
 		doc.credit_limits = []
 		test_account_details = {
-			"company": "_Test Company",
-			"account": "Creditors - _TC",
+			"company": "__Test Company 1",
+			"account": "Creditors - __TC1",
 		}
-		test_credit_limits = {"company": "_Test Company", "credit_limit": 350000}
+		test_credit_limits = {"company": "__Test Company 1", "credit_limit": 350000}
 		doc.append("accounts", test_account_details)
 		doc.append("credit_limits", test_credit_limits)
 		doc.insert()
@@ -52,10 +52,10 @@ class TestCustomer(FrappeTestCase):
 		c_doc.get_customer_group_details()
 		self.assertEqual(c_doc.payment_terms, "_Test Payment Term Template 3")
 
-		self.assertEqual(c_doc.accounts[0].company, "_Test Company")
-		self.assertEqual(c_doc.accounts[0].account, "Creditors - _TC")
+		self.assertEqual(c_doc.accounts[0].company, "__Test Company 1")
+		self.assertEqual(c_doc.accounts[0].account, "Creditors - __TC1")
 
-		self.assertEqual(c_doc.credit_limits[0].company, "_Test Company")
+		self.assertEqual(c_doc.credit_limits[0].company, "__Test Company 1")
 		self.assertEqual(c_doc.credit_limits[0].credit_limit, 350000)
 		c_doc.delete()
 		doc.delete()
@@ -252,7 +252,7 @@ class TestCustomer(FrappeTestCase):
 	def get_customer_outstanding_amount(self):
 		from erpnext.selling.doctype.sales_order.test_sales_order import make_sales_order
 
-		outstanding_amt = get_customer_outstanding("_Test Customer", "_Test Company")
+		outstanding_amt = get_customer_outstanding("_Test Customer", "__Test Company 1")
 
 		# If outstanding is negative make a transaction to get positive outstanding amount
 		if outstanding_amt > 0.0:
@@ -260,7 +260,7 @@ class TestCustomer(FrappeTestCase):
 
 		item_qty = int((abs(outstanding_amt) + 200) / 100)
 		make_sales_order(qty=item_qty)
-		return get_customer_outstanding("_Test Customer", "_Test Company")
+		return get_customer_outstanding("_Test Customer", "__Test Company 1")
 
 	def test_customer_credit_limit(self):
 		from erpnext.accounts.doctype.sales_invoice.test_sales_invoice import create_sales_invoice
@@ -269,14 +269,14 @@ class TestCustomer(FrappeTestCase):
 		from erpnext.stock.doctype.delivery_note.test_delivery_note import create_delivery_note
 
 		outstanding_amt = self.get_customer_outstanding_amount()
-		credit_limit = get_credit_limit("_Test Customer", "_Test Company")
+		credit_limit = get_credit_limit("_Test Customer", "__Test Company 1")
 
 		if outstanding_amt <= 0.0:
 			item_qty = int((abs(outstanding_amt) + 200) / 100)
 			make_sales_order(qty=item_qty)
 
 		if not credit_limit:
-			set_credit_limit("_Test Customer", "_Test Company", outstanding_amt - 50)
+			set_credit_limit("_Test Customer", "__Test Company 1", outstanding_amt - 50)
 
 		# Sales Order
 		so = make_sales_order(do_not_submit=True)
@@ -291,7 +291,7 @@ class TestCustomer(FrappeTestCase):
 		self.assertRaises(frappe.ValidationError, si.submit)
 
 		if credit_limit > outstanding_amt:
-			set_credit_limit("_Test Customer", "_Test Company", credit_limit)
+			set_credit_limit("_Test Customer", "__Test Company 1", credit_limit)
 
 		# Makes Sales invoice from Sales Order
 		so.save(ignore_permissions=True)
@@ -303,12 +303,12 @@ class TestCustomer(FrappeTestCase):
 		outstanding_amt = self.get_customer_outstanding_amount()
 		customer = frappe.get_doc("Customer", "_Test Customer")
 		customer.append(
-			"credit_limits", {"credit_limit": flt(outstanding_amt - 100), "company": "_Test Company"}
+			"credit_limits", {"credit_limit": flt(outstanding_amt - 100), "company": "__Test Company 1"}
 		)
 
 		""" define new credit limit for same company """
 		customer.append(
-			"credit_limits", {"credit_limit": flt(outstanding_amt - 100), "company": "_Test Company"}
+			"credit_limits", {"credit_limit": flt(outstanding_amt - 100), "company": "__Test Company 1"}
 		)
 		self.assertRaises(frappe.ValidationError, customer.save)
 

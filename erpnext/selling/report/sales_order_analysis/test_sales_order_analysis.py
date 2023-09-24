@@ -56,7 +56,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 		item, so = self.create_sales_order(transaction_date)
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"status": ["To Deliver and Bill"],
@@ -83,7 +83,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 		self.create_sales_invoice(so)
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"status": ["To Deliver"],
@@ -110,7 +110,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 		self.create_delivery_note(so)
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"status": ["To Bill"],
@@ -138,7 +138,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 		self.create_delivery_note(so)
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"status": ["Completed"],
@@ -163,7 +163,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 	def test_05_all_so_status(self):
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 			}
@@ -195,7 +195,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"sales_order": [so.name],
@@ -231,7 +231,7 @@ class TestSalesOrderAnalysis(FrappeTestCase):
 
 		columns, data, message, chart = execute(
 			{
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"from_date": "2021-06-01",
 				"to_date": "2021-06-30",
 				"sales_order": [so.name],

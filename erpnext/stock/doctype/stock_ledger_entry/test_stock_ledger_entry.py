@@ -46,18 +46,18 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		frappe.db.rollback()
 
 	def test_item_cost_reposting(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 
 		# _Test Item for Reposting at Stores warehouse on 10-04-2020: Qty = 50, Rate = 100
 		create_stock_reconciliation(
 			item_code="_Test Item for Reposting",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			qty=50,
 			rate=100,
 			company=company,
-			expense_account="Stock Adjustment - _TC"
+			expense_account="Stock Adjustment - __TC1"
 			if frappe.get_all("Stock Ledger Entry")
-			else "Temporary Opening - _TC",
+			else "Temporary Opening - __TC1",
 			posting_date="2020-04-10",
 			posting_time="14:00",
 		)
@@ -65,13 +65,13 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		# _Test Item for Reposting at FG warehouse on 20-04-2020: Qty = 10, Rate = 200
 		create_stock_reconciliation(
 			item_code="_Test Item for Reposting",
-			warehouse="Finished Goods - _TC",
+			warehouse="Finished Goods - __TC1",
 			qty=10,
 			rate=200,
 			company=company,
-			expense_account="Stock Adjustment - _TC"
+			expense_account="Stock Adjustment - __TC1"
 			if frappe.get_all("Stock Ledger Entry")
-			else "Temporary Opening - _TC",
+			else "Temporary Opening - __TC1",
 			posting_date="2020-04-20",
 			posting_time="14:00",
 		)
@@ -79,13 +79,13 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		# _Test Item for Reposting transferred from Stores to FG warehouse on 30-04-2020
 		se = make_stock_entry(
 			item_code="_Test Item for Reposting",
-			source="Stores - _TC",
-			target="Finished Goods - _TC",
+			source="Stores - __TC1",
+			target="Finished Goods - __TC1",
 			company=company,
 			qty=10,
-			expense_account="Stock Adjustment - _TC"
+			expense_account="Stock Adjustment - __TC1"
 			if frappe.get_all("Stock Ledger Entry")
-			else "Temporary Opening - _TC",
+			else "Temporary Opening - __TC1",
 			posting_date="2020-04-30",
 			posting_time="14:00",
 		)
@@ -93,7 +93,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			"Stock Ledger Entry",
 			{
 				"item_code": "_Test Item for Reposting",
-				"warehouse": "Finished Goods - _TC",
+				"warehouse": "Finished Goods - __TC1",
 				"voucher_type": "Stock Entry",
 				"voucher_no": se.name,
 			},
@@ -110,7 +110,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			"Stock Ledger Entry",
 			{
 				"item_code": "_Test Finished Item for Reposting",
-				"warehouse": "Finished Goods - _TC",
+				"warehouse": "Finished Goods - __TC1",
 				"voucher_type": "Stock Entry",
 				"voucher_no": repack.name,
 			},
@@ -123,13 +123,13 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		# Reconciliation for _Test Item for Reposting at Stores on 12-04-2020: Qty = 50, Rate = 150
 		sr = create_stock_reconciliation(
 			item_code="_Test Item for Reposting",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			qty=50,
 			rate=150,
 			company=company,
-			expense_account="Stock Adjustment - _TC"
+			expense_account="Stock Adjustment - __TC1"
 			if frappe.get_all("Stock Ledger Entry")
-			else "Temporary Opening - _TC",
+			else "Temporary Opening - __TC1",
 			posting_date="2020-04-12",
 			posting_time="14:00",
 		)
@@ -138,7 +138,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		target_wh_sle = get_previous_sle(
 			{
 				"item_code": "_Test Item for Reposting",
-				"warehouse": "Finished Goods - _TC",
+				"warehouse": "Finished Goods - __TC1",
 				"posting_date": "2020-04-30",
 				"posting_time": "14:00",
 			}
@@ -151,7 +151,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			"Stock Ledger Entry",
 			{
 				"item_code": "_Test Finished Item for Reposting",
-				"warehouse": "Finished Goods - _TC",
+				"warehouse": "Finished Goods - __TC1",
 				"voucher_type": "Stock Entry",
 				"voucher_no": repack.name,
 			},
@@ -168,18 +168,18 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 
 	def test_purchase_return_valuation_reposting(self):
 		pr = make_purchase_receipt(
-			company="_Test Company",
+			company="__Test Company 1",
 			posting_date="2020-04-10",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			item_code="_Test Item for Reposting",
 			qty=5,
 			rate=100,
 		)
 
 		return_pr = make_purchase_receipt(
-			company="_Test Company",
+			company="__Test Company 1",
 			posting_date="2020-04-15",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			item_code="_Test Item for Reposting",
 			is_return=1,
 			return_against=pr.name,
@@ -208,14 +208,14 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		self.assertEqual(stock_value_difference, -220)
 
 	def test_sales_return_valuation_reposting(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 		item_code = "_Test Item for Reposting"
 
 		# Purchase Return: Qty = 5, Rate = 100
 		pr = make_purchase_receipt(
 			company=company,
 			posting_date="2020-04-10",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			item_code=item_code,
 			qty=5,
 			rate=100,
@@ -226,10 +226,10 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			item_code=item_code,
 			qty=5,
 			rate=150,
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			company=company,
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 		)
 
 		# check outgoing_rate for DN
@@ -253,9 +253,9 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			qty=-2,
 			rate=150,
 			company=company,
-			warehouse="Stores - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			warehouse="Stores - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 		)
 
 		# check incoming rate for Return entry
@@ -308,7 +308,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		pr.cancel()
 
 	def test_reposting_of_sales_return_for_packed_item(self):
-		company = "_Test Company"
+		company = "__Test Company 1"
 		packed_item_code = "_Test Item for Reposting"
 		bundled_item = "_Test Bundled Item for Reposting"
 		create_product_bundle_item(bundled_item, [[packed_item_code, 4]])
@@ -317,7 +317,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		pr = make_purchase_receipt(
 			company=company,
 			posting_date="2020-04-10",
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			item_code=packed_item_code,
 			qty=50,
 			rate=100,
@@ -328,10 +328,10 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			item_code=bundled_item,
 			qty=5,
 			rate=150,
-			warehouse="Stores - _TC",
+			warehouse="Stores - __TC1",
 			company=company,
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 		)
 
 		# check outgoing_rate for DN
@@ -355,9 +355,9 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			qty=-2,
 			rate=150,
 			company=company,
-			warehouse="Stores - _TC",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			warehouse="Stores - __TC1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 		)
 
 		# check incoming rate for Return entry
@@ -423,9 +423,9 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 
 			frappe.set_user(user.name)
 
-			stock_entry_on_today = make_stock_entry(target="_Test Warehouse - _TC", qty=10, basic_rate=100)
+			stock_entry_on_today = make_stock_entry(target="_Test Warehouse - __TC1", qty=10, basic_rate=100)
 			back_dated_se_1 = make_stock_entry(
-				target="_Test Warehouse - _TC",
+				target="_Test Warehouse - __TC1",
 				qty=10,
 				basic_rate=100,
 				posting_date=add_days(today(), -1),
@@ -441,7 +441,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 
 			# Back dated entry allowed to Stock Manager
 			back_dated_se_2 = make_stock_entry(
-				target="_Test Warehouse - _TC", qty=10, basic_rate=100, posting_date=add_days(today(), -1)
+				target="_Test Warehouse - __TC1", qty=10, basic_rate=100, posting_date=add_days(today(), -1)
 			)
 
 			back_dated_se_2.cancel()
@@ -898,8 +898,8 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 
 	def test_fifo_dependent_consumption(self):
 		item = make_item("_TestFifoTransferRates")
-		source = "_Test Warehouse - _TC"
-		target = "Stores - _TC"
+		source = "_Test Warehouse - __TC1"
+		target = "Stores - __TC1"
 
 		rates = [10 * i for i in range(1, 20)]
 
@@ -933,7 +933,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 	def test_fifo_multi_item_repack_consumption(self):
 		rm = make_item("_TestFifoRepackRM")
 		packed = make_item("_TestFifoRepackFinished")
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		rates = [10 * i for i in range(1, 5)]
 
@@ -979,7 +979,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		Only pervailing valuation rate should be used for making transactions in such cases.
 		"""
 		item = make_item(properties={"allow_negative_stock": 1}).name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		receipt = make_stock_entry(item_code=item, target=warehouse, qty=10, rate=10)
 		consume1 = make_stock_entry(item_code=item, source=warehouse, qty=15)
@@ -1055,7 +1055,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		self.addCleanup(frappe.flags.pop, "dont_execute_stock_reposts")
 
 		item = make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		posting_date = "2022-01-01"
 		posting_time = "00:00:01"
@@ -1110,7 +1110,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 	def test_timestamp_clash(self):
 
 		item = make_item().name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		reciept = make_stock_entry(
 			item_code=item,
@@ -1163,7 +1163,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			conversion_factor=1000,
 			uom="Tonne",
 			rate=156_526.0,
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 		transfer = make_stock_entry(
 			item=item, from_warehouse=source_warehouse, to_warehouse=target_warehouse, qty=1_728.0
@@ -1185,7 +1185,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		from erpnext.stock.utils import get_stock_balance
 
 		item_code = "ItemPrecisionTest"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		create_item(item_code, is_stock_item=1, stock_uom="Kg")
 
 		create_stock_reconciliation(item_code=item_code, warehouse=warehouse, qty=559.8327, rate=100)
@@ -1209,9 +1209,9 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			qty=100,
 			rate=150,
 			warehouse=warehouse,
-			company="_Test Company",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 			do_not_submit=True,
 		)
 		dn.submit()
@@ -1235,7 +1235,7 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 		from erpnext.stock.doctype.item.test_item import create_item
 
 		item_code = "ItemPrecisionTest"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		create_item(item_code, is_stock_item=1, stock_uom="Kg")
 
 		create_stock_reconciliation(
@@ -1251,9 +1251,9 @@ class TestStockLedgerEntry(FrappeTestCase, StockTestMixin):
 			qty=100,
 			rate=150,
 			warehouse=warehouse,
-			company="_Test Company",
-			expense_account="Cost of Goods Sold - _TC",
-			cost_center="Main - _TC",
+			company="__Test Company 1",
+			expense_account="Cost of Goods Sold - __TC1",
+			cost_center="Main - __TC1",
 		)
 
 		settings = frappe.get_doc("System Settings")
@@ -1270,18 +1270,18 @@ def create_repack_entry(**args):
 	args = frappe._dict(args)
 	repack = frappe.new_doc("Stock Entry")
 	repack.stock_entry_type = "Repack"
-	repack.company = args.company or "_Test Company"
+	repack.company = args.company or "__Test Company 1"
 	repack.posting_date = args.posting_date
 	repack.set_posting_time = 1
 	repack.append(
 		"items",
 		{
 			"item_code": "_Test Item for Reposting",
-			"s_warehouse": "Stores - _TC",
+			"s_warehouse": "Stores - __TC1",
 			"qty": 5,
 			"conversion_factor": 1,
-			"expense_account": "Stock Adjustment - _TC",
-			"cost_center": "Main - _TC",
+			"expense_account": "Stock Adjustment - __TC1",
+			"cost_center": "Main - __TC1",
 		},
 	)
 
@@ -1289,18 +1289,18 @@ def create_repack_entry(**args):
 		"items",
 		{
 			"item_code": "_Test Finished Item for Reposting",
-			"t_warehouse": "Finished Goods - _TC",
+			"t_warehouse": "Finished Goods - __TC1",
 			"qty": 1,
 			"conversion_factor": 1,
-			"expense_account": "Stock Adjustment - _TC",
-			"cost_center": "Main - _TC",
+			"expense_account": "Stock Adjustment - __TC1",
+			"cost_center": "Main - __TC1",
 		},
 	)
 
 	repack.append(
 		"additional_costs",
 		{
-			"expense_account": "Freight and Forwarding Charges - _TC",
+			"expense_account": "Freight and Forwarding Charges - __TC1",
 			"description": "transport cost",
 			"amount": 40,
 		},
@@ -1432,7 +1432,7 @@ def create_stock_entry_entries_for_batchwise_item_valuation_test(se_entry_list, 
 		args = dict(
 			item_code=item,
 			qty=qty,
-			company="_Test Company",
+			company="__Test Company 1",
 			batch_no=batch,
 			posting_date=posting_date,
 			purpose=purpose,
@@ -1470,7 +1470,7 @@ class TestDeferredNaming(FrappeTestCase):
 	def setUp(self) -> None:
 		self.item = make_item().name
 		self.warehouse = "Stores - TCP1"
-		self.company = "_Test Company with perpetual inventory"
+		self.company = "__Test Company 7"
 
 	def tearDown(self) -> None:
 		make_property_setter(

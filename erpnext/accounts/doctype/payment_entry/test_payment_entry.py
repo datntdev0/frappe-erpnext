@@ -43,13 +43,13 @@ class TestPaymentEntry(FrappeTestCase):
 
 	def test_payment_entry_against_order(self):
 		so = make_sales_order()
-		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Cash - _TC")
-		pe.paid_from = "Debtors - _TC"
+		pe = get_payment_entry("Sales Order", so.name, bank_account="_Test Cash - __TC1")
+		pe.paid_from = "Debtors - __TC1"
 		pe.insert()
 		pe.submit()
 
 		expected_gle = dict(
-			(d[0], d) for d in [["Debtors - _TC", 0, 1000, so.name], ["_Test Cash - _TC", 1000.0, 0, None]]
+			(d[0], d) for d in [["Debtors - __TC1", 0, 1000, so.name], ["_Test Cash - __TC1", 1000.0, 0, None]]
 		)
 
 		self.validate_gl_entries(pe.name, expected_gle)
@@ -81,7 +81,7 @@ class TestPaymentEntry(FrappeTestCase):
 
 		expected_gle = dict(
 			(d[0], d)
-			for d in [["_Test Receivable USD - _TC", 0, 5500, so.name], ["Cash - _TC", 5500.0, 0, None]]
+			for d in [["_Test Receivable USD - __TC1", 0, 5500, so.name], ["Cash - __TC1", 5500.0, 0, None]]
 		)
 
 		self.validate_gl_entries(pe.name, expected_gle)
@@ -118,7 +118,7 @@ class TestPaymentEntry(FrappeTestCase):
 			get_payment_entry,
 			dt="Purchase Invoice",
 			dn=pi.name,
-			bank_account="_Test Bank - _TC",
+			bank_account="_Test Bank - __TC1",
 		)
 
 		supplier.on_hold = 0
@@ -138,7 +138,7 @@ class TestPaymentEntry(FrappeTestCase):
 			get_payment_entry,
 			dt="Purchase Invoice",
 			dn=pi.name,
-			bank_account="_Test Bank - _TC",
+			bank_account="_Test Bank - __TC1",
 		)
 
 		supplier.on_hold = 0
@@ -156,7 +156,7 @@ class TestPaymentEntry(FrappeTestCase):
 
 				pi = make_purchase_invoice()
 
-				get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+				get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 
 				supplier.on_hold = 0
 				supplier.save()
@@ -168,11 +168,11 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_si_usd_to_usd(self):
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.source_exchange_rate = 50
@@ -182,8 +182,8 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Receivable USD - _TC", 0, 5000, si.name],
-				["_Test Bank USD - _TC", 5000.0, 0, None],
+				["_Test Receivable USD - __TC1", 0, 5000, si.name],
+				["_Test Bank USD - __TC1", 5000.0, 0, None],
 			]
 		)
 
@@ -200,11 +200,11 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_pi(self):
 		pi = make_purchase_invoice(
 			supplier="_Test Supplier USD",
-			debit_to="_Test Payable USD - _TC",
+			debit_to="_Test Payable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
-		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.source_exchange_rate = 50
@@ -214,8 +214,8 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Payable USD - _TC", 12500, 0, pi.name],
-				["_Test Bank USD - _TC", 0, 12500, None],
+				["_Test Payable USD - __TC1", 12500, 0, pi.name],
+				["_Test Bank USD - __TC1", 0, 12500, None],
 			]
 		)
 
@@ -227,12 +227,12 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_against_sales_invoice_to_check_status(self):
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
 
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.source_exchange_rate = 50
@@ -262,8 +262,8 @@ class TestPaymentEntry(FrappeTestCase):
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 18,
 			},
@@ -272,7 +272,7 @@ class TestPaymentEntry(FrappeTestCase):
 
 		si.submit()
 
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 		pe.submit()
 		si.load_from_db()
 
@@ -286,14 +286,14 @@ class TestPaymentEntry(FrappeTestCase):
 		create_payment_terms_template_with_discount()
 		si.payment_terms_template = "Test Discount Template"
 
-		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - _TC")
+		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - __TC1")
 
 		si.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 18,
 			},
@@ -302,17 +302,17 @@ class TestPaymentEntry(FrappeTestCase):
 		si.submit()
 
 		frappe.db.set_single_value("Accounts Settings", "book_tax_discount_loss", 1)
-		pe_with_tax_loss = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe_with_tax_loss = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 
 		self.assertEqual(pe_with_tax_loss.references[0].payment_term, "30 Credit Days with 10% Discount")
 		self.assertEqual(pe_with_tax_loss.references[0].allocated_amount, 236.0)
 		self.assertEqual(pe_with_tax_loss.paid_amount, 212.4)
 		self.assertEqual(pe_with_tax_loss.deductions[0].amount, 20.0)  # Loss on Income
 		self.assertEqual(pe_with_tax_loss.deductions[1].amount, 3.6)  # Loss on Tax
-		self.assertEqual(pe_with_tax_loss.deductions[1].account, "_Test Account Service Tax - _TC")
+		self.assertEqual(pe_with_tax_loss.deductions[1].account, "_Test Account Service Tax - __TC1")
 
 		frappe.db.set_single_value("Accounts Settings", "book_tax_discount_loss", 0)
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 
 		self.assertEqual(pe.references[0].allocated_amount, 236.0)
 		self.assertEqual(pe.paid_amount, 212.4)
@@ -337,14 +337,14 @@ class TestPaymentEntry(FrappeTestCase):
 			discount=50,
 			template_name="Test Discount Amount Template",
 		)
-		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - _TC")
+		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - __TC1")
 
 		si.append(
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"description": "Service Tax",
 				"rate": 18,
 			},
@@ -356,20 +356,20 @@ class TestPaymentEntry(FrappeTestCase):
 		pe_1 = get_payment_entry(
 			"Sales Invoice",
 			si.name,
-			bank_account="_Test Cash - _TC",
+			bank_account="_Test Cash - __TC1",
 			reference_date=frappe.utils.add_days(si.posting_date, 2),
 		)
 		self.assertEqual(pe_1.paid_amount, 236.0)  # discount not applied
 
 		# Test if tax loss is booked on enabling configuration
 		frappe.db.set_single_value("Accounts Settings", "book_tax_discount_loss", 1)
-		pe_with_tax_loss = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe_with_tax_loss = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 		self.assertEqual(pe_with_tax_loss.deductions[0].amount, 42.37)  # Loss on Income
 		self.assertEqual(pe_with_tax_loss.deductions[1].amount, 7.63)  # Loss on Tax
-		self.assertEqual(pe_with_tax_loss.deductions[1].account, "_Test Account Service Tax - _TC")
+		self.assertEqual(pe_with_tax_loss.deductions[1].account, "_Test Account Service Tax - __TC1")
 
 		frappe.db.set_single_value("Accounts Settings", "book_tax_discount_loss", 0)
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 		self.assertEqual(pe.references[0].allocated_amount, 236.0)
 		self.assertEqual(pe.paid_amount, 186)
 		self.assertEqual(pe.deductions[0].amount, 50.0)
@@ -409,14 +409,14 @@ class TestPaymentEntry(FrappeTestCase):
 		create_payment_terms_template_with_discount()
 		si.payment_terms_template = "Test Discount Template"
 
-		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - _TC")
+		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - __TC1")
 		si.save()
 		si.submit()
 
 		pe = get_payment_entry(
 			"Sales Invoice",
 			si.name,
-			bank_account="_Test Bank - _TC",
+			bank_account="_Test Bank - __TC1",
 		)
 		pe.reference_no = si.name
 		pe.reference_date = nowdate()
@@ -425,7 +425,7 @@ class TestPaymentEntry(FrappeTestCase):
 		self.assertEqual(pe.paid_amount, 4500.0)  # Amount in company currency
 		self.assertEqual(pe.received_amount, 4500.0)
 		self.assertEqual(pe.deductions[0].amount, 500.0)
-		self.assertEqual(pe.deductions[0].account, "Write Off - _TC")
+		self.assertEqual(pe.deductions[0].account, "Write Off - __TC1")
 		self.assertEqual(pe.difference_amount, 0.0)
 
 		pe.insert()
@@ -434,9 +434,9 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["Debtors - _TC", 0, 5000, si.name],
-				["_Test Bank - _TC", 4500, 0, None],
-				["Write Off - _TC", 500.0, 0, None],
+				["Debtors - __TC1", 0, 5000, si.name],
+				["_Test Bank - __TC1", 4500, 0, None],
+				["Write Off - __TC1", 500.0, 0, None],
 			]
 		)
 
@@ -455,7 +455,7 @@ class TestPaymentEntry(FrappeTestCase):
 		"""
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 			do_not_save=1,
@@ -463,12 +463,12 @@ class TestPaymentEntry(FrappeTestCase):
 		create_payment_terms_template_with_discount()
 		si.payment_terms_template = "Test Discount Template"
 
-		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - _TC")
+		frappe.db.set_value("Company", si.company, "default_discount_account", "Write Off - __TC1")
 		si.save()
 		si.submit()
 
 		pe = get_payment_entry(
-			"Sales Invoice", si.name, bank_account="_Test Bank - _TC", bank_amount=4700
+			"Sales Invoice", si.name, bank_account="_Test Bank - __TC1", bank_amount=4700
 		)
 		pe.reference_no = si.name
 		pe.reference_date = nowdate()
@@ -477,7 +477,7 @@ class TestPaymentEntry(FrappeTestCase):
 		self.assertEqual(pe.paid_amount, 90.0)
 		self.assertEqual(pe.received_amount, 4200.0)  # 5000 - 500 (discount) - 300 (exchange loss)
 		self.assertEqual(pe.deductions[0].amount, 500.0)
-		self.assertEqual(pe.deductions[0].account, "Write Off - _TC")
+		self.assertEqual(pe.deductions[0].account, "Write Off - __TC1")
 
 		# Exchange loss
 		self.assertEqual(pe.difference_amount, 300.0)
@@ -485,8 +485,8 @@ class TestPaymentEntry(FrappeTestCase):
 		pe.append(
 			"deductions",
 			{
-				"account": "_Test Exchange Gain/Loss - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account": "_Test Exchange Gain/Loss - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"amount": 300.0,
 			},
 		)
@@ -499,10 +499,10 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Receivable USD - _TC", 0, 5000, si.name],
-				["_Test Bank - _TC", 4200, 0, None],
-				["Write Off - _TC", 500.0, 0, None],
-				["_Test Exchange Gain/Loss - _TC", 300.0, 0, None],
+				["_Test Receivable USD - __TC1", 0, 5000, si.name],
+				["_Test Bank - __TC1", 4200, 0, None],
+				["Write Off - __TC1", 500.0, 0, None],
+				["_Test Exchange Gain/Loss - __TC1", 300.0, 0, None],
 			]
 		)
 
@@ -514,12 +514,12 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_against_purchase_invoice_to_check_status(self):
 		pi = make_purchase_invoice(
 			supplier="_Test Supplier USD",
-			debit_to="_Test Payable USD - _TC",
+			debit_to="_Test Payable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
 
-		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.source_exchange_rate = 50
@@ -543,12 +543,12 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_si_usd_to_inr(self):
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
 		pe = get_payment_entry(
-			"Sales Invoice", si.name, party_amount=20, bank_account="_Test Bank - _TC", bank_amount=900
+			"Sales Invoice", si.name, party_amount=20, bank_account="_Test Bank - __TC1", bank_amount=900
 		)
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
@@ -558,8 +558,8 @@ class TestPaymentEntry(FrappeTestCase):
 		pe.append(
 			"deductions",
 			{
-				"account": "_Test Exchange Gain/Loss - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account": "_Test Exchange Gain/Loss - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"amount": 100,
 			},
 		)
@@ -569,9 +569,9 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Receivable USD - _TC", 0, 1000, si.name],
-				["_Test Bank - _TC", 900, 0, None],
-				["_Test Exchange Gain/Loss - _TC", 100.0, 0, None],
+				["_Test Receivable USD - __TC1", 0, 1000, si.name],
+				["_Test Bank - __TC1", 900, 0, None],
+				["_Test Exchange Gain/Loss - __TC1", 100.0, 0, None],
 			]
 		)
 
@@ -583,7 +583,7 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_si_usd_to_usd_with_deduction_in_base_currency(self):
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 			do_not_save=1,
@@ -594,7 +594,7 @@ class TestPaymentEntry(FrappeTestCase):
 		si.submit()
 
 		pe = get_payment_entry(
-			"Sales Invoice", si.name, party_amount=20, bank_account="_Test Bank USD - _TC", bank_amount=900
+			"Sales Invoice", si.name, party_amount=20, bank_account="_Test Bank USD - __TC1", bank_amount=900
 		)
 
 		pe.source_exchange_rate = 45.263
@@ -620,10 +620,10 @@ class TestPaymentEntry(FrappeTestCase):
 
 		pe = frappe.new_doc("Payment Entry")
 		pe.payment_type = "Pay"
-		pe.company = "_Test Company"
+		pe.company = "__Test Company 1"
 		pe.posting_date = "2016-01-10"
-		pe.paid_from = "_Test Bank USD - _TC"
-		pe.paid_to = "_Test Bank - _TC"
+		pe.paid_from = "_Test Bank USD - __TC1"
+		pe.paid_to = "_Test Bank - __TC1"
 		pe.paid_amount = 100
 		pe.received_amount = 100
 		pe.reference_no = "3"
@@ -643,9 +643,9 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_internal_transfer_usd_to_inr(self):
 		pe = frappe.new_doc("Payment Entry")
 		pe.payment_type = "Internal Transfer"
-		pe.company = "_Test Company"
-		pe.paid_from = "_Test Bank USD - _TC"
-		pe.paid_to = "_Test Bank - _TC"
+		pe.company = "__Test Company 1"
+		pe.paid_from = "_Test Bank USD - __TC1"
+		pe.paid_to = "_Test Bank - __TC1"
 		pe.paid_amount = 100
 		pe.source_exchange_rate = 50
 		pe.received_amount = 4500
@@ -662,8 +662,8 @@ class TestPaymentEntry(FrappeTestCase):
 		pe.append(
 			"deductions",
 			{
-				"account": "_Test Exchange Gain/Loss - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"account": "_Test Exchange Gain/Loss - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 				"amount": 500,
 			},
 		)
@@ -674,9 +674,9 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Bank USD - _TC", 0, 5000, None],
-				["_Test Bank - _TC", 4500, 0, None],
-				["_Test Exchange Gain/Loss - _TC", 500.0, 0, None],
+				["_Test Bank USD - __TC1", 0, 5000, None],
+				["_Test Bank - __TC1", 4500, 0, None],
+				["_Test Exchange Gain/Loss - __TC1", 500.0, 0, None],
 			]
 		)
 
@@ -685,10 +685,10 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_against_negative_sales_invoice(self):
 		pe1 = frappe.new_doc("Payment Entry")
 		pe1.payment_type = "Pay"
-		pe1.company = "_Test Company"
+		pe1.company = "__Test Company 1"
 		pe1.party_type = "Customer"
 		pe1.party = "_Test Customer"
-		pe1.paid_from = "_Test Cash - _TC"
+		pe1.paid_from = "_Test Cash - __TC1"
 		pe1.paid_amount = 100
 		pe1.received_amount = 100
 
@@ -697,7 +697,7 @@ class TestPaymentEntry(FrappeTestCase):
 		si1 = create_sales_invoice()
 
 		# create full payment entry against si1
-		pe2 = get_payment_entry("Sales Invoice", si1.name, bank_account="_Test Cash - _TC")
+		pe2 = get_payment_entry("Sales Invoice", si1.name, bank_account="_Test Cash - __TC1")
 		pe2.insert()
 		pe2.submit()
 
@@ -707,19 +707,19 @@ class TestPaymentEntry(FrappeTestCase):
 		self.assertEqual(si1_outstanding, -100)
 
 		# pay more than outstanding against si1
-		pe3 = get_payment_entry("Sales Invoice", si1.name, bank_account="_Test Cash - _TC")
+		pe3 = get_payment_entry("Sales Invoice", si1.name, bank_account="_Test Cash - __TC1")
 		pe3.paid_amount = pe3.received_amount = 300
 		self.assertRaises(InvalidPaymentEntry, pe3.validate)
 
 		# pay negative outstanding against si1
-		pe3.paid_to = "Debtors - _TC"
+		pe3.paid_to = "Debtors - __TC1"
 		pe3.paid_amount = pe3.received_amount = 100
 
 		pe3.insert()
 		pe3.submit()
 
 		expected_gle = dict(
-			(d[0], d) for d in [["Debtors - _TC", 100, 0, si1.name], ["_Test Cash - _TC", 0, 100, None]]
+			(d[0], d) for d in [["Debtors - __TC1", 100, 0, si1.name], ["_Test Cash - __TC1", 0, 100, None]]
 		)
 
 		self.validate_gl_entries(pe3.name, expected_gle)
@@ -754,7 +754,7 @@ class TestPaymentEntry(FrappeTestCase):
 
 	def test_payment_entry_write_off_difference(self):
 		si = create_sales_invoice()
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Cash - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.received_amount = pe.paid_amount = 110
@@ -765,7 +765,7 @@ class TestPaymentEntry(FrappeTestCase):
 		pe.received_amount = pe.paid_amount = 95
 		pe.append(
 			"deductions",
-			{"account": "_Test Write Off - _TC", "cost_center": "_Test Cost Center - _TC", "amount": 5},
+			{"account": "_Test Write Off - __TC1", "cost_center": "_Test Cost Center - __TC1", "amount": 5},
 		)
 		pe.save()
 
@@ -777,9 +777,9 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["Debtors - _TC", 0, 100, si.name],
-				["_Test Cash - _TC", 95, 0, None],
-				["_Test Write Off - _TC", 5, 0, None],
+				["Debtors - __TC1", 0, 100, si.name],
+				["_Test Cash - __TC1", 95, 0, None],
+				["_Test Write Off - __TC1", 5, 0, None],
 			]
 		)
 
@@ -788,11 +788,11 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_exchange_gain_loss(self):
 		si = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=50,
 		)
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 		pe.source_exchange_rate = 55
@@ -806,8 +806,8 @@ class TestPaymentEntry(FrappeTestCase):
 		expected_gle = dict(
 			(d[0], d)
 			for d in [
-				["_Test Receivable USD - _TC", 0, 5500, si.name],
-				["_Test Bank USD - _TC", 5500, 0, None],
+				["_Test Receivable USD - __TC1", 0, 5500, si.name],
+				["_Test Bank USD - __TC1", 5500, 0, None],
 			]
 		)
 
@@ -824,24 +824,24 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_sales_invoice_with_cost_centre(self):
 		from erpnext.accounts.doctype.cost_center.test_cost_center import create_cost_center
 
-		cost_center = "_Test Cost Center for BS Account - _TC"
-		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="_Test Company")
+		cost_center = "_Test Cost Center for BS Account - __TC1"
+		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="__Test Company 1")
 
-		si = create_sales_invoice_against_cost_center(cost_center=cost_center, debit_to="Debtors - _TC")
+		si = create_sales_invoice_against_cost_center(cost_center=cost_center, debit_to="Debtors - __TC1")
 
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - __TC1")
 		self.assertEqual(pe.cost_center, si.cost_center)
 
 		pe.reference_no = "112211-1"
 		pe.reference_date = nowdate()
-		pe.paid_to = "_Test Bank - _TC"
+		pe.paid_to = "_Test Bank - __TC1"
 		pe.paid_amount = si.grand_total
 		pe.insert()
 		pe.submit()
 
 		expected_values = {
-			"_Test Bank - _TC": {"cost_center": cost_center},
-			"Debtors - _TC": {"cost_center": cost_center},
+			"_Test Bank - __TC1": {"cost_center": cost_center},
+			"Debtors - __TC1": {"cost_center": cost_center},
 		}
 
 		gl_entries = frappe.db.sql(
@@ -861,26 +861,26 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_purchase_invoice_with_cost_center(self):
 		from erpnext.accounts.doctype.cost_center.test_cost_center import create_cost_center
 
-		cost_center = "_Test Cost Center for BS Account - _TC"
-		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="_Test Company")
+		cost_center = "_Test Cost Center for BS Account - __TC1"
+		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="__Test Company 1")
 
 		pi = make_purchase_invoice_against_cost_center(
-			cost_center=cost_center, credit_to="Creditors - _TC"
+			cost_center=cost_center, credit_to="Creditors - __TC1"
 		)
 
-		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank - __TC1")
 		self.assertEqual(pe.cost_center, pi.cost_center)
 
 		pe.reference_no = "112222-1"
 		pe.reference_date = nowdate()
-		pe.paid_from = "_Test Bank - _TC"
+		pe.paid_from = "_Test Bank - __TC1"
 		pe.paid_amount = pi.grand_total
 		pe.insert()
 		pe.submit()
 
 		expected_values = {
-			"_Test Bank - _TC": {"cost_center": cost_center},
-			"Creditors - _TC": {"cost_center": cost_center},
+			"_Test Bank - __TC1": {"cost_center": cost_center},
+			"Creditors - __TC1": {"cost_center": cost_center},
 		}
 
 		gl_entries = frappe.db.sql(
@@ -901,21 +901,21 @@ class TestPaymentEntry(FrappeTestCase):
 		from erpnext.accounts.doctype.cost_center.test_cost_center import create_cost_center
 		from erpnext.accounts.utils import get_balance_on
 
-		cost_center = "_Test Cost Center for BS Account - _TC"
-		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="_Test Company")
+		cost_center = "_Test Cost Center for BS Account - __TC1"
+		create_cost_center(cost_center_name="_Test Cost Center for BS Account", company="__Test Company 1")
 
-		si = create_sales_invoice_against_cost_center(cost_center=cost_center, debit_to="Debtors - _TC")
+		si = create_sales_invoice_against_cost_center(cost_center=cost_center, debit_to="Debtors - __TC1")
 
-		account_balance = get_balance_on(account="_Test Bank - _TC", cost_center=si.cost_center)
+		account_balance = get_balance_on(account="_Test Bank - __TC1", cost_center=si.cost_center)
 		party_balance = get_balance_on(
 			party_type="Customer", party=si.customer, cost_center=si.cost_center
 		)
 		party_account_balance = get_balance_on(si.debit_to, cost_center=si.cost_center)
 
-		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - _TC")
+		pe = get_payment_entry("Sales Invoice", si.name, bank_account="_Test Bank - __TC1")
 		pe.reference_no = "112211-1"
 		pe.reference_date = nowdate()
-		pe.paid_to = "_Test Bank - _TC"
+		pe.paid_to = "_Test Bank - __TC1"
 		pe.paid_amount = si.grand_total
 		pe.insert()
 		pe.submit()
@@ -935,12 +935,12 @@ class TestPaymentEntry(FrappeTestCase):
 
 	def test_multi_currency_payment_entry_with_taxes(self):
 		payment_entry = create_payment_entry(
-			party="_Test Supplier USD", paid_to="_Test Payable USD - _TC", save=True
+			party="_Test Supplier USD", paid_to="_Test Payable USD - __TC1", save=True
 		)
 		payment_entry.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Service Tax - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
 				"charge_type": "Actual",
 				"tax_amount": 10,
 				"add_deduct_tax": "Add",
@@ -956,12 +956,12 @@ class TestPaymentEntry(FrappeTestCase):
 
 	def test_gl_of_multi_currency_payment_with_taxes(self):
 		payment_entry = create_payment_entry(
-			party="_Test Supplier USD", paid_to="_Test Payable USD - _TC", save=True
+			party="_Test Supplier USD", paid_to="_Test Payable USD - __TC1", save=True
 		)
 		payment_entry.append(
 			"taxes",
 			{
-				"account_head": "_Test Account Service Tax - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
 				"charge_type": "Actual",
 				"tax_amount": 100,
 				"add_deduct_tax": "Add",
@@ -987,9 +987,9 @@ class TestPaymentEntry(FrappeTestCase):
 		)
 
 		expected_gl_entries = (
-			("_Test Account Service Tax - _TC", 100.0, 0.0, 100.0, 0.0),
-			("_Test Bank - _TC", 0.0, 1100.0, 0.0, 1100.0),
-			("_Test Payable USD - _TC", 1000.0, 0.0, 12.5, 0),
+			("_Test Account Service Tax - __TC1", 100.0, 0.0, 100.0, 0.0),
+			("_Test Bank - __TC1", 0.0, 1100.0, 0.0, 1100.0),
+			("_Test Payable USD - __TC1", 1000.0, 0.0, 12.5, 0),
 		)
 
 		self.assertEqual(gl_entries, expected_gl_entries)
@@ -997,7 +997,7 @@ class TestPaymentEntry(FrappeTestCase):
 	def test_payment_entry_against_onhold_purchase_invoice(self):
 		pi = make_purchase_invoice()
 
-		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - _TC")
+		pe = get_payment_entry("Purchase Invoice", pi.name, bank_account="_Test Bank USD - __TC1")
 		pe.reference_no = "1"
 		pe.reference_date = "2016-01-01"
 
@@ -1010,7 +1010,7 @@ class TestPaymentEntry(FrappeTestCase):
 		self.assertTrue("is on hold" in str(err.exception).lower())
 
 	def test_payment_entry_for_employee(self):
-		employee = make_employee("test_payment_entry@salary.com", company="_Test Company")
+		employee = make_employee("test_payment_entry@salary.com", company="__Test Company 1")
 		create_payment_entry(party_type="Employee", party=employee, save=True)
 
 	def test_duplicate_payment_entry_allocate_amount(self):
@@ -1045,7 +1045,7 @@ class TestPaymentEntry(FrappeTestCase):
 		so.submit()
 		pe = get_payment_entry("Sales Order", so.name)
 		pe.references.clear()
-		pe.paid_from = "Debtors - _TC"
+		pe.paid_from = "Debtors - __TC1"
 		pe.paid_from_account_currency = "INR"
 		pe.source_exchange_rate = 50
 		pe.save()
@@ -1101,7 +1101,7 @@ class TestPaymentEntry(FrappeTestCase):
 		# Validate allocation on foreign currency
 		si2 = create_sales_invoice(
 			customer="_Test Customer USD",
-			debit_to="_Test Receivable USD - _TC",
+			debit_to="_Test Receivable USD - __TC1",
 			currency="USD",
 			conversion_rate=80,
 			do_not_save=1,
@@ -1204,12 +1204,12 @@ class TestPaymentEntry(FrappeTestCase):
 
 def create_payment_entry(**args):
 	payment_entry = frappe.new_doc("Payment Entry")
-	payment_entry.company = args.get("company") or "_Test Company"
+	payment_entry.company = args.get("company") or "__Test Company 1"
 	payment_entry.payment_type = args.get("payment_type") or "Pay"
 	payment_entry.party_type = args.get("party_type") or "Supplier"
 	payment_entry.party = args.get("party") or "_Test Supplier"
-	payment_entry.paid_from = args.get("paid_from") or "_Test Bank - _TC"
-	payment_entry.paid_to = args.get("paid_to") or "Creditors - _TC"
+	payment_entry.paid_from = args.get("paid_from") or "_Test Bank - __TC1"
+	payment_entry.paid_to = args.get("paid_to") or "Creditors - __TC1"
 	payment_entry.paid_amount = args.get("paid_amount") or 1000
 
 	payment_entry.setup_party_account_field()

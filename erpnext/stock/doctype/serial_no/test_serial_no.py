@@ -30,7 +30,7 @@ class TestSerialNo(FrappeTestCase):
 
 		sr = frappe.new_doc("Serial No")
 		sr.item_code = "_Test Serialized Item"
-		sr.warehouse = "_Test Warehouse - _TC"
+		sr.warehouse = "_Test Warehouse - __TC1"
 		sr.serial_no = "_TCSER0001"
 		sr.purchase_rate = 10
 		self.assertRaises(SerialNoCannotCreateDirectError, sr.insert)
@@ -39,11 +39,11 @@ class TestSerialNo(FrappeTestCase):
 		sr.insert()
 		self.assertTrue(sr.name)
 
-		sr.warehouse = "_Test Warehouse - _TC"
+		sr.warehouse = "_Test Warehouse - __TC1"
 		self.assertTrue(SerialNoCannotCannotChangeError, sr.save)
 
 	def test_inter_company_transfer(self):
-		se = make_serialized_item(target_warehouse="_Test Warehouse - _TC")
+		se = make_serialized_item(target_warehouse="_Test Warehouse - __TC1")
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		dn = create_delivery_note(
@@ -55,16 +55,16 @@ class TestSerialNo(FrappeTestCase):
 		# check Serial No details after delivery
 		self.assertEqual(serial_no.status, "Delivered")
 		self.assertEqual(serial_no.warehouse, None)
-		self.assertEqual(serial_no.company, "_Test Company")
+		self.assertEqual(serial_no.company, "__Test Company 1")
 		self.assertEqual(serial_no.delivery_document_type, "Delivery Note")
 		self.assertEqual(serial_no.delivery_document_no, dn.name)
 
-		wh = create_warehouse("_Test Warehouse", company="_Test Company 1")
+		wh = create_warehouse("_Test Warehouse", company="__Test Company 2")
 		pr = make_purchase_receipt(
 			item_code="_Test Serialized Item With Series",
 			qty=1,
 			serial_no=serial_nos[0],
-			company="_Test Company 1",
+			company="__Test Company 2",
 			warehouse=wh,
 		)
 
@@ -73,7 +73,7 @@ class TestSerialNo(FrappeTestCase):
 		# check Serial No details after purchase in second company
 		self.assertEqual(serial_no.status, "Active")
 		self.assertEqual(serial_no.warehouse, wh)
-		self.assertEqual(serial_no.company, "_Test Company 1")
+		self.assertEqual(serial_no.company, "__Test Company 2")
 		self.assertEqual(serial_no.purchase_document_type, "Purchase Receipt")
 		self.assertEqual(serial_no.purchase_document_no, pr.name)
 
@@ -83,15 +83,15 @@ class TestSerialNo(FrappeTestCase):
 		Then Receive into and Deliver from second company.
 		Try to cancel intermediate receipts/deliveries to test if it is blocked.
 		"""
-		se = make_serialized_item(target_warehouse="_Test Warehouse - _TC")
+		se = make_serialized_item(target_warehouse="_Test Warehouse - __TC1")
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 
 		sn_doc = frappe.get_doc("Serial No", serial_nos[0])
 
 		# check Serial No details after purchase in first company
 		self.assertEqual(sn_doc.status, "Active")
-		self.assertEqual(sn_doc.company, "_Test Company")
-		self.assertEqual(sn_doc.warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(sn_doc.company, "__Test Company 1")
+		self.assertEqual(sn_doc.warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(sn_doc.purchase_document_no, se.name)
 
 		dn = create_delivery_note(
@@ -100,7 +100,7 @@ class TestSerialNo(FrappeTestCase):
 		sn_doc.reload()
 		# check Serial No details after delivery from **first** company
 		self.assertEqual(sn_doc.status, "Delivered")
-		self.assertEqual(sn_doc.company, "_Test Company")
+		self.assertEqual(sn_doc.company, "__Test Company 1")
 		self.assertEqual(sn_doc.warehouse, None)
 		self.assertEqual(sn_doc.delivery_document_no, dn.name)
 
@@ -109,12 +109,12 @@ class TestSerialNo(FrappeTestCase):
 		self.assertRaises(frappe.ValidationError, se.cancel)
 
 		# receive serial no in second company
-		wh = create_warehouse("_Test Warehouse", company="_Test Company 1")
+		wh = create_warehouse("_Test Warehouse", company="__Test Company 2")
 		pr = make_purchase_receipt(
 			item_code="_Test Serialized Item With Series",
 			qty=1,
 			serial_no=serial_nos[0],
-			company="_Test Company 1",
+			company="__Test Company 2",
 			warehouse=wh,
 		)
 		sn_doc.reload()
@@ -129,14 +129,14 @@ class TestSerialNo(FrappeTestCase):
 			item_code="_Test Serialized Item With Series",
 			qty=1,
 			serial_no=serial_nos[0],
-			company="_Test Company 1",
+			company="__Test Company 2",
 			warehouse=wh,
 		)
 		sn_doc.reload()
 
 		# check Serial No details after delivery from **second** company
 		self.assertEqual(sn_doc.status, "Delivered")
-		self.assertEqual(sn_doc.company, "_Test Company 1")
+		self.assertEqual(sn_doc.company, "__Test Company 2")
 		self.assertEqual(sn_doc.warehouse, None)
 		self.assertEqual(sn_doc.delivery_document_no, dn_2.name)
 
@@ -152,7 +152,7 @@ class TestSerialNo(FrappeTestCase):
 		If Receipt is cancelled, it should be Inactive in the same company.
 		"""
 		# Receipt in **first** company
-		se = make_serialized_item(target_warehouse="_Test Warehouse - _TC")
+		se = make_serialized_item(target_warehouse="_Test Warehouse - __TC1")
 		serial_nos = get_serial_nos(se.get("items")[0].serial_no)
 		sn_doc = frappe.get_doc("Serial No", serial_nos[0])
 
@@ -162,12 +162,12 @@ class TestSerialNo(FrappeTestCase):
 		)
 
 		# Receipt in **second** company
-		wh = create_warehouse("_Test Warehouse", company="_Test Company 1")
+		wh = create_warehouse("_Test Warehouse", company="__Test Company 2")
 		pr = make_purchase_receipt(
 			item_code="_Test Serialized Item With Series",
 			qty=1,
 			serial_no=serial_nos[0],
-			company="_Test Company 1",
+			company="__Test Company 2",
 			warehouse=wh,
 		)
 
@@ -176,20 +176,20 @@ class TestSerialNo(FrappeTestCase):
 			item_code="_Test Serialized Item With Series",
 			qty=1,
 			serial_no=serial_nos[0],
-			company="_Test Company 1",
+			company="__Test Company 2",
 			warehouse=wh,
 		)
 		sn_doc.reload()
 
 		self.assertEqual(sn_doc.status, "Delivered")
-		self.assertEqual(sn_doc.company, "_Test Company 1")
+		self.assertEqual(sn_doc.company, "__Test Company 2")
 		self.assertEqual(sn_doc.delivery_document_no, dn_2.name)
 
 		dn_2.cancel()
 		sn_doc.reload()
 		# Fallback on Purchase Receipt if Delivery is cancelled
 		self.assertEqual(sn_doc.status, "Active")
-		self.assertEqual(sn_doc.company, "_Test Company 1")
+		self.assertEqual(sn_doc.company, "__Test Company 2")
 		self.assertEqual(sn_doc.warehouse, wh)
 		self.assertEqual(sn_doc.purchase_document_no, pr.name)
 
@@ -197,7 +197,7 @@ class TestSerialNo(FrappeTestCase):
 		sn_doc.reload()
 		# Inactive in same company if Receipt cancelled
 		self.assertEqual(sn_doc.status, "Inactive")
-		self.assertEqual(sn_doc.company, "_Test Company 1")
+		self.assertEqual(sn_doc.company, "__Test Company 2")
 		self.assertEqual(sn_doc.warehouse, None)
 
 		dn.cancel()
@@ -205,8 +205,8 @@ class TestSerialNo(FrappeTestCase):
 		# Fallback on Purchase Receipt in FIRST company if
 		# Delivery from FIRST company is cancelled
 		self.assertEqual(sn_doc.status, "Active")
-		self.assertEqual(sn_doc.company, "_Test Company")
-		self.assertEqual(sn_doc.warehouse, "_Test Warehouse - _TC")
+		self.assertEqual(sn_doc.company, "__Test Company 1")
+		self.assertEqual(sn_doc.warehouse, "_Test Warehouse - __TC1")
 		self.assertEqual(sn_doc.purchase_document_no, se.name)
 
 	def test_auto_creation_of_serial_no(self):
@@ -245,7 +245,7 @@ class TestSerialNo(FrappeTestCase):
 	def test_correct_serial_no_incoming_rate(self):
 		"""Check correct consumption rate based on serial no record."""
 		item_code = "_Test Serialized Item"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		serial_nos = ["LOWVALUATION", "HIGHVALUATION"]
 
 		in1 = make_stock_entry(
@@ -280,7 +280,7 @@ class TestSerialNo(FrappeTestCase):
 				"serial_no_series": "TEST.#######",
 			}
 		).name
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		in1 = make_stock_entry(item_code=item_code, to_warehouse=warehouse, qty=5)
 		in2 = make_stock_entry(item_code=item_code, to_warehouse=warehouse, qty=5)

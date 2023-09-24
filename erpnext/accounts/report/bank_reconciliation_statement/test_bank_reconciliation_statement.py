@@ -31,7 +31,7 @@ class TestBankReconciliationStatement(FrappeTestCase):
 		filters = frappe._dict(
 			{
 				"company": "Test Company",
-				"account": "Payment Account - _TC",
+				"account": "Payment Account - __TC1",
 				"report_date": "2018-10-30",
 			}
 		)

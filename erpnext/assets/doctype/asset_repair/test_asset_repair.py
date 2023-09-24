@@ -92,7 +92,7 @@ class TestAssetRepair(unittest.TestCase):
 		create_asset_repair(
 			stock_consumption=1,
 			item_code=stock_entry.get("items")[0].item_code,
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			serial_no=serial_no,
 			submit=1,
 		)
@@ -100,7 +100,7 @@ class TestAssetRepair(unittest.TestCase):
 		# should raise error
 		asset_repair = create_asset_repair(
 			stock_consumption=1,
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			item_code=stock_entry.get("items")[0].item_code,
 		)
 
@@ -130,14 +130,14 @@ class TestAssetRepair(unittest.TestCase):
 		self.assertTrue(asset_repair.purchase_invoice)
 
 	def test_gl_entries_with_perpetual_inventory(self):
-		set_depreciation_settings_in_company(company="_Test Company with perpetual inventory")
+		set_depreciation_settings_in_company(company="__Test Company 7")
 
 		asset_category = frappe.get_doc("Asset Category", "Computers")
 		asset_category.enable_cwip_accounting = 0
 		asset_category.append(
 			"accounts",
 			{
-				"company_name": "_Test Company with perpetual inventory",
+				"company_name": "__Test Company 7",
 				"fixed_asset_account": "_Test Fixed Asset - TCP1",
 				"accumulated_depreciation_account": "_Test Accumulated Depreciations - TCP1",
 				"depreciation_expense_account": "_Test Depreciations - TCP1",
@@ -149,7 +149,7 @@ class TestAssetRepair(unittest.TestCase):
 			capitalize_repair_cost=1,
 			stock_consumption=1,
 			warehouse="Stores - TCP1",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			submit=1,
 		)
 
@@ -194,7 +194,7 @@ class TestAssetRepair(unittest.TestCase):
 
 	def test_gl_entries_with_periodical_inventory(self):
 		frappe.db.set_value(
-			"Company", "_Test Company", "default_expense_account", "Cost of Goods Sold - _TC"
+			"Company", "__Test Company 1", "default_expense_account", "Cost of Goods Sold - __TC1"
 		)
 		asset_repair = create_asset_repair(
 			capitalize_repair_cost=1,

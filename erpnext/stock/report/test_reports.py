@@ -6,7 +6,7 @@ import frappe
 from erpnext.tests.utils import ReportFilters, ReportName, execute_script_report
 
 DEFAULT_FILTERS = {
-	"company": "_Test Company",
+	"company": "__Test Company 1",
 	"from_date": "2010-01-01",
 	"to_date": "2030-01-01",
 }
@@ -17,17 +17,17 @@ batch = frappe.db.get_value("Batch", fieldname=["name"], as_dict=True, order_by=
 REPORT_FILTER_TEST_CASES: List[Tuple[ReportName, ReportFilters]] = [
 	("Stock Ledger", {"_optional": True}),
 	("Stock Ledger", {"batch_no": batch}),
-	("Stock Ledger", {"item_code": "_Test Item", "warehouse": "_Test Warehouse - _TC"}),
+	("Stock Ledger", {"item_code": "_Test Item", "warehouse": "_Test Warehouse - __TC1"}),
 	("Stock Balance", {"_optional": True}),
 	("Stock Projected Qty", {"_optional": True}),
 	("Batch-Wise Balance History", {}),
 	("Itemwise Recommended Reorder Level", {"item_group": "All Item Groups"}),
 	("COGS By Item Group", {}),
-	("Stock Qty vs Serial No Count", {"warehouse": "_Test Warehouse - _TC"}),
+	("Stock Qty vs Serial No Count", {"warehouse": "_Test Warehouse - __TC1"}),
 	(
 		"Stock and Account Value Comparison",
 		{
-			"company": "_Test Company with perpetual inventory",
+			"company": "__Test Company 7",
 			"account": "Stock In Hand - TCP1",
 			"as_on_date": "2021-01-01",
 		},
@@ -56,7 +56,7 @@ REPORT_FILTER_TEST_CASES: List[Tuple[ReportName, ReportFilters]] = [
 		},
 	),
 	("Batch Item Expiry Status", {}),
-	("Incorrect Stock Value Report", {"company": "_Test Company with perpetual inventory"}),
+	("Incorrect Stock Value Report", {"company": "__Test Company 7"}),
 	("Incorrect Serial No Valuation", {}),
 	("Incorrect Balance Qty After Transaction", {}),
 	("Supplier-Wise Sales Analytics", {}),
@@ -64,13 +64,13 @@ REPORT_FILTER_TEST_CASES: List[Tuple[ReportName, ReportFilters]] = [
 	("Delayed Item Report", {"based_on": "Sales Invoice"}),
 	("Delayed Item Report", {"based_on": "Delivery Note"}),
 	("Stock Ageing", {"range1": 30, "range2": 60, "range3": 90, "_optional": True}),
-	("Stock Ledger Invariant Check", {"warehouse": "_Test Warehouse - _TC", "item": "_Test Item"}),
-	("FIFO Queue vs Qty After Transaction Comparison", {"warehouse": "_Test Warehouse - _TC"}),
+	("Stock Ledger Invariant Check", {"warehouse": "_Test Warehouse - __TC1", "item": "_Test Item"}),
+	("FIFO Queue vs Qty After Transaction Comparison", {"warehouse": "_Test Warehouse - __TC1"}),
 	("FIFO Queue vs Qty After Transaction Comparison", {"item_group": "All Item Groups"}),
 ]
 
 OPTIONAL_FILTERS = {
-	"warehouse": "_Test Warehouse - _TC",
+	"warehouse": "_Test Warehouse - __TC1",
 	"item": "_Test Item",
 	"item_group": "_Test Item Group",
 }

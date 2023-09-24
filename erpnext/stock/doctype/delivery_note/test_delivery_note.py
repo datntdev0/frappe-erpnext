@@ -53,14 +53,14 @@ class TestDeliveryNote(FrappeTestCase):
 		self.assertRaises(frappe.ValidationError, frappe.get_doc(si).insert)
 
 	def test_delivery_note_no_gl_entry(self):
-		company = frappe.db.get_value("Warehouse", "_Test Warehouse - _TC", "company")
-		make_stock_entry(target="_Test Warehouse - _TC", qty=5, basic_rate=100)
+		company = frappe.db.get_value("Warehouse", "_Test Warehouse - __TC1", "company")
+		make_stock_entry(target="_Test Warehouse - __TC1", qty=5, basic_rate=100)
 
 		stock_queue = json.loads(
 			get_previous_sle(
 				{
 					"item_code": "_Test Item",
-					"warehouse": "_Test Warehouse - _TC",
+					"warehouse": "_Test Warehouse - __TC1",
 					"posting_date": nowdate(),
 					"posting_time": nowtime(),
 				}
@@ -86,12 +86,12 @@ class TestDeliveryNote(FrappeTestCase):
 			item_code="_Test Item Home Desktop 100", target="Stores - TCP1", qty=10, basic_rate=100
 		)
 
-		stock_in_hand_account = get_inventory_account("_Test Company with perpetual inventory")
+		stock_in_hand_account = get_inventory_account("__Test Company 7")
 		prev_bal = get_balance_on(stock_in_hand_account)
 
 		dn = create_delivery_note(
 			item_code="_Test Product Bundle Item",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			cost_center="Main - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
@@ -150,7 +150,7 @@ class TestDeliveryNote(FrappeTestCase):
 		dn.cancel()
 
 		self.check_serial_no_values(
-			serial_no, {"warehouse": "_Test Warehouse - _TC", "delivery_document_no": ""}
+			serial_no, {"warehouse": "_Test Warehouse - __TC1", "delivery_document_no": ""}
 		)
 
 	def test_serialized_partial_sales_invoice(self):
@@ -510,7 +510,7 @@ class TestDeliveryNote(FrappeTestCase):
 		)
 
 		self.assertEqual(incoming_rate, 100)
-		stock_in_hand_account = get_inventory_account("_Test Company", dn1.items[0].warehouse)
+		stock_in_hand_account = get_inventory_account("__Test Company 1", dn1.items[0].warehouse)
 
 		# Check gl entry for warehouse
 		gle_warehouse_amount = frappe.db.get_value(
@@ -529,7 +529,7 @@ class TestDeliveryNote(FrappeTestCase):
 		if not frappe.db.exists("Item", "_Test Product Bundle Item New"):
 			bundle_item = make_item("_Test Product Bundle Item New", {"is_stock_item": 0})
 			bundle_item.append(
-				"item_defaults", {"company": "_Test Company", "default_warehouse": "_Test Warehouse - _TC"}
+				"item_defaults", {"company": "__Test Company 1", "default_warehouse": "_Test Warehouse - __TC1"}
 			)
 			bundle_item.save(ignore_permissions=True)
 
@@ -539,16 +539,16 @@ class TestDeliveryNote(FrappeTestCase):
 		si = create_delivery_note(
 			item_code="_Test Product Bundle Item New",
 			update_stock=1,
-			warehouse="_Test Warehouse - _TC",
+			warehouse="_Test Warehouse - __TC1",
 			transaction_date=add_days(nowdate(), -1),
 			do_not_submit=1,
 		)
 
-		make_stock_entry(item="_Packed Item New 1", target="_Test Warehouse - _TC", qty=120, rate=100)
+		make_stock_entry(item="_Packed Item New 1", target="_Test Warehouse - __TC1", qty=120, rate=100)
 
 		bin_details = frappe.db.get_value(
 			"Bin",
-			{"item_code": "_Packed Item New 1", "warehouse": "_Test Warehouse - _TC"},
+			{"item_code": "_Packed Item New 1", "warehouse": "_Test Warehouse - __TC1"},
 			["actual_qty", "projected_qty", "ordered_qty"],
 			as_dict=1,
 		)
@@ -582,7 +582,7 @@ class TestDeliveryNote(FrappeTestCase):
 		)
 
 		self.check_serial_no_values(
-			serial_no, {"warehouse": "_Test Warehouse - _TC", "delivery_document_no": ""}
+			serial_no, {"warehouse": "_Test Warehouse - __TC1", "delivery_document_no": ""}
 		)
 
 		dn1.cancel()
@@ -594,7 +594,7 @@ class TestDeliveryNote(FrappeTestCase):
 		self.check_serial_no_values(
 			serial_no,
 			{
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"delivery_document_no": "",
 				"purchase_document_no": se.name,
 			},
@@ -606,15 +606,15 @@ class TestDeliveryNote(FrappeTestCase):
 		company = frappe.db.get_value("Warehouse", "Stores - TCP1", "company")
 		customer_name = create_internal_customer(
 			customer_name="_Test Internal Customer 2",
-			represents_company="_Test Company with perpetual inventory",
-			allowed_to_interact_with="_Test Company with perpetual inventory",
+			represents_company="__Test Company 7",
+			allowed_to_interact_with="__Test Company 7",
 		)
 
 		set_valuation_method("_Test Item", "FIFO")
 		set_valuation_method("_Test Item Home Desktop 100", "FIFO")
 
 		target_warehouse = get_warehouse(
-			company=company, abbr="TCP1", warehouse_name="_Test Customer Warehouse"
+			company=company, abbr="__TC7", warehouse_name="_Test Customer Warehouse"
 		).name
 
 		for warehouse in ("Stores - TCP1", target_warehouse):
@@ -637,7 +637,7 @@ class TestDeliveryNote(FrappeTestCase):
 
 		dn = create_delivery_note(
 			item_code="_Test Product Bundle Item",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			customer=customer_name,
 			cost_center="Main - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
@@ -709,7 +709,7 @@ class TestDeliveryNote(FrappeTestCase):
 		make_stock_entry(target="Stores - TCP1", qty=5, basic_rate=100)
 
 		dn = create_delivery_note(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			cost_center="Main - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
@@ -874,16 +874,16 @@ class TestDeliveryNote(FrappeTestCase):
 		cost_center = "_Test Cost Center for BS Account - TCP1"
 		create_cost_center(
 			cost_center_name="_Test Cost Center for BS Account",
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 		)
 
 		set_valuation_method("_Test Item", "FIFO")
 
 		make_stock_entry(target="Stores - TCP1", qty=5, basic_rate=100)
 
-		stock_in_hand_account = get_inventory_account("_Test Company with perpetual inventory")
+		stock_in_hand_account = get_inventory_account("__Test Company 7")
 		dn = create_delivery_note(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
 			cost_center=cost_center,
@@ -906,9 +906,9 @@ class TestDeliveryNote(FrappeTestCase):
 
 		make_stock_entry(target="Stores - TCP1", qty=5, basic_rate=100)
 
-		stock_in_hand_account = get_inventory_account("_Test Company with perpetual inventory")
+		stock_in_hand_account = get_inventory_account("__Test Company 7")
 		dn = create_delivery_note(
-			company="_Test Company with perpetual inventory",
+			company="__Test Company 7",
 			warehouse="Stores - TCP1",
 			cost_center="Main - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
@@ -955,12 +955,12 @@ class TestDeliveryNote(FrappeTestCase):
 			"items",
 			{
 				"item_code": "_Test Item",
-				"warehouse": "_Test Warehouse - _TC",
+				"warehouse": "_Test Warehouse - __TC1",
 				"qty": 1,
 				"rate": 100,
 				"conversion_factor": 1.0,
-				"expense_account": "Cost of Goods Sold - _TC",
-				"cost_center": "_Test Cost Center - _TC",
+				"expense_account": "Cost of Goods Sold - __TC1",
+				"cost_center": "_Test Cost Center - __TC1",
 			},
 		)
 		dn.submit()
@@ -992,7 +992,7 @@ class TestDeliveryNote(FrappeTestCase):
 		)
 		make_product_bundle(parent=batched_bundle.name, items=[batched_item.name])
 		make_stock_entry(
-			item_code=batched_item.name, target="_Test Warehouse - _TC", qty=10, basic_rate=42
+			item_code=batched_item.name, target="_Test Warehouse - __TC1", qty=10, basic_rate=42
 		)
 
 		try:
@@ -1077,9 +1077,9 @@ class TestDeliveryNote(FrappeTestCase):
 		from erpnext.selling.doctype.customer.test_customer import create_internal_customer
 
 		item = make_item().name
-		warehouse = "_Test Warehouse - _TC"
-		target = "Stores - _TC"
-		company = "_Test Company"
+		warehouse = "_Test Warehouse - __TC1"
+		target = "Stores - __TC1"
+		company = "__Test Company 1"
 		customer = create_internal_customer(represents_company=company)
 		rate = 42
 
@@ -1130,10 +1130,10 @@ class TestDeliveryNote(FrappeTestCase):
 			"taxes",
 			{
 				"charge_type": "On Net Total",
-				"account_head": "_Test Account Service Tax - _TC",
+				"account_head": "_Test Account Service Tax - __TC1",
 				"description": "Tax 1",
 				"rate": 14,
-				"cost_center": "_Test Cost Center - _TC",
+				"cost_center": "_Test Cost Center - __TC1",
 				"included_in_print_rate": 1,
 			},
 		)
@@ -1158,7 +1158,7 @@ class TestDeliveryNote(FrappeTestCase):
 		from erpnext.selling.doctype.customer.test_customer import create_internal_customer
 
 		item = make_item(properties={"valuation_method": "Moving Average"}).name
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		warehouse = "Stores - TCP1"
 		target = "Finished Goods - TCP1"
 		customer = create_internal_customer(represents_company=company)
@@ -1223,7 +1223,7 @@ def create_delivery_note(**args):
 	dn.posting_time = args.posting_time or nowtime()
 	dn.set_posting_time = 1
 
-	dn.company = args.company or "_Test Company"
+	dn.company = args.company or "__Test Company 1"
 	dn.customer = args.customer or "_Test Customer"
 	dn.currency = args.currency or "INR"
 	dn.is_return = args.is_return
@@ -1233,13 +1233,13 @@ def create_delivery_note(**args):
 		"items",
 		{
 			"item_code": args.item or args.item_code or "_Test Item",
-			"warehouse": args.warehouse or "_Test Warehouse - _TC",
+			"warehouse": args.warehouse or "_Test Warehouse - __TC1",
 			"qty": args.qty or 1,
 			"rate": args.rate if args.get("rate") is not None else 100,
 			"conversion_factor": 1.0,
 			"allow_zero_valuation_rate": args.allow_zero_valuation_rate or 1,
-			"expense_account": args.expense_account or "Cost of Goods Sold - _TC",
-			"cost_center": args.cost_center or "_Test Cost Center - _TC",
+			"expense_account": args.expense_account or "Cost of Goods Sold - __TC1",
+			"cost_center": args.cost_center or "_Test Cost Center - __TC1",
 			"serial_no": args.serial_no,
 			"batch_no": args.batch_no or None,
 			"target_warehouse": args.target_warehouse,

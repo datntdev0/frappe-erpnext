@@ -28,18 +28,18 @@ def test_create_test_data():
 				"item_group": "_Test Item Group",
 				"item_name": "_Test Tesla Car",
 				"apply_warehouse_wise_reorder_level": 0,
-				"warehouse": "Stores - _TC",
+				"warehouse": "Stores - __TC1",
 				"valuation_rate": 5000,
 				"standard_rate": 5000,
 				"item_defaults": [
 					{
-						"company": "_Test Company",
-						"default_warehouse": "Stores - _TC",
+						"company": "__Test Company 1",
+						"default_warehouse": "Stores - __TC1",
 						"default_price_list": "_Test Price List",
-						"expense_account": "Cost of Goods Sold - _TC",
-						"buying_cost_center": "Main - _TC",
-						"selling_cost_center": "Main - _TC",
-						"income_account": "Sales - _TC",
+						"expense_account": "Cost of Goods Sold - __TC1",
+						"buying_cost_center": "Main - __TC1",
+						"selling_cost_center": "Main - __TC1",
+						"income_account": "Sales - __TC1",
 					}
 				],
 			}
@@ -69,12 +69,12 @@ def test_create_test_data():
 				"title": "_Test Pricing Rule for _Test Item",
 				"apply_on": "Item Code",
 				"items": [{"item_code": "_Test Tesla Car"}],
-				"warehouse": "Stores - _TC",
+				"warehouse": "Stores - __TC1",
 				"coupon_code_based": 1,
 				"selling": 1,
 				"rate_or_discount": "Discount Percentage",
 				"discount_percentage": 30,
-				"company": "_Test Company",
+				"company": "__Test Company 1",
 				"currency": "INR",
 				"for_price_list": "_Test Price List",
 			}
@@ -121,8 +121,8 @@ class TestCouponCode(unittest.TestCase):
 		frappe.db.set_value("Coupon Code", "SAVE30", "used", 0)
 
 		so = make_sales_order(
-			company="_Test Company",
-			warehouse="Stores - _TC",
+			company="__Test Company 1",
+			warehouse="Stores - __TC1",
 			customer="_Test Customer",
 			selling_price_list="_Test Price List",
 			item_code="_Test Tesla Car",

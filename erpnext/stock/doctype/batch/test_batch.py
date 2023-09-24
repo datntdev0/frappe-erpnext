@@ -43,8 +43,8 @@ class TestBatch(FrappeTestCase):
 			dict(
 				doctype="Purchase Receipt",
 				supplier="_Test Supplier",
-				company="_Test Company",
-				items=[dict(item_code="ITEM-BATCH-1", qty=batch_qty, rate=10, warehouse="Stores - _TC")],
+				company="__Test Company 1",
+				items=[dict(item_code="ITEM-BATCH-1", qty=batch_qty, rate=10, warehouse="Stores - __TC1")],
 			)
 		).insert()
 		receipt.submit()
@@ -63,13 +63,13 @@ class TestBatch(FrappeTestCase):
 			dict(
 				doctype="Stock Entry",
 				purpose="Material Receipt",
-				company="_Test Company",
+				company="__Test Company 1",
 				items=[
 					dict(
 						item_code="ITEM-BATCH-1",
 						qty=90,
-						t_warehouse="_Test Warehouse - _TC",
-						cost_center="Main - _TC",
+						t_warehouse="_Test Warehouse - __TC1",
+						cost_center="Main - __TC1",
 						rate=10,
 					)
 				],
@@ -169,20 +169,20 @@ class TestBatch(FrappeTestCase):
 	def test_get_batch_qty(self):
 		"""Test getting batch quantities by batch_numbers, item_code or warehouse"""
 		self.make_batch_item("ITEM-BATCH-2")
-		self.make_new_batch_and_entry("ITEM-BATCH-2", "batch a", "_Test Warehouse - _TC")
-		self.make_new_batch_and_entry("ITEM-BATCH-2", "batch b", "_Test Warehouse - _TC")
+		self.make_new_batch_and_entry("ITEM-BATCH-2", "batch a", "_Test Warehouse - __TC1")
+		self.make_new_batch_and_entry("ITEM-BATCH-2", "batch b", "_Test Warehouse - __TC1")
 
 		self.assertEqual(
-			get_batch_qty(item_code="ITEM-BATCH-2", warehouse="_Test Warehouse - _TC"),
+			get_batch_qty(item_code="ITEM-BATCH-2", warehouse="_Test Warehouse - __TC1"),
 			[{"batch_no": "batch a", "qty": 90.0}, {"batch_no": "batch b", "qty": 90.0}],
 		)
 
-		self.assertEqual(get_batch_qty("batch a", "_Test Warehouse - _TC"), 90)
+		self.assertEqual(get_batch_qty("batch a", "_Test Warehouse - __TC1"), 90)
 
 	def test_total_batch_qty(self):
 		self.make_batch_item("ITEM-BATCH-3")
 		existing_batch_qty = flt(frappe.db.get_value("Batch", "B100", "batch_qty"))
-		stock_entry = self.make_new_batch_and_entry("ITEM-BATCH-3", "B100", "_Test Warehouse - _TC")
+		stock_entry = self.make_new_batch_and_entry("ITEM-BATCH-3", "B100", "_Test Warehouse - __TC1")
 
 		current_batch_qty = flt(frappe.db.get_value("Batch", "B100", "batch_qty"))
 		self.assertEqual(current_batch_qty, existing_batch_qty + 90)
@@ -205,13 +205,13 @@ class TestBatch(FrappeTestCase):
 			dict(
 				doctype="Stock Entry",
 				purpose="Material Receipt",
-				company="_Test Company",
+				company="__Test Company 1",
 				items=[
 					dict(
 						item_code=item_name,
 						qty=90,
 						t_warehouse=warehouse,
-						cost_center="Main - _TC",
+						cost_center="Main - __TC1",
 						rate=10,
 						batch_no=batch_name,
 						allow_zero_valuation_rate=1,
@@ -277,7 +277,7 @@ class TestBatch(FrappeTestCase):
 		batch2 = create_batch("_Test Batch Price Item", 300, 1)
 		batch3 = create_batch("_Test Batch Price Item", 400, 0)
 
-		company = "_Test Company with perpetual inventory"
+		company = "__Test Company 7"
 		currency = frappe.get_cached_value("Company", company, "default_currency")
 
 		args = frappe._dict(
@@ -312,7 +312,7 @@ class TestBatch(FrappeTestCase):
 
 	def test_basic_batch_wise_valuation(self, batch_qty=100):
 		item_code = "_TestBatchWiseVal"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		self.make_batch_item(item_code)
 
 		rates = [42, 420]
@@ -355,7 +355,7 @@ class TestBatch(FrappeTestCase):
 
 	def test_moving_batch_valuation_rates(self):
 		item_code = "_TestBatchWiseVal"
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 		self.make_batch_item(item_code)
 
 		def assertValuation(expected):
@@ -396,7 +396,7 @@ class TestBatch(FrappeTestCase):
 		item_code = "_TestBatchWiseVal"
 		self.make_batch_item(item_code)
 
-		se = make_stock_entry(item_code=item_code, qty=100, rate=10, target="_Test Warehouse - _TC")
+		se = make_stock_entry(item_code=item_code, qty=100, rate=10, target="_Test Warehouse - __TC1")
 		batch_no = se.items[0].batch_no
 		batch = frappe.get_doc("Batch", batch_no)
 
@@ -432,11 +432,11 @@ class TestBatch(FrappeTestCase):
 
 def create_batch(item_code, rate, create_item_price_for_batch):
 	pi = make_purchase_invoice(
-		company="_Test Company",
-		warehouse="Stores - _TC",
-		cost_center="Main - _TC",
+		company="__Test Company 1",
+		warehouse="Stores - __TC1",
+		cost_center="Main - __TC1",
 		update_stock=1,
-		expense_account="_Test Account Cost for Goods Sold - _TC",
+		expense_account="_Test Account Cost for Goods Sold - __TC1",
 		item_code=item_code,
 	)
 

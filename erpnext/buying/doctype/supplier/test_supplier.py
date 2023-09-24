@@ -22,8 +22,8 @@ class TestSupplier(FrappeTestCase):
 		doc.payment_terms = "_Test Payment Term Template 3"
 		doc.accounts = []
 		test_account_details = {
-			"company": "_Test Company",
-			"account": "Creditors - _TC",
+			"company": "__Test Company 1",
+			"account": "Creditors - __TC1",
 		}
 		doc.append("accounts", test_account_details)
 		doc.save()
@@ -35,8 +35,8 @@ class TestSupplier(FrappeTestCase):
 		s_doc.insert()
 		s_doc.get_supplier_group_details()
 		self.assertEqual(s_doc.payment_terms, "_Test Payment Term Template 3")
-		self.assertEqual(s_doc.accounts[0].company, "_Test Company")
-		self.assertEqual(s_doc.accounts[0].account, "Creditors - _TC")
+		self.assertEqual(s_doc.accounts[0].company, "__Test Company 1")
+		self.assertEqual(s_doc.accounts[0].account, "Creditors - __TC1")
 		s_doc.delete()
 		doc.delete()
 

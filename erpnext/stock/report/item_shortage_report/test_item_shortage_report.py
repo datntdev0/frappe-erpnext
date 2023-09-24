@@ -44,7 +44,7 @@ class TestItemShortageReport(FrappeTestCase):
 
 		filters = {
 			"company": so.company,
-			"warehouse": ["Work In Progress - _TC"],
+			"warehouse": ["Work In Progress - __TC1"],
 		}
 		report_data = item_shortage_report(filters)[1]
 		item_code_list = [row.get("item_code") for row in report_data]

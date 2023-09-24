@@ -13,7 +13,7 @@ class TestBin(FrappeTestCase):
 		"""Ensure no duplicates are possible in case of concurrent inserts"""
 		item_code = "_TestConcurrentBin"
 		make_item(item_code)
-		warehouse = "_Test Warehouse - _TC"
+		warehouse = "_Test Warehouse - __TC1"
 
 		bin1 = frappe.get_doc(doctype="Bin", item_code=item_code, warehouse=warehouse)
 		bin1.insert()

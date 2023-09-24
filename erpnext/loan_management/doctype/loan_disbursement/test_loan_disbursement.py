@@ -51,11 +51,11 @@ class TestLoanDisbursement(unittest.TestCase):
 			0,
 			5,
 			"Cash",
-			"Disbursement Account - _TC",
-			"Payment Account - _TC",
-			"Loan Account - _TC",
-			"Interest Income Account - _TC",
-			"Penalty Income Account - _TC",
+			"Disbursement Account - __TC1",
+			"Payment Account - __TC1",
+			"Loan Account - __TC1",
+			"Interest Income Account - __TC1",
+			"Penalty Income Account - __TC1",
 		)
 
 		create_loan_security_type()
@@ -77,7 +77,7 @@ class TestLoanDisbursement(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant, "Demand Loan", pledge
+			"__Test Company 1", self.applicant, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
@@ -126,7 +126,7 @@ class TestLoanDisbursement(unittest.TestCase):
 		pledge = [{"loan_security": "Test Security 1", "qty": 4000.00}]
 
 		loan_application = create_loan_application(
-			"_Test Company", self.applicant, "Demand Loan", pledge
+			"__Test Company 1", self.applicant, "Demand Loan", pledge
 		)
 		create_pledge(loan_application)
 
