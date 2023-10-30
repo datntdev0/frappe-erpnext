@@ -1,7 +1,7 @@
 frappe.provide("erpnext.setup");
 
-frappe.pages['setup-wizard'].on_page_load = function(wrapper) {
-	if(frappe.sys_defaults.company) {
+frappe.pages['setup-wizard'].on_page_load = function (wrapper) {
+	if (frappe.sys_defaults.company) {
 		frappe.set_route("desk");
 		return;
 	}
@@ -14,32 +14,53 @@ frappe.setup.on("before_load", function () {
 erpnext.setup.slides_settings = [
 	{
 		// Organization
-		name: 'organization',
-		title: __("Setup your organization"),
+		name: "organization",
+		title: "Setup your organization",
 		icon: "fa fa-building",
 		fields: [
 			{
-				fieldname: 'company_name',
-				label: __('Company Name'),
-				fieldtype: 'Data',
-				reqd: 1
+				fieldname: "company_name",
+				label: "Company Name",
+				fieldtype: "Data",
+				reqd: 1,
 			},
-			{ fieldtype: "Column Break" },
 			{
-				fieldname: 'company_abbr',
-				label: __('Company Abbreviation'),
-				fieldtype: 'Data',
-				reqd: 1
+				fieldtype: "Column Break",
 			},
-			{ fieldtype: "Section Break" },
 			{
-				fieldname: 'chart_of_accounts', label: __('Chart of Accounts'),
-				options: "", fieldtype: 'Select'
+				fieldname: "company_abbr",
+				label: "Company Abbreviation",
+				fieldtype: "Data",
+				reqd: 1,
 			},
-			{ fieldname: 'view_coa', label: __('View Chart of Accounts'), fieldtype: 'Button' },
-			{ fieldname: 'fy_start_date', label: __('Financial Year Begins On'), fieldtype: 'Date', reqd: 1 },
+			{
+				fieldtype: "Section Break",
+			},
+			{
+				fieldname: "chart_of_accounts",
+				label: "Chart of Accounts",
+				fieldtype: "Select",
+				options: "",
+			},
+			{
+				fieldname: "view_coa",
+				label: "View Chart of Accounts",
+				fieldtype: "Button",
+			},
+			{
+				fieldname: "fy_start_date",
+				label: "Financial Year Begins On",
+				fieldtype: "Date",
+				reqd: 1,
+			},
 			// end date should be hidden (auto calculated)
-			{ fieldname: 'fy_end_date', label: __('End Date'), fieldtype: 'Date', reqd: 1, hidden: 1 },
+			{
+				fieldname: "fy_end_date",
+				label: "End Date",
+				fieldtype: "Date",
+				reqd: 1,
+				hidden: 1,
+			},
 		],
 
 		onload: function (slide) {
@@ -66,7 +87,7 @@ erpnext.setup.slides_settings = [
 			return true;
 		},
 
-		validate_fy_dates: function() {
+		validate_fy_dates: function () {
 			// validate fiscal year start and end dates
 			const invalid = this.values.fy_start_date == 'Invalid date' ||
 				this.values.fy_end_date == 'Invalid date';
@@ -129,9 +150,9 @@ erpnext.setup.slides_settings = [
 				slide.form.fields_dict.fy_end_date.set_value(year_end_date);
 			});
 
-			slide.get_input("view_coa").on("click", function() {
+			slide.get_input("view_coa").on("click", function () {
 				let chart_template = slide.form.fields_dict.chart_of_accounts.get_value();
-				if(!chart_template) return;
+				if (!chart_template) return;
 
 				me.charts_modal(slide, chart_template);
 			});
@@ -152,20 +173,22 @@ erpnext.setup.slides_settings = [
 			}).val(frappe.boot.sysdefaults.company_abbr || "").trigger("change");
 		},
 
-		charts_modal: function(slide, chart_template) {
+		charts_modal: function (slide, chart_template) {
 			let parent = __('All Accounts');
 
 			let dialog = new frappe.ui.Dialog({
 				title: chart_template,
 				fields: [
-					{'fieldname': 'expand_all', 'label': __('Expand All'), 'fieldtype': 'Button',
-						click: function() {
+					{
+						'fieldname': 'expand_all', 'label': __('Expand All'), 'fieldtype': 'Button',
+						click: function () {
 							// expand all nodes on button click
 							coa_tree.load_children(coa_tree.root_node, true);
 						}
 					},
-					{'fieldname': 'collapse_all', 'label': __('Collapse All'), 'fieldtype': 'Button',
-						click: function() {
+					{
+						'fieldname': 'collapse_all', 'label': __('Collapse All'), 'fieldtype': 'Button',
+						click: function () {
 							// collapse all nodes
 							coa_tree.get_all_nodes(coa_tree.root_node.data.value, coa_tree.root_node.is_root)
 								.then(data_list => {
@@ -187,7 +210,7 @@ erpnext.setup.slides_settings = [
 					parent: parent,
 					doctype: 'Account'
 				},
-				onclick: function(node) {
+				onclick: function (node) {
 					parent = node.value;
 				}
 			});
@@ -197,7 +220,7 @@ erpnext.setup.slides_settings = [
 			const buttons = $(form_container).find('.frappe-control');
 			form_container.addClass('flex');
 			buttons.map((index, button) => {
-				$(button).css({"margin-right": "1em"});
+				$(button).css({ "margin-right": "1em" });
 			})
 
 			dialog.show();

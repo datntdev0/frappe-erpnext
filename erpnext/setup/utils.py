@@ -19,13 +19,13 @@ def before_tests():
 		current_year = now_datetime().year
 		setup_complete(
 			{
-				"currency": "USD",
+				"currency": "VND",
+				"timezone": "Asia/Ho_Chi_Minh",
+				"country": "Vietnam",
 				"full_name": "Test User",
 				"company_name": "Wind Power LLC",
-				"timezone": "America/New_York",
 				"company_abbr": "WP",
 				"industry": "Manufacturing",
-				"country": "United States",
 				"fy_start_date": f"{current_year}-01-01",
 				"fy_end_date": f"{current_year}-12-31",
 				"language": "english",
