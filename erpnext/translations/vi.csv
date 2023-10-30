@@ -51,7 +51,7 @@ Account Type for {0} must be {1},Loại tài khoản cho {0} phải là {1},
 "Account balance already in Debit, you are not allowed to set 'Balance Must Be' as 'Credit'","Tài khoản đang dư Nợ, bạn không được phép thiết lập 'Số Dư TK phải' là 'Có'",
 Account number for account {0} is not available.<br> Please setup your Chart of Accounts correctly.,Số tài khoản cho tài khoản {0} không có sẵn. <br> Xin vui lòng thiết lập chính xác bảng xếp hạng của bạn.,
 Account with child nodes cannot be converted to ledger,Tài khoản có các nút TK con không thể chuyển đổi sang sổ cái được,
-Account with child nodes cannot be set as ledger,Không thể thiết lập là sổ cái vì Tài khoản có các node TK con,
+Account with child nodes cannot be set as ledger,Tài khoản có các TK con thì không thể thiết lập là nhóm TK,
 Account with existing transaction can not be converted to group.,Không thể chuyển đổi sang loại nhóm vì Tài khoản vẫn còn giao dịch,
 Account with existing transaction can not be deleted,Không thể xóa TK vì vẫn còn giao dịch,
 Account with existing transaction cannot be converted to ledger,Tài khoản vẫn còn giao dịch nên không thể chuyển đổi sang sổ cái,
@@ -9840,3 +9840,245 @@ Row #{}: You must select {} serial numbers for item {}.,Hàng # {}: Bạn phải
 Setup your organization,Thiết lập tổ chức của bạn
 Financial Year Begins On,Bắt đầu năm tài chính
 Standard with Numbers,Tiêu chuẩn với số hiệu tài khoản
+Unemployment insurance,Bảo hiểm thất nghiệp
+Unearned revenue,Doanh thu chưa thực hiện
+Borrowings and finance lease liabilities,Vay dài hạn
+Borrowings,Các khoản đi vay
+Finance lease liabilities,Nợ thuê tài chính
+Issued bonds,Trái phiếu phát hành
+Ordinary bonds,Trái phiếu thường
+Par value of bonds,Mệnh giá trái phiếu
+Bond discounts,Chiết khấu trái phiếu
+Bond premiums,Phụ trội trái phiếu
+Convertible bonds,Trái phiếu chuyển đổi
+Deposits received,"Nhận ký quỹ, ký cược"
+Deferred tax liablilities,Thuế thu nhập hoãn lại phải trả
+Provisions payables,Dự phòng phải trả
+Product warranty provisions,Dự phòng bảo hành sản phẩm hàng hóa
+Construction warranty provisions,Dự phòng bảo hành công trình xây dựng
+Enterprise restructuring provisions,Dự phòng tái cơ cấu doanh nghiệp
+Other provisions,Dự phòng phải trả khác
+Bonus and welfare fund,Quỹ khen thưởng phúc lợi
+Bonus fund,Quỹ khen thưởng
+Welfare fund,Quỹ phúc lợi
+Welfare fund used for fixed asset acquisitions,Quỹ phúc lợi đã hình thành TSCĐ
+Management bonus fund,Quỹ thưởng ban quản lý điều hành công ty
+Science and technology development fund,Quỹ phát triển khoa học và công nghệ
+Science and technology development fund,Quỹ phát triển khoa học và công nghệ
+Science and technology development fund used for fixed asset acquisition,Quỹ phát triển khoa học và công nghệ đã hình thành TSCĐ
+Price stabilization fund,Quỹ bình ổn giá
+Owner’s equity,Vốn đầu tư của chủ sở hữu
+Contributed capital,Vốn góp của chủ sở hữu
+Ordinary shares with voting rights,Cổ phiếu phổ thông có quyền biểu quyết
+Preference shares,Cổ phiếu ưu đãi
+Capital surplus,Thặng dư vốn cổ phần
+Conversion options on convertible bonds,Thặng dư vốn cổ phần
+Other capital,Vốn khác
+Revaluation differences on asset,Chênh lệch đánh giá lại tài sản
+Foreign exchange differences,Chênh lệch tỷ giá hối đoái
+Exchange rate differences on revaluation of monetary items denominated in foreign currency,Chênh lệch tỷ giá do đánh giá lại các khoản mục tiền tệ có gốc ngoại tệ
+Exchange rate differences in preoperating period,Chênh lệch tỷ giá hối đoái trong giai đoạn trước hoạt động
+Investment & development funds,Quỹ đầu tư phát triển
+Enterprise reorganization assistance fund,Quỹ hỗ trợ sắp xếp doanh nghiệp
+Other equity funds,Các quỹ khác thuộc vốn chủ sở hữu
+Treasury stocks,Cổ phiếu quỹ
+Undistributed profit after tax,Lợi nhuận sau thuế chưa phân phối
+Undistributed profit after tax of previous year,Lợi nhuận sau thuế chưa phân phối năm trước
+Undistributed profit after tax of current year,Lợi nhuận sau thuế chưa phân phối năm nay
+Capital expenditure funds,Nguồn vốn đầu tư xây dựng cơ bản
+Government sourced funds,Nguồn kinh phí sự nghiệp
+Government sourced funds of previous year,Nguồn kinh phí sự nghiệp năm trước
+Government sourced funds of current year,Nguồn kinh phí sự nghiệp năm nay
+Non-business funds used for fixed asset acquisitions,Nguồn kinh phí đã hình thành TSCĐ
+Revenues,Doanh thu bán hàng và cung cấp dịch vụ
+Revenue from sales of merchandises,Doanh thu bán hàng hóa
+Revenue from sales of finished goods,Doanh thu bán các thành phẩm
+Revenue from services rendered,Doanh thu cung cấp dịch vụ
+Revenue from government grants,"Doanh thu trợ cấp, trợ giá"
+Revenue from investment properties,Doanh thu kinh doanh bất động sản đầu tư
+Other revenue,Doanh thu khác
+Financial income,Doanh thu hoạt động tài chính
+Revenue deductions,Các khoản giảm trừ doanh thu
+Sales discounts,Chiết khấu thương mại
+Sales allowances,Giảm giá hàng bán
+Sales returns,Hàng bán bị trả lại
+Purchases,Mua hàng
+Goods purchases,Mua hàng hóa
+Direct raw materials costs,"Chi phí nguyên liệu, vật liệu trực tiếp"
+Direct labor costs,Chi phí nhân công trực tiếp
+Costs of construction machinery,Chi phí sử dụng máy thi công
+Labor cost,Chi phí nhân công
+Material cost,Chi phí vật liệu
+Tools and instruments,Chi phí dụng cụ sản xuất
+Depreciation expense,Chi phí khấu hao máy thi công
+Outside services,Chi phí dịch vụ mua ngoài
+Other expenses,Chi phí bằng tiền khác
+Production overheads,Chi phí sản xuất chung
+Factory staff costs,Chi phí nhân viên phân xưởng
+Material cost,Chi phí nguyên, vật liệu
+Tools and instruments,Chi phí dụng cụ sản xuất
+Fixed asset depreciation,Chi phí khấu hao TSCĐ
+Outside services,Chi phí dịch vụ mua ngoài
+Other expenses,Chi phí bằng tiền khác
+Production costs,Giá thành sản xuất
+Costs of goods sold,Giá vốn hàng bán
+Financial expenses,Chi phí tài chính
+Selling expenses,Chi phí bán hàng
+Employees costs,Chi phí nhân viên
+Materials and packing materials,"Chi phí vật liệu, bao bì"
+Tools and instruments,Chi phí dụng cụ, đồ dùng
+Fixed asset depreciation,Chi phí khấu hao TSCĐ
+Warranty expenses,Chi phí bảo hành
+Outside services,Chi phí dịch vụ mua ngoài
+Other costs,Chi phí bằng tiền khác
+General & administration expenses,Chi phí quản lý doanh nghiệp
+Employees cost,Chi phí nhân viên quản lý
+Office supply expenses,Chi phí vật liệu quản lý
+Stationery cost,Chi phí đồ dùng văn phòng
+Fixed asset depreciation,Chi phí khấu hao TSCĐ
+Provision expenses,Chi phí dự phòng
+Outside services,Chi phí dịch vụ mua ngoài
+Other costs,Chi phí bằng tiền khác
+Other income,Thu nhập khác
+Other expenses,Chi phí khác
+Income tax expenses,Chi phí thuế thu nhập doanh nghiệp
+Current tax expenses,Chi phí thuế TNDN hiện hành
+Deferred tax expenses,Chi phí thuế TNDN hoãn lại
+Investment in Joint venture and associates,"Đầu tư vào công ty liên doanh, liên kết"
+Other investments,Đầu tư khác
+Equipty investment in other entity,Đầu tư góp vốn vào đơn vị khác
+Other investment,Đầu tư khác
+Allowance for impairment of assets,Dự phòng tổn thất tài sản
+Allowance for decline in value of trading securities,Dự phòng giảm giá chứng khoán kinh doanh
+Allowance for investment loss in other entity,Dự phòng tổn thất đầu tư vào đơn vị khác
+Allowance for doubtful debt,Dự phòng phải thu khó đòi
+Inventory reserve,Dự phòng giảm giá hàng tồn kho
+Construction in progress,Xây dựng cơ bản dở dang
+Acquisition of Fixed assets,Mua sắm TSCĐ
+Construction in progress,Xây dựng cơ bản
+Extra-ordinary repair of fixed assets,Sửa chữa lớn TSCĐ
+Prepaid expenses,Chi phí trả trước
+Deffered tax assets,Tài sản thuế thu nhập hoãn lại
+Trade Payables,Phải trả cho người bán
+Taxes and other payable to State Budget,Thuế và các khoản phải nộp Nhà nước
+Value Added Tax (VAT),Thuế giá trị gia tăng phải nộp
+VAT output,Thuế GTGT đầu ra
+VAT on imported goods,Thuế GTGT hàng nhập khẩu
+Special consumption tax,Thuế tiêu thụ đặc biệt
+Corporate Income Tax,Thuế thu nhập doanh nghiệp
+Personal income tax,Thuế thu nhập cá nhân
+Natural resources using tax,Thuế tài nguyên
+Environment protection tax and other taxes,Thuế bảo vệ môi trường và các loại thuế khác
+Environment protection tax,Thuế bảo vệ môi trường
+Other taxes,Các loại thuế khác
+Payable to employees,Phải trả người lao động
+Payable to employees,Phải trả công nhân viên
+Payable to other,Phải trả người lao động khác
+Accrued expenses,Chi phí phải trả
+Internal payables,Phải trả nội bộ
+Internal payables for working capital received,Phải trả nội bộ về vốn kinh doanh
+Internal payables for foreign exchange diff,Phải trả nội bộ về chênh lệch tỷ giá
+Internal payables for borrowing cost eligible for capitalization,Phải trả nội bộ về chi phí đi vay đủ điều kiện được vốn hoá
+Other internal payables,Phải trả nội bộ khác
+Progress billings for contruction contract,Thanh toán theo tiến độ kế hoạch hợp đồng xây dựng
+Surplus of assets awaiting for resolution,Tài sản thừa chờ giải quyết
+Trade Union fees,Kinh phí công đoàn
+Social insurance,Bảo hiểm xã hội
+Health insurance,Bảo hiểm y tế
+Privatization payable,Phải trả về cổ phần hoá
+Cash on hand,Tiền mặt
+Vietnamese dong,Tiền Việt Nam
+Foreign currencies,Ngoại tệ
+Monetary Gold,Vàng tiền tệ
+Cash in banks,Tiền gửi ngân hàng
+Vietnamese dong,Tiền Việt Nam
+Foreign currencies,Ngoại tệ
+Monetary Gold,Vàng tiền tệ
+Cash in transit,Tiền đang chuyển
+Vietnamese dong,Tiền Việt Nam
+Foreign currencies,Ngoại tệ
+Trading Securities,Chứng khoán kinh doanh
+Shares,Cổ phiếu
+Bonds,Trái phiếu
+Securities and other financial instrusments,Chứng khoán và công cụ tài chính khác
+Investments held to maturity,Đầu tư nắm giữ đến ngày đáo hạn
+Time deposits,Tiền gửi có kỳ hạn
+Bonds,Trái phiếu
+Loan,Cho vay
+Other investments held to maturity,Các khoản đầu tư khác nắm giữ đến ngày đáo hạn
+Trade Receivables,Phải thu của khách hàng
+Deductible VAT,Thuế GTGT được khấu trừ
+Deductible VAT of goods and services,"Thuế GTGT được khấu trừ của hàng hoá, dịch vụ"
+Deductible VAT of fixed assets,Thuế GTGT được khấu trừ của TSCĐ
+Internal Receivables,Phải thu nội bộ
+Working capital provided to sub-units,Vốn kinh doanh ở các đơn vị trực thuộc
+Internal Receivables on foreign exchange diff,Phải thu nội bộ về chênh lệch tỷ giá
+Other internal receivables,Phải thu nội bộ khác
+Other receivables,Phải thu khác
+Shortage of assets awaiting resolution,Tài sản thiếu chờ xử lý
+Privatization receivables,Phải thu về cổ phần hoá
+Advances,Tạm ứng
+Goods in transit,Hàng mua đang đi đường
+Packaging rotation,Bao bì luân chuyển
+Instrument for rent,Đồ dùng cho thuê
+Finished products,Thành phẩm
+Finished products,Thành phẩm nhập kho
+Real estate finished goods,Thành phẩm bất động sản
+Merchandise goods,Hàng hóa
+Purchase costs,Giá mua hàng hóa
+Incidental expense,Chi phí thu mua hàng hóa
+Property Inventories,Hàng hoá bất động sản
+Outward goods on consignment,Hàng gửi đi bán
+Goods in bonded warehouse,Hàng hoá kho bảo thuế
+Government source expenditure,Chi sự nghiệp
+Previous years expenditure,Chi sự nghiệp năm trước
+Current years expenditure,Chi sự nghiệp năm nay
+Government bonds purchase-resale,Giao dịch mua bán lại trái phiếu chính phủ
+Tangible fixed assets,Tài sản cố định hữu hình
+Other tangible fixed assets,Tài sản cố định khác
+Financial leased assets,Tài sản cố định thuê tài chính
+Financial leased tangible assets,TSCĐ hữu hình thuê tài chính
+Financial leased intangible assets,TSCĐ vô hình thuê tài chính
+Intangible fixed assets,Tài sản cố định vô hình
+Land use right,Quyền sử dụng đất
+Copyrights,Quyền phát hành
+Computer Software,Chương trình phần mềm
+License & franchises,Giấy phép và giấy phép nhượng quyền
+Other intangible fixed assets,TSCĐ vô hình khác
+Depreciation of fixed assets,Hao mòn tài sản cố định
+Depreciation of tangible fixed assets,Hao mòn TSCĐ hữu hình
+Depreciation of financial leased assets,Hao mòn TSCĐ thuê tài chính
+Depreciation of intangible fixed assets,Hao mòn TSCĐ vô hình
+Depreciation of investment properties,Hao mòn bất động sản đầu tư
+Investment properties,Bất động sản đầu tư
+Investment in subsidiaries,Đầu tư vào công ty con
+Internal Receivables on borrowing cost eligible for capitalization,Phải thu nội bộ về chi phí đi vay đủ điều kiện được vốn hoá
+"Raw materials","Nguyên liệu, vật liệu"
+"Tools & supplies","Công cụ, dụng cụ"
+"Tools & supplies","Công cụ, dụng cụ"
+"Equipment & spare parts","Thiết bị, phụ tùng thay thế"
+"Work in process","Chi phí sản xuất, kinh doanh dở dang"
+"Building & structures","Nhà cửa, vật kiến trúc"
+"Machinery & Equipment","Máy móc, thiết bị"
+"Transportation & transmission vehicles","Phương tiện vận tải, truyền dẫn"
+"Office equipment","Thiết bị, dụng cụ quản lý"
+"Perenial trees, working and producing animals","Cây lâu năm, súc vật làm việc và cho sản phẩm"
+"Patents","Bản quyền, bằng sáng chế"
+"Trademarks and brand name","Nhãn hiệu, tên thương mại"
+"Mortgage, collaterals and deposits","Cầm cố, thế chấp, ký quỹ, ký cược"
+"Import & export duties","Thuế xuất, nhập khẩu"
+"Land & housing tax, land rental charges","Thuế nhà đất, tiền thuê đất"
+"Fee & charge & other payables","Phí, lệ phí và các khoản phải nộp khác"
+"Other payables","Phải trả, phải nộp khác"
+"Others","Phải trả, phải nộp khác"
+"Raw material purchases","Mua nguyên liệu, vật liệu"
+"Taxes, fees, charges","Thuế, phí và lệ phí"
+Income Summary,Xác định kết quả kinh doanh
+ASSETS,TÀI KHOẢN TÀI SẢN
+LIABILITIES,TÀI KHOẢN NỢ PHẢI TRẢ
+OWNER'S EQUITY,TÀI KHOẢN VỐN CHỦ SỞ HỮU
+REVENUE,TÀI KHOẢN DOANH THU
+COST OF PRODUCTION & BUSINESS,TÀI KHOẢN CHI PHÍ SẢN XUẤT KINH DOANH
+OTHER INCOME,TÀI KHOẢN THU NHẬP KHÁC
+OTHER EXPENSES,TÀI KHOẢN CHI PHÍ KHÁC
+INCOME SUMMARY,TÀI KHOẢN XÁC ĐỊNH KẾT QUẢ KINH DOANH

@@ -19,11 +19,8 @@ frappe.ui.form.on('Account', {
 	refresh: function(frm) {
 		frm.toggle_display('account_name', frm.is_new());
 
-		// hide fields if group
-		frm.toggle_display(['account_type', 'tax_rate'], cint(frm.doc.is_group) == 0);
-
 		// disable fields
-		frm.toggle_enable(['is_group', 'company'], false);
+		frm.toggle_enable(['company'], false);
 
 		if (cint(frm.doc.is_group) == 0) {
 			frm.toggle_display('freeze_account', frm.doc.__onload
