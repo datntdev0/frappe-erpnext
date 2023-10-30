@@ -1,0 +1,87 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [ develop ]
+  release:
+    types: [ published ]
+
+env:
+  REGISTRY: ghcr.io
+  REPO_NAME: ${{ github.repository }}
+  REPO_LINK: https://github.com/${{ github.repository }}
+  BRANCH_NAME: ${{ github.ref_name }}
+  TAG_NAME: ${{ github.event.release.tag_name }}
+
+jobs:
+  build_and_push:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set docker image tag name based on branch name
+      id: set_env_vars
+      run: |
+        chmod +x ./.github/scripts/set-env-vars.sh
+        ./.github/scripts/set-env-vars.sh
+        source ./.github/scripts/set-env-vars.sh
+        echo "BASE_IMAGE=$BASE_IMAGE" >> $GITHUB_ENV
+        echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+        echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
+        echo "STACK_NAME=$STACK_NAME" >> $GITHUB_ENV
+        echo "STACK_ENV_VARS=$STACK_ENV_VARS" >> $GITHUB_ENV
+        echo "::set-output name=stack_name::$STACK_NAME"
+        echo "::set-output name=stack_env_vars::$STACK_ENV_VARS"
+    
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: images/Dockerfile
+        push: true
+        tags: |
+          ${{ env.REGISTRY }}/${{ env.PACKAGE_NAME }}:latest
+          ${{ env.REGISTRY }}/${{ env.PACKAGE_NAME }}:${{ env.VERSION_NUMBER }}
+        build-args: |
+          BASE_IMAGE=${{ env.BASE_IMAGE }}
+          ERPNEXT_REPO=${{ env.REPO_LINK }}
+          ERPNEXT_BRANCH=${{ env.BRANCH_NAME }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    outputs:
+      stack_name: ${{ steps.set_env_vars.outputs.stack_name }}
+      stack_env_vars: ${{ steps.set_env_vars.outputs.stack_env_vars }}
+
+  deploy_to_portainer:
+    needs: [ build_and_push ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to Portainer
+      uses: datntdev0/action-deploy-to-portainer@v0.1.0
+      with:
+        portainerHost: ${{ secrets.PORTAINER_HOST }}
+        portainerApiKey: ${{ secrets.PORTAINER_API_KEY }}
+        portainerEnvId: ${{ secrets.PORTAINER_ENV_ID }}
+        portainerStackName: ${{ needs.build_and_push.outputs.stack_name }}
+        portainerFilePath: './images/docker-compose.yml'
+        portainerEnvVars: ${{ needs.build_and_push.outputs.stack_env_vars }}
