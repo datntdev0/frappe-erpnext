@@ -1,17 +1,24 @@
-name: Continuous Deployment
+name: Manual Deployment
 
 on:
-  push:
-    branches: [ develop ]
-  release:
-    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select an environment to deploy'
+        required: true
+        default: 'prd'
+        type: choice
+        options:
+          - prd
+          - dev
+          - tst
 
 env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
   REPO_LINK: https://github.com/${{ github.repository }}
   BRANCH_NAME: ${{ github.ref_name }}
-  TAG_NAME: ${{ github.event.release.tag_name }}
+  SELECTED_ENV: ${{ github.event.inputs.environment }}
 
 jobs:
   build_and_push:
@@ -31,7 +38,6 @@ jobs:
         chmod +x ./.github/scripts/set-env-vars.sh
         ./.github/scripts/set-env-vars.sh
         source ./.github/scripts/set-env-vars.sh
-        echo "SELECTED_ENV=$SELECTED_ENV" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
         echo "PORTAINER_ENV_VARS=$PORTAINER_ENV_VARS" >> $GITHUB_OUTPUT
     
