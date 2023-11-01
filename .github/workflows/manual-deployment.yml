@@ -1,17 +1,24 @@
-name: Continuous Deployment
+name: Manual Deployment
 
 on:
-  push:
-    branches: [ develop ]
-  release:
-    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select an environment to deploy'
+        required: true
+        default: 'prd'
+        type: choice
+        options:
+          - prd
+          - dev
+          - tst
 
 env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
   REPO_LINK: https://github.com/${{ github.repository }}
   BRANCH_NAME: ${{ github.ref_name }}
-  TAG_NAME: ${{ github.event.release.tag_name }}
+  SELECTED_ENV: ${{ github.event.inputs.environment }}
 
 jobs:
   build_and_push:
@@ -31,9 +38,7 @@ jobs:
         chmod +x ./.github/scripts/set-env-vars.sh
         ./.github/scripts/set-env-vars.sh
         source ./.github/scripts/set-env-vars.sh
-        echo "SELECTED_ENV=$SELECTED_ENV" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
-        echo "PORTAINER_STACK_NAME=$PORTAINER_STACK_NAME" >> $GITHUB_OUTPUT
         echo "PORTAINER_ENV_VARS=$PORTAINER_ENV_VARS" >> $GITHUB_OUTPUT
     
     - name: Login to GitHub Container Registry
@@ -62,7 +67,6 @@ jobs:
         cache-to: type=gha,mode=max
 
     outputs:
-      PORTAINER_STACK_NAME: ${{ steps.set_env_vars.outputs.PORTAINER_STACK_NAME }}
       PORTAINER_ENV_VARS: ${{ steps.set_env_vars.outputs.PORTAINER_ENV_VARS }}
 
   deploy_to_portainer:
@@ -79,6 +83,6 @@ jobs:
         portainerHost: ${{ secrets.PORTAINER_HOST }}
         portainerApiKey: ${{ secrets.PORTAINER_API_KEY }}
         portainerEnvId: ${{ secrets.PORTAINER_ENV_ID }}
-        portainerStackName: ${{ needs.build_and_push.outputs.PORTAINER_STACK_NAME }}
+        portainerStackName: erpnext-${{ env.SELECTED_ENV }}
         portainerFilePath: './images/docker-compose.yml'
         portainerEnvVars: ${{ needs.build_and_push.outputs.PORTAINER_ENV_VARS }}
