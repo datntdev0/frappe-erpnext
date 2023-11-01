@@ -1,17 +1,24 @@
-name: Continuous Deployment
+name: Manual Deployment
 
 on:
-  push:
-    branches: [ develop ]
-  release:
-    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select an environment to deploy'
+        required: true
+        default: 'prd'
+        type: choice
+        options:
+          - prd
+          - dev
+          - tst
 
 env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
   REPO_LINK: https://github.com/${{ github.repository }}
   BRANCH_NAME: ${{ github.ref_name }}
-  TAG_NAME: ${{ github.event.release.tag_name }}
+  SELECTED_ENV: ${{ github.event.inputs.environment }}
 
 jobs:
   build_and_push:
@@ -49,7 +56,7 @@ jobs:
         context: .
         file: images/Dockerfile
         push: true
-          tags: |
+        tags: |
           ${{ env.REGISTRY }}/${{ env.REPO_NAME }}.${{ env.SELECTED_ENV }}:latest
           ${{ env.REGISTRY }}/${{ env.REPO_NAME }}.${{ env.SELECTED_ENV }}:${{ env.BUILD_NUMBER }}
         build-args: |
