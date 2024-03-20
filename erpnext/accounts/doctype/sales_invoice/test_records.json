@@ -2,7 +2,7 @@
  {
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "cost_center": "_Test Cost Center - _TC",
   "customer": "_Test Customer",
   "customer_name": "_Test Customer",
@@ -54,7 +54,7 @@
    }
   ],
   "plc_conversion_rate": 1.0,
-  "price_list_currency": "INR",
+  "price_list_currency": "VND",
   "sales_team": [
    {
     "allocated_percentage": 65.5,
@@ -75,7 +75,7 @@
  {
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "customer": "_Test Customer",
   "customer_name": "_Test Customer",
   "debit_to": "Debtors - _TC",
@@ -127,14 +127,14 @@
    }
   ],
   "plc_conversion_rate": 1.0,
-  "price_list_currency": "INR",
+  "price_list_currency": "VND",
   "selling_price_list": "_Test Price List",
   "territory": "_Test Territory"
  },
  {
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "customer": "_Test Customer",
   "customer_name": "_Test Customer",
   "debit_to": "Debtors - _TC",
@@ -255,14 +255,14 @@
    }
   ],
   "plc_conversion_rate": 1.0,
-  "price_list_currency": "INR",
+  "price_list_currency": "VND",
   "selling_price_list": "_Test Price List",
   "territory": "_Test Territory"
  },
  {
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "customer": "_Test Customer",
   "customer_name": "_Test Customer",
   "debit_to": "Debtors - _TC",
@@ -394,7 +394,7 @@
    }
   ],
   "plc_conversion_rate": 1.0,
-  "price_list_currency": "INR",
+  "price_list_currency": "VND",
   "selling_price_list": "_Test Price List",
   "territory": "_Test Territory"
  }

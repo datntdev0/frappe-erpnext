@@ -547,7 +547,7 @@ class TestLandedCostVoucher(FrappeTestCase):
 		lcv.submit()
 		pr.load_from_db()
 
-		# Considering exchange rate from USD to INR as 62.9
+		# Considering exchange rate from USD to VND as 62.9
 		self.assertEqual(lcv.total_taxes_and_charges, 729)
 		self.assertEqual(pr.items[0].landed_cost_voucher_amount, 729)
 

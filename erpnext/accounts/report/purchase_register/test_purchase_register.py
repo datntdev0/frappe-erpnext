@@ -63,7 +63,7 @@ def make_purchase_invoice():
 		account_type="Tax",
 		parent_account="Duties and Taxes - _TC6",
 		company="_Test Company 6",
-		account_currency="INR",
+		account_currency="VND",
 	)
 	create_warehouse(warehouse_name="_Test Warehouse - _TC6", company="_Test Company 6")
 	create_cost_center(cost_center_name="_Test Cost Center", company="_Test Company 6")
@@ -81,7 +81,7 @@ def create_purchase_invoice_with_taxes():
 			"company": "_Test Company 6",
 			"cost_center": "_Test Cost Center - _TC6",
 			"taxes_and_charges": "",
-			"currency": "INR",
+			"currency": "VND",
 			"credit_to": "Creditors - _TC6",
 			"items": [
 				{

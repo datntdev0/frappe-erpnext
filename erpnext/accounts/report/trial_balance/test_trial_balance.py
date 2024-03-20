@@ -74,7 +74,7 @@ def create_company(**args):
 			"doctype": "Company",
 			"company_name": args.company_name or "Trial Balance Company",
 			"country": args.country or "India",
-			"default_currency": args.currency or "INR",
+			"default_currency": args.currency or "VND",
 		}
 	)
 	company.insert(ignore_if_duplicate=True)

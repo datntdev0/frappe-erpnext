@@ -52,7 +52,7 @@ class TestTransactionDeletionRecord(FrappeTestCase):
 
 def create_company(company_name):
 	company = frappe.get_doc(
-		{"doctype": "Company", "company_name": company_name, "default_currency": "INR"}
+		{"doctype": "Company", "company_name": company_name, "default_currency": "VND"}
 	)
 	company.insert(ignore_if_duplicate=True)
 

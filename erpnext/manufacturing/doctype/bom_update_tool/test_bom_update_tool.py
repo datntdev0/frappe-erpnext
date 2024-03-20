@@ -46,7 +46,7 @@ class TestBOMUpdateTool(FrappeTestCase):
 			doc = make_bom(
 				item="BOM Cost Test Item 1",
 				raw_materials=["BOM Cost Test Item 2", "BOM Cost Test Item 3"],
-				currency="INR",
+				currency="VND",
 			)
 		else:
 			doc = frappe.get_doc("BOM", bom_no)

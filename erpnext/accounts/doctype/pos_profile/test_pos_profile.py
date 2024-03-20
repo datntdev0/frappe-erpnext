@@ -109,7 +109,7 @@ def make_pos_profile(**args):
 		{
 			"company": args.company or "_Test Company",
 			"cost_center": args.cost_center or "_Test Cost Center - _TC",
-			"currency": args.currency or "INR",
+			"currency": args.currency or "VND",
 			"doctype": "POS Profile",
 			"expense_account": args.expense_account or "_Test Account Cost for Goods Sold - _TC",
 			"income_account": args.income_account or "Sales - _TC",

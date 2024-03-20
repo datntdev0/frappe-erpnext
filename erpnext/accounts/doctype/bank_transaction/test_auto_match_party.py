@@ -136,7 +136,7 @@ def create_bank_transaction(
 			"date": nowdate(),
 			"withdrawal": withdrawal,
 			"deposit": deposit,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": "Checking Account - Citi Bank",
 			"transaction_id": transaction_id,
 			"bank_party_name": party_name,

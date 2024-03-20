@@ -180,7 +180,7 @@ class TestJournalEntry(unittest.TestCase):
 		self.expected_gle = [
 			{
 				"account": "_Test Bank - _TC",
-				"account_currency": "INR",
+				"account_currency": "VND",
 				"debit": 0,
 				"debit_in_account_currency": 0,
 				"credit": 5000,
@@ -244,7 +244,7 @@ class TestJournalEntry(unittest.TestCase):
 			},
 			{
 				"account": "Sales - _TC",
-				"account_currency": "INR",
+				"account_currency": "VND",
 				"debit": 5000,
 				"debit_in_account_currency": 5000,
 				"credit": 0,
@@ -262,7 +262,7 @@ class TestJournalEntry(unittest.TestCase):
 
 		jv.submit()
 
-		# create jv in USD, but account currency in INR
+		# create jv in USD, but account currency in VND
 		jv = make_journal_entry("_Test Bank - _TC", "Debtors - _TC", 100, save=False)
 
 		jv.accounts[1].update({"party_type": "Customer", "party": "_Test Customer USD"})

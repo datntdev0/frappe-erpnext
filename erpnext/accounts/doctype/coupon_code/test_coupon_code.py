@@ -75,7 +75,7 @@ def test_create_test_data():
 				"rate_or_discount": "Discount Percentage",
 				"discount_percentage": 30,
 				"company": "_Test Company",
-				"currency": "INR",
+				"currency": "VND",
 				"for_price_list": "_Test Price List",
 			}
 		)

@@ -31,7 +31,7 @@ class TestServiceLevelAgreement(unittest.TestCase):
 					"doctype": "Company",
 					"company_name": name,
 					"country": "India",
-					"default_currency": "INR",
+					"default_currency": "VND",
 					"create_chart_of_accounts_based_on": "Standard Template",
 					"chart_of_accounts": "Standard",
 				}

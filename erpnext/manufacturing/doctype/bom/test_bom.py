@@ -840,7 +840,7 @@ def create_nested_bom(tree, prefix="_Test bom "):
 			for child_item in child_items.keys():
 				bom.append("items", {"item_code": prefix + child_item})
 			bom.company = "_Test Company"
-			bom.currency = "INR"
+			bom.currency = "VND"
 			bom.insert()
 			bom.submit()
 
@@ -897,7 +897,7 @@ def create_bom_with_process_loss_item(
 			},
 		)
 
-	bom_doc.currency = "INR"
+	bom_doc.currency = "VND"
 	bom_doc.process_loss_percentage = process_loss_percentage
 	return bom_doc
 

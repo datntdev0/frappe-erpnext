@@ -972,7 +972,7 @@ def create_pos_invoice(**args):
 	pos_inv.debit_to = args.debit_to or "Debtors - _TC"
 	pos_inv.is_return = args.is_return
 	pos_inv.return_against = args.return_against
-	pos_inv.currency = args.currency or "INR"
+	pos_inv.currency = args.currency or "VND"
 	pos_inv.conversion_rate = args.conversion_rate or 1
 	pos_inv.account_for_change_amount = args.account_for_change_amount or "Cash - _TC"
 

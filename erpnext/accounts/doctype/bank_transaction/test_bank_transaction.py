@@ -211,7 +211,7 @@ class TestBankTransaction(FrappeTestCase):
 				"description": "Loan Repayment - OPSKATTUZWXXX AT776000000098709837 Herr G",
 				"date": "2018-10-27",
 				"deposit": 500,
-				"currency": "INR",
+				"currency": "VND",
 				"bank_account": bank_account.name,
 			}
 		).submit()
@@ -276,7 +276,7 @@ def add_transactions(bank_account="_Test Bank - _TC"):
 			"description": "1512567 BG/000002918 OPSKATTUZWXXX AT776000000098709837 Herr G",
 			"date": "2018-10-23",
 			"deposit": 1200,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": bank_account,
 		}
 	).insert()
@@ -288,7 +288,7 @@ def add_transactions(bank_account="_Test Bank - _TC"):
 			"description": "1512567 BG/000003025 OPSKATTUZWXXX AT776000000098709849 Herr G",
 			"date": "2018-10-23",
 			"deposit": 1700,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": bank_account,
 		}
 	).insert()
@@ -300,7 +300,7 @@ def add_transactions(bank_account="_Test Bank - _TC"):
 			"description": "Re 95282925234 FE/000002917 AT171513000281183046 Conrad Electronic",
 			"date": "2018-10-26",
 			"withdrawal": 690,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": bank_account,
 		}
 	).insert()
@@ -312,7 +312,7 @@ def add_transactions(bank_account="_Test Bank - _TC"):
 			"description": "Auszahlung Karte MC/000002916 AUTOMAT 698769 K002 27.10. 14:07",
 			"date": "2018-10-27",
 			"deposit": 3900,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": bank_account,
 		}
 	).insert()
@@ -324,7 +324,7 @@ def add_transactions(bank_account="_Test Bank - _TC"):
 			"description": "I2015000011 VD/000002514 ATWWXXX AT4701345000003510057 Bio",
 			"date": "2018-10-27",
 			"withdrawal": 109080,
-			"currency": "INR",
+			"currency": "VND",
 			"bank_account": bank_account,
 		}
 	).insert()

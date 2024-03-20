@@ -83,7 +83,7 @@ class TestRouting(FrappeTestCase):
 		]
 		setup_operations(operations)
 		routing_doc = create_routing(routing_name="Routing Test", operations=test_routing_operations)
-		bom_doc = setup_bom(item_code="_Testing Item", routing=routing_doc.name, currency="INR")
+		bom_doc = setup_bom(item_code="_Testing Item", routing=routing_doc.name, currency="VND")
 		self.assertEqual(routing_doc.operations[0].time_in_mins, 30)
 		self.assertEqual(routing_doc.operations[1].time_in_mins, 20)
 		routing_doc.operations[0].time_in_mins = 90

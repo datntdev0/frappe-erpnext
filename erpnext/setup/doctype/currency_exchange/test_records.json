@@ -4,7 +4,7 @@
 		"date": "2016-01-01",
 		"exchange_rate": 60.0,
 		"from_currency": "USD",
-		"to_currency": "INR",
+		"to_currency": "VND",
 		"for_buying": 1,
 		"for_selling": 0
   },
@@ -21,7 +21,7 @@
 		"doctype": "Currency Exchange",
 		"date": "2016-01-01",
 		"exchange_rate": 0.0167,
-		"from_currency": "INR",
+		"from_currency": "VND",
 		"to_currency": "USD",
 		"for_buying": 1,
 		"for_selling": 0
@@ -31,7 +31,7 @@
 		"date": "2016-01-10",
 		"exchange_rate": 65.1,
 		"from_currency": "USD",
-		"to_currency": "INR",
+		"to_currency": "VND",
 		"for_buying": 1,
 		"for_selling": 0
   },
@@ -40,7 +40,7 @@
 		"date": "2016-01-30",
 		"exchange_rate": 62.9,
 		"from_currency": "USD",
-		"to_currency": "INR",
+		"to_currency": "VND",
 		"for_buying": 1,
 		"for_selling": 1
   },
@@ -48,7 +48,7 @@
 		"doctype": "Currency Exchange",
 		"date": "2016-01-10",
 		"exchange_rate": 65.1,
-		"from_currency": "INR",
+		"from_currency": "VND",
 		"to_currency": "NGN",
 		"for_buying": 1,
 		"for_selling": 1

@@ -3,7 +3,7 @@
   "buying_price_list": "_Test Price List",
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "doctype": "Purchase Receipt",
   "base_grand_total": 720.0,
   "naming_series": "_T-Purchase Receipt-",

@@ -5,7 +5,7 @@
   "company": "_Test Company",
   "conversion_rate": 1,
   "credit_to": "_Test Payable - _TC",
-  "currency": "INR",
+  "currency": "VND",
   "doctype": "Purchase Invoice",
   "items": [
    {
@@ -150,7 +150,7 @@
   "company": "_Test Company",
   "conversion_rate": 1.0,
   "credit_to": "_Test Payable - _TC",
-  "currency": "INR",
+  "currency": "VND",
   "doctype": "Purchase Invoice",
   "items": [
    {

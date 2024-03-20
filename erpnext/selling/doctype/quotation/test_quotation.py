@@ -726,7 +726,7 @@ def make_quotation(**args):
 
 	qo.company = args.company or "_Test Company"
 	qo.party_name = args.party_name or "_Test Customer"
-	qo.currency = args.currency or "INR"
+	qo.currency = args.currency or "VND"
 	if args.selling_price_list:
 		qo.selling_price_list = args.selling_price_list
 

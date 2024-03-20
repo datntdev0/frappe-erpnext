@@ -1985,7 +1985,7 @@ class TestSalesOrder(FrappeTestCase):
 				so.set_warehouse = ""
 				so.company = "_Test Company"
 				so.customer = "_Test Customer"
-				so.currency = "INR"
+				so.currency = "VND"
 				so.selling_price_list = "_Test Price List"
 				so.append("items", {"item_code": bundle, "qty": 1})
 				so.save()
@@ -2165,7 +2165,7 @@ def make_sales_order(**args):
 	so.set_warehouse = ""  # no need to test set_warehouse permission since it only affects the client
 	so.company = args.company or "_Test Company"
 	so.customer = args.customer or "_Test Customer"
-	so.currency = args.currency or "INR"
+	so.currency = args.currency or "VND"
 	so.po_no = args.po_no or ""
 	if args.selling_price_list:
 		so.selling_price_list = args.selling_price_list

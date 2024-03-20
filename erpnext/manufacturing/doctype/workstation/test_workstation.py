@@ -75,7 +75,7 @@ class TestWorkstation(FrappeTestCase):
 			{"operation": "Test Operation B", "workstation": "_Test Workstation A", "time_in_mins": 60},
 		]
 		routing_doc = create_routing(routing_name="Routing Test", operations=test_routing_operations)
-		bom_doc = setup_bom(item_code="_Testing Item", routing=routing_doc.name, currency="INR")
+		bom_doc = setup_bom(item_code="_Testing Item", routing=routing_doc.name, currency="VND")
 		w1 = frappe.get_doc("Workstation", "_Test Workstation A")
 		# resets values
 		w1.hour_rate_rent = 300

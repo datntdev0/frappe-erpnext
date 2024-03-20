@@ -1,7 +1,7 @@
 [
     {
         "buying": 1,
-        "currency": "INR",
+        "currency": "VND",
         "doctype": "Price List",
         "enabled": 1,
         "price_not_uom_dependant": 1,
@@ -10,7 +10,7 @@
     },
     {
         "buying": 1,
-        "currency": "INR",
+        "currency": "VND",
         "doctype": "Price List",
         "enabled": 1,
         "price_list_name": "_Test Price List 2",
@@ -18,7 +18,7 @@
     },
     {
         "buying": 1,
-        "currency": "INR",
+        "currency": "VND",
         "doctype": "Price List",
         "enabled": 1,
         "price_list_name": "_Test Price List India",

@@ -6,11 +6,11 @@
 
 {% macro show_currency_options() %}
 
-<p> Certification price is 20,000 INR / 300 USD.</p>
+<p> Certification price is 20,000 VND / 300 USD.</p>
 
 <section>
 	<input type="radio" name="gender" value="USD" checked> USD <br>
-	<input type="radio" name="gender" value="INR" style="margin-top: 15px;"> INR <br>
+	<input type="radio" name="gender" value="VND" style="margin-top: 15px;"> VND <br>
 </section>
 
 <div class="section" style="margin-top:10px;"><a class="btn btn-primary next"> Next </a></div>
@@ -18,7 +18,7 @@
 <script>
 	frappe.ready(function() {
 		$('.next').on('click', function() {
-			if($("input[type=radio]:checked").val() == 'INR'){
+			if($("input[type=radio]:checked").val() == 'VND'){
 				window.location = '/certification-application?new=1'
 			}
 			else{

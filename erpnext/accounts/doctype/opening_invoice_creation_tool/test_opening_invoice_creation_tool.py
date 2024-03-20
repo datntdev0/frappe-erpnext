@@ -201,7 +201,7 @@ def make_company():
 	company = frappe.new_doc("Company")
 	company.company_name = "_Test Opening Invoice Company"
 	company.abbr = "_TOIC"
-	company.default_currency = "INR"
+	company.default_currency = "VND"
 	company.country = "Pakistan"
 	company.insert()
 	return company

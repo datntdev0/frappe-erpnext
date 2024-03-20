@@ -104,7 +104,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 6, 30),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 500000.0,
 				"paid_amount": 500000.0,
 				"invoices": "," + sinv.name,
@@ -118,7 +118,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 7, 15),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 500000.0,
 				"paid_amount": 100000.0,
 				"invoices": "," + sinv.name,
@@ -129,7 +129,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 	def create_exchange_rate(self, date):
 		# make an entry in Currency Exchange list. serves as a static exchange rate
 		if frappe.db.exists(
-			{"doctype": "Currency Exchange", "date": date, "from_currency": "USD", "to_currency": "INR"}
+			{"doctype": "Currency Exchange", "date": date, "from_currency": "USD", "to_currency": "VND"}
 		):
 			return
 		else:
@@ -277,7 +277,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 6, 30),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 500000.0,
 				"paid_amount": 0.0,
 				"invoices": "",
@@ -291,7 +291,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 7, 15),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 500000.0,
 				"paid_amount": 0.0,
 				"invoices": "",
@@ -308,7 +308,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 6, 30),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 50000.0,
 				"paid_amount": 0.0,
 				"invoices": "",
@@ -322,7 +322,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date(2021, 7, 15),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 50000.0,
 				"paid_amount": 0.0,
 				"invoices": "",
@@ -399,7 +399,7 @@ class TestPaymentTermsStatusForSalesOrder(FrappeTestCase):
 				"description": "_Test 50-50",
 				"due_date": datetime.date.fromisoformat(first_due_date),
 				"invoice_portion": 50.0,
-				"currency": "INR",
+				"currency": "VND",
 				"base_payment_amount": 500000.0,
 				"paid_amount": 500000.0,
 				"invoices": "," + sinv.name,

@@ -348,7 +348,7 @@ class TallyMigration(Document):
 					{
 						"doctype": "Company",
 						"company_name": self.erpnext_company,
-						"default_currency": "INR",
+						"default_currency": "VND",
 						"enable_perpetual_inventory": 0,
 					}
 				).insert()
@@ -639,7 +639,7 @@ class TallyMigration(Document):
 					"selling": 1,
 					"buying": 1,
 					"enabled": 1,
-					"currency": "INR",
+					"currency": "VND",
 				}
 			).insert()
 

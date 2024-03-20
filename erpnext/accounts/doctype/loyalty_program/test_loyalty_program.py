@@ -246,7 +246,7 @@ def create_sales_invoice_record(qty=1):
 			"company": "_Test Company",
 			"due_date": today(),
 			"posting_date": today(),
-			"currency": "INR",
+			"currency": "VND",
 			"taxes_and_charges": "",
 			"debit_to": "Debtors - _TC",
 			"taxes": [],

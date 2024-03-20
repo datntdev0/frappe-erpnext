@@ -522,7 +522,7 @@ def create_purchase_invoice(**args):
 			"supplier": args.supplier,
 			"company": "_Test Company",
 			"taxes_and_charges": "",
-			"currency": "INR",
+			"currency": "VND",
 			"credit_to": "Creditors - _TC",
 			"taxes": [],
 			"items": [
@@ -556,7 +556,7 @@ def create_purchase_order(**args):
 			"supplier": args.supplier,
 			"company": "_Test Company",
 			"taxes_and_charges": "",
-			"currency": "INR",
+			"currency": "VND",
 			"taxes": [],
 			"items": [
 				{
@@ -587,7 +587,7 @@ def create_sales_invoice(**args):
 			"customer": args.customer,
 			"company": "_Test Company",
 			"taxes_and_charges": "",
-			"currency": "INR",
+			"currency": "VND",
 			"debit_to": "Debtors - _TC",
 			"taxes": [],
 			"items": [
@@ -625,8 +625,8 @@ def create_payment_entry(**args):
 			"received_amount": args.paid_amount or 10000,
 			"reference_no": args.reference_no or "12345",
 			"reference_date": today(),
-			"paid_from_account_currency": "INR",
-			"paid_to_account_currency": "INR",
+			"paid_from_account_currency": "VND",
+			"paid_to_account_currency": "VND",
 		}
 	)
 

@@ -797,7 +797,7 @@ class TestPurchaseOrder(FrappeTestCase):
 
 		# Setup default 'Advance Paid' account
 		account = self.create_account(
-			"Advance Paid", company, "INR", "Application of Funds (Assets) - _TC"
+			"Advance Paid", company, "VND", "Application of Funds (Assets) - _TC"
 		)
 		company_doc = frappe.get_doc("Company", company)
 		company_doc.book_advance_payments_in_separate_party_account = True

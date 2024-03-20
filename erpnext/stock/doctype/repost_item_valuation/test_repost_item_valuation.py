@@ -322,7 +322,7 @@ class TestRepostItemValuation(FrappeTestCase, StockTestMixin):
 			expense_account="Cost of Goods Sold - TCP1",
 			warehouse="Stores - TCP1",
 			update_stock=1,
-			currency="INR",
+			currency="VND",
 			item_code=item.name,
 			cost_center="Main - TCP1",
 			qty=1,

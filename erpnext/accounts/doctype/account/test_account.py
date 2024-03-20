@@ -80,10 +80,10 @@ class TestAccount(unittest.TestCase):
 		)
 
 		create_account(
-			account_name="Receivable INR",
+			account_name="Receivable VND",
 			parent_account="Current Assets - _TC",
 			company="_Test Company",
-			account_currency="INR",
+			account_currency="VND",
 		)
 
 		create_account(
@@ -127,7 +127,7 @@ class TestAccount(unittest.TestCase):
 		self.assertRaises(
 			InvalidAccountMergeError,
 			merge_account,
-			"Receivable INR - _TC",
+			"Receivable VND - _TC",
 			"Receivable USD - _TC",
 		)
 
@@ -315,7 +315,7 @@ class TestAccount(unittest.TestCase):
 		else:
 			acc = frappe.get_doc("Account", "Test Currency Account - _TC")
 
-		self.assertEqual(acc.account_currency, "INR")
+		self.assertEqual(acc.account_currency, "VND")
 
 		# Make a JV against this account
 		make_journal_entry(

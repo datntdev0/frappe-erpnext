@@ -238,7 +238,7 @@ class TestExchangeRateRevaluation(AccountsTestMixin, FrappeTestCase):
 		row = [x for x in je.accounts if x.account == self.debtors_usd][0]
 		self.assertEqual(flt(row.credit_in_account_currency, precision), 5.0)  # in USD
 		row = [x for x in je.accounts if x.account != self.debtors_usd][0]
-		self.assertEqual(flt(row.debit_in_account_currency, precision), 421.06)  # in INR
+		self.assertEqual(flt(row.debit_in_account_currency, precision), 421.06)  # in VND
 
 		# total_debit and total_credit will be 0.0, as JV is posting only to account currency fields
 		self.assertEqual(flt(je.total_debit, precision), 0.0)

@@ -21,7 +21,7 @@ payment_method = [
 		"is_default": 1,
 		"payment_gateway": "_Test Gateway",
 		"payment_account": "_Test Bank - _TC",
-		"currency": "INR",
+		"currency": "VND",
 	},
 	{
 		"doctype": "Payment Gateway Account",
@@ -46,7 +46,7 @@ class TestPaymentRequest(unittest.TestCase):
 				frappe.get_doc(method).insert(ignore_permissions=True)
 
 	def test_payment_request_linkings(self):
-		so_inr = make_sales_order(currency="INR", do_not_save=True)
+		so_inr = make_sales_order(currency="VND", do_not_save=True)
 		so_inr.disable_rounded_total = 1
 		so_inr.save()
 
@@ -54,14 +54,14 @@ class TestPaymentRequest(unittest.TestCase):
 			dt="Sales Order",
 			dn=so_inr.name,
 			recipient_id="saurabh@erpnext.com",
-			payment_gateway_account="_Test Gateway - INR",
+			payment_gateway_account="_Test Gateway - VND",
 		)
 
 		self.assertEqual(pr.reference_doctype, "Sales Order")
 		self.assertEqual(pr.reference_name, so_inr.name)
-		self.assertEqual(pr.currency, "INR")
+		self.assertEqual(pr.currency, "VND")
 
-		conversion_rate = get_exchange_rate("USD", "INR")
+		conversion_rate = get_exchange_rate("USD", "VND")
 
 		si_usd = create_sales_invoice(currency="USD", conversion_rate=conversion_rate)
 		pr = make_payment_request(
@@ -105,13 +105,13 @@ class TestPaymentRequest(unittest.TestCase):
 		frappe.db.set_value("Company", "_Test Company", "write_off_account", "_Test Write Off - _TC")
 		frappe.db.set_value("Company", "_Test Company", "cost_center", "_Test Cost Center - _TC")
 
-		so_inr = make_sales_order(currency="INR")
+		so_inr = make_sales_order(currency="VND")
 		pr = make_payment_request(
 			dt="Sales Order",
 			dn=so_inr.name,
 			recipient_id="saurabh@erpnext.com",
 			mute_email=1,
-			payment_gateway_account="_Test Gateway - INR",
+			payment_gateway_account="_Test Gateway - VND",
 			submit_doc=1,
 			return_doc=1,
 		)

@@ -35,7 +35,7 @@ class TestBOMCreator(FrappeTestCase):
 			item_code=final_product,
 			qty=1,
 			rm_cosy_as_per="Valuation Rate",
-			currency="INR",
+			currency="VND",
 			plc_conversion_rate=1,
 			conversion_rate=1,
 		)
@@ -88,7 +88,7 @@ class TestBOMCreator(FrappeTestCase):
 			item_code=final_product,
 			qty=1,
 			rm_cosy_as_per="Valuation Rate",
-			currency="INR",
+			currency="VND",
 			plc_conversion_rate=1,
 			conversion_rate=1,
 		)
@@ -130,7 +130,7 @@ class TestBOMCreator(FrappeTestCase):
 			item_code=final_product,
 			qty=1,
 			rm_cosy_as_per="Valuation Rate",
-			currency="INR",
+			currency="VND",
 			plc_conversion_rate=1,
 			conversion_rate=1,
 		)
@@ -196,7 +196,7 @@ class TestBOMCreator(FrappeTestCase):
 			item_code=final_product,
 			qty=1,
 			rm_cosy_as_per="Valuation Rate",
-			currency="INR",
+			currency="VND",
 			plc_conversion_rate=1,
 			conversion_rate=1,
 		)

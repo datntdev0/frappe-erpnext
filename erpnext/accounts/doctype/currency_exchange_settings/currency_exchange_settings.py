@@ -74,11 +74,11 @@ class CurrencyExchangeSettings(Document):
 		params = {}
 		for row in self.req_params:
 			params[row.key] = row.value.format(
-				transaction_date=nowdate(), to_currency="INR", from_currency="USD"
+				transaction_date=nowdate(), to_currency="VND", from_currency="USD"
 			)
 
 		api_url = self.api_endpoint.format(
-			transaction_date=nowdate(), to_currency="INR", from_currency="USD"
+			transaction_date=nowdate(), to_currency="VND", from_currency="USD"
 		)
 
 		try:
@@ -95,7 +95,7 @@ class CurrencyExchangeSettings(Document):
 		try:
 			for key in self.result_key:
 				value = value[
-					str(key.key).format(transaction_date=nowdate(), to_currency="INR", from_currency="USD")
+					str(key.key).format(transaction_date=nowdate(), to_currency="VND", from_currency="USD")
 				]
 		except Exception:
 			frappe.throw(_("Invalid result key. Response:") + " " + response.text)

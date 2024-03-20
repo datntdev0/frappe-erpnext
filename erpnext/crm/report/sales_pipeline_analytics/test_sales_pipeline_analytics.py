@@ -169,7 +169,7 @@ def create_company():
 	if not doc:
 		doc = frappe.new_doc("Company")
 		doc.company_name = "Best Test"
-		doc.default_currency = "INR"
+		doc.default_currency = "VND"
 		doc.insert()
 
 
@@ -190,7 +190,7 @@ def create_opportunity():
 		doc.party_name = customer_name
 		doc.opportunity_amount = 150000
 		doc.source = "Cold Calling"
-		doc.currency = "INR"
+		doc.currency = "VND"
 		doc.expected_closing = "2021-08-31"
 		doc.company = "Best Test"
 		doc.insert()

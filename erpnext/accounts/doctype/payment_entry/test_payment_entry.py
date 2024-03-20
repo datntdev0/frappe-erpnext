@@ -1080,7 +1080,7 @@ class TestPaymentEntry(FrappeTestCase):
 		pe = get_payment_entry("Sales Order", so.name)
 		pe.references.clear()
 		pe.paid_from = "Debtors - _TC"
-		pe.paid_from_account_currency = "INR"
+		pe.paid_from_account_currency = "VND"
 		pe.source_exchange_rate = 50
 		pe.save()
 
@@ -1258,7 +1258,7 @@ class TestPaymentEntry(FrappeTestCase):
 		"""
 		Test if `get_outstanding_reference_documents` fetches invoices in the right order.
 		"""
-		customer = create_customer("Max Mustermann", "INR")
+		customer = create_customer("Max Mustermann", "VND")
 		create_payment_terms_template()
 
 		# SI has an earlier due date and SI2 has a later due date

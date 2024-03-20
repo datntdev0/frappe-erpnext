@@ -35,7 +35,7 @@ class TestGrossProfit(FrappeTestCase):
 					"doctype": "Company",
 					"company_name": company_name,
 					"country": "India",
-					"default_currency": "INR",
+					"default_currency": "VND",
 					"create_chart_of_accounts_based_on": "Standard Template",
 					"chart_of_accounts": "Standard",
 				}
@@ -103,7 +103,7 @@ class TestGrossProfit(FrappeTestCase):
 			debit_to=self.debit_to,
 			parent_cost_center=self.cost_center,
 			update_stock=0,
-			currency="INR",
+			currency="VND",
 			is_pos=0,
 			is_return=0,
 			return_against=None,
@@ -123,7 +123,7 @@ class TestGrossProfit(FrappeTestCase):
 		dnote = create_delivery_note(
 			company=self.company,
 			customer=self.customer,
-			currency="INR",
+			currency="VND",
 			item=item or self.item,
 			qty=qty,
 			rate=rate,
@@ -191,7 +191,7 @@ class TestGrossProfit(FrappeTestCase):
 			debit_to=self.debit_to,
 			parent_cost_center=self.cost_center,
 			update_stock=0,
-			currency="INR",
+			currency="VND",
 			income_account=self.income_account,
 			expense_account=self.expense_account,
 		)
@@ -205,7 +205,7 @@ class TestGrossProfit(FrappeTestCase):
 		# Without Delivery Note, buying rate should be 150
 		expected_entry_without_dn = {
 			"parent_invoice": sinv.name,
-			"currency": "INR",
+			"currency": "VND",
 			"sales_invoice": self.item,
 			"customer": self.customer,
 			"posting_date": frappe.utils.datetime.date.fromisoformat(nowdate()),
@@ -233,7 +233,7 @@ class TestGrossProfit(FrappeTestCase):
 		# Without Delivery Note, buying rate should be 100
 		expected_entry_with_dn = {
 			"parent_invoice": sinv.name,
-			"currency": "INR",
+			"currency": "VND",
 			"sales_invoice": self.item,
 			"customer": self.customer,
 			"posting_date": frappe.utils.datetime.date.fromisoformat(nowdate()),
@@ -364,7 +364,7 @@ class TestGrossProfit(FrappeTestCase):
 		columns, data = execute(filters=filters)
 		expected_entry = {
 			"parent_invoice": sinv.name,
-			"currency": "INR",
+			"currency": "VND",
 			"sales_invoice": self.item,
 			"customer": self.customer,
 			"posting_date": frappe.utils.datetime.date.fromisoformat(nowdate()),
@@ -404,7 +404,7 @@ class TestGrossProfit(FrappeTestCase):
 		columns, data = execute(filters=filters)
 		expected_entry = {
 			"parent_invoice": sinv.name,
-			"currency": "INR",
+			"currency": "VND",
 			"sales_invoice": self.item,
 			"customer": self.customer,
 			"posting_date": frappe.utils.datetime.date.fromisoformat(nowdate()),
@@ -443,7 +443,7 @@ class TestGrossProfit(FrappeTestCase):
 		columns, data = execute(filters=filters)
 		expected_entry = {
 			"parent_invoice": sinv.name,
-			"currency": "INR",
+			"currency": "VND",
 			"sales_invoice": self.item,
 			"customer": self.customer,
 			"posting_date": frappe.utils.datetime.date.fromisoformat(nowdate()),

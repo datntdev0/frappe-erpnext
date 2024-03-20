@@ -725,7 +725,7 @@ class TestPurchaseInvoice(FrappeTestCase, StockTestMixin):
 				"credit_in_account_currency": 250,
 			},
 			"_Test Account Cost for Goods Sold - _TC": {
-				"account_currency": "INR",
+				"account_currency": "VND",
 				"debit": 12500,
 				"debit_in_account_currency": 12500,
 				"credit": 0,
@@ -963,8 +963,8 @@ class TestPurchaseInvoice(FrappeTestCase, StockTestMixin):
 				"party_type": "Supplier",
 				"party": "_Test Supplier",
 				"company": "_Test Company",
-				"paid_from_account_currency": "INR",
-				"paid_to_account_currency": "INR",
+				"paid_from_account_currency": "VND",
+				"paid_to_account_currency": "VND",
 				"source_exchange_rate": 1,
 				"target_exchange_rate": 1,
 				"reference_no": "1",
@@ -2292,7 +2292,7 @@ def make_purchase_invoice(**args):
 
 	pi.company = args.company or "_Test Company"
 	pi.supplier = args.supplier or "_Test Supplier"
-	pi.currency = args.currency or "INR"
+	pi.currency = args.currency or "VND"
 	pi.conversion_rate = args.conversion_rate or 1
 	pi.is_return = args.is_return
 	pi.return_against = args.return_against
@@ -2383,7 +2383,7 @@ def make_purchase_invoice_against_cost_center(**args):
 	pi.company = args.company or "_Test Company"
 	pi.cost_center = args.cost_center or "_Test Cost Center - _TC"
 	pi.supplier = args.supplier or "_Test Supplier"
-	pi.currency = args.currency or "INR"
+	pi.currency = args.currency or "VND"
 	pi.conversion_rate = args.conversion_rate or 1
 	pi.is_return = args.is_return
 	pi.is_return = args.is_return

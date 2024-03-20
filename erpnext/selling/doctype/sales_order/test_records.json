@@ -3,7 +3,7 @@
   "advance_paid": 0.0,
   "company": "_Test Company",
   "conversion_rate": 1.0,
-  "currency": "INR",
+  "currency": "VND",
   "customer": "_Test Customer",
   "customer_group": "_Test Customer Group",
   "customer_name": "_Test Customer",
@@ -13,7 +13,7 @@
   "naming_series": "_T-Sales Order-",
   "order_type": "Sales",
   "plc_conversion_rate": 1.0,
-  "price_list_currency": "INR",
+  "price_list_currency": "VND",
   "items": [
    {
     "base_amount": 1000.0,

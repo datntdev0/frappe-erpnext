@@ -570,7 +570,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 0,
 			"margin_type": "Percentage",
@@ -616,7 +616,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 101,
 			"company": "_Test Company",
@@ -674,7 +674,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 101,
 			"company": "_Test Company",
@@ -734,7 +734,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 101,
 			"company": "_Test Company",
@@ -795,7 +795,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 101,
 			"company": "_Test Company",
@@ -849,7 +849,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Rate",
 			"rate": 0,
 			"priority": 2,
@@ -895,7 +895,7 @@ class TestPricingRule(unittest.TestCase):
 				"item_code": "Test Sanitizer Item",
 				"company": "_Test Company",
 				"price_list": "_Test Price List",
-				"currency": "INR",
+				"currency": "VND",
 				"doctype": "Sales Invoice",
 				"conversion_rate": 1,
 				"price_list_currency": "_Test Currency",
@@ -948,7 +948,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"rate_or_discount": "Discount Percentage",
 			"discount_percentage": 20,
 			"company": "_Test Company",
@@ -1027,7 +1027,7 @@ class TestPricingRule(unittest.TestCase):
 				}
 			],
 			"selling": 1,
-			"currency": "INR",
+			"currency": "VND",
 			"min_amt": 200,
 			"discount_percentage": 10,
 			"company": "_Test Company",
@@ -1123,7 +1123,7 @@ def make_pricing_rule(**args):
 			"apply_on": args.apply_on or "Item Code",
 			"applicable_for": args.applicable_for,
 			"selling": args.selling or 0,
-			"currency": "INR",
+			"currency": "VND",
 			"apply_discount_on_rate": args.apply_discount_on_rate or 0,
 			"buying": args.buying or 0,
 			"min_qty": args.min_qty or 0.0,

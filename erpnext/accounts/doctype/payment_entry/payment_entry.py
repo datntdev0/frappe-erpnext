@@ -764,9 +764,9 @@ class PaymentEntry(AccountsController):
 		Payment Entry could be in base currency while reference's payment schedule
 		is always in transaction currency.
 		E.g.
-		* SI with base=INR and currency=USD
+		* SI with base=VND and currency=USD
 		* SI with payment schedule in USD
-		* PE in INR (accounting done in base currency)
+		* PE in VND (accounting done in base currency)
 		"""
 		ref_currency, ref_exchange_rate = frappe.db.get_value(
 			reference_doctype, reference_docname, ["currency", "conversion_rate"]

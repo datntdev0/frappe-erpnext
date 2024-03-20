@@ -907,7 +907,7 @@ class TestSubcontractingReceipt(FrappeTestCase):
 
 		# Create BOM with Scrap Items
 		bom = make_bom(
-			item=fg_item, raw_materials=raw_materials, rate=100, currency="INR", do_not_submit=True
+			item=fg_item, raw_materials=raw_materials, rate=100, currency="VND", do_not_submit=True
 		)
 		for idx, item in enumerate(bom.items):
 			item.qty = 1 * (idx + 1)

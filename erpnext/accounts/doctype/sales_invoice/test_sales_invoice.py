@@ -1750,7 +1750,7 @@ class TestSalesInvoice(FrappeTestCase):
 				"credit_in_account_currency": 0,
 			},
 			"Sales - _TC": {
-				"account_currency": "INR",
+				"account_currency": "VND",
 				"debit": 0,
 				"debit_in_account_currency": 0,
 				"credit": 5000,
@@ -1793,7 +1793,7 @@ class TestSalesInvoice(FrappeTestCase):
 	def test_invalid_currency(self):
 		# Customer currency = USD
 
-		# Transaction currency cannot be INR
+		# Transaction currency cannot be VND
 		si1 = create_sales_invoice(
 			customer="_Test Customer USD", debit_to="_Test Receivable USD - _TC", do_not_save=True
 		)
@@ -1910,8 +1910,8 @@ class TestSalesInvoice(FrappeTestCase):
 				"party_type": "Customer",
 				"party": "_Test Customer",
 				"company": "_Test Company",
-				"paid_from_account_currency": "INR",
-				"paid_to_account_currency": "INR",
+				"paid_from_account_currency": "VND",
+				"paid_to_account_currency": "VND",
 				"source_exchange_rate": 1,
 				"target_exchange_rate": 1,
 				"reference_no": "1",
@@ -2670,7 +2670,7 @@ class TestSalesInvoice(FrappeTestCase):
 			income_account="Sales - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
 			cost_center="Main - TCP1",
-			currency="INR",
+			currency="VND",
 			do_not_save=1,
 		)
 
@@ -2783,7 +2783,7 @@ class TestSalesInvoice(FrappeTestCase):
 			income_account="Sales - TCP1",
 			expense_account="Cost of Goods Sold - TCP1",
 			cost_center="Main - TCP1",
-			currency="INR",
+			currency="VND",
 			do_not_save=1,
 		)
 
@@ -3725,7 +3725,7 @@ def create_sales_invoice(**args):
 	si.is_pos = args.is_pos
 	si.is_return = args.is_return
 	si.return_against = args.return_against
-	si.currency = args.currency or "INR"
+	si.currency = args.currency or "VND"
 	si.conversion_rate = args.conversion_rate or 1
 	si.naming_series = args.naming_series or "T-SINV-"
 	si.cost_center = args.parent_cost_center
@@ -3811,7 +3811,7 @@ def create_sales_invoice_against_cost_center(**args):
 	si.is_pos = args.is_pos
 	si.is_return = args.is_return
 	si.return_against = args.return_against
-	si.currency = args.currency or "INR"
+	si.currency = args.currency or "VND"
 	si.conversion_rate = args.conversion_rate or 1
 
 	si.append(

@@ -1612,7 +1612,7 @@ def create_delivery_note(**args):
 
 	dn.company = args.company or "_Test Company"
 	dn.customer = args.customer or "_Test Customer"
-	dn.currency = args.currency or "INR"
+	dn.currency = args.currency or "VND"
 	dn.is_return = args.is_return
 	dn.return_against = args.return_against
 

@@ -447,7 +447,7 @@ class TestWorkOrder(FrappeTestCase):
 			)
 			bom.rm_cost_as_per = "Price List"  # non stock item won't have valuation rate
 			bom.buying_price_list = "_Test Price List India"
-			bom.currency = "INR"
+			bom.currency = "VND"
 			bom.save()
 
 		wo = make_wo_order_test_record(production_item=fg_item)

@@ -41,7 +41,7 @@ class TestTimesheet(unittest.TestCase):
 
 		timesheet = make_timesheet(emp, simulate=True, is_billable=1)
 		sales_invoice = make_sales_invoice(
-			timesheet.name, "_Test Item", "_Test Customer", currency="INR"
+			timesheet.name, "_Test Item", "_Test Customer", currency="VND"
 		)
 		sales_invoice.due_date = nowdate()
 		sales_invoice.submit()
